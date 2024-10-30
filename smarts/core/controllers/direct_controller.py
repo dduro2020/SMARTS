@@ -71,6 +71,7 @@ class DirectController:
             # we have to update the position and other state here (instead of pybullet.stepSimulation()).
             heading_vec = radians_to_vec(vehicle.heading)
             dpos = heading_vec * vehicle.speed * dt
+            # Debugging outputs
             new_pose = Pose(
                 position=vehicle.position + np.append(dpos, 0.0),
                 orientation=fast_quaternion_from_angle(target_heading),
@@ -89,7 +90,7 @@ class DirectController:
                 throttle = np.clip(acceleration * torque_ratio, 0, 1)
                 brake = 0
             else:
-                throttle = 0
+                throttle = 0 #np.clip(acceleration * torque_ratio, -1, 0)
                 # necessary torque is N*m = kg*m*acceleration
                 torque_ratio = mass / (4 * wheel_radius * chassis.max_btorque)
                 brake = np.clip(acceleration * torque_ratio, 0, 1)
