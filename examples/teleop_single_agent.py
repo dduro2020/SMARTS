@@ -61,38 +61,14 @@ class KeepLaneAgent(Agent):
         return v, w
     
     def closest_obstacle_warning(self, measurements, aux_measures):
-        """
-        Encuentra el ángulo de la coordenada (x, y, z) más cercana al origen (0, 0, 0),
-        considerando solo las coordenadas en el plano xy para el cálculo del ángulo.
-        
-        Parameters:
-            measurements (np.ndarray): Arreglo de 300 coordenadas 3D (x, y, z).
-            aux_measures (np.ndarray): Arreglo con las coordenadas auxiliares para restar del arreglo `measurements`.
-        
-        Returns:
-            None
-        """
-        # Verificar que el arreglo tenga 300 puntos 3D
-        if measurements.shape != (300, 3):
-            print("Error: El arreglo debe contener 300 coordenadas 3D.")
-            return
 
-        # Eliminar las coordenadas [0, 0, 0] y restar el primer vector de aux_measures
         measurements = measurements[~np.all(measurements == [0, 0, 0], axis=1)] - aux_measures[0]
-
-        # Calcular las distancias al origen (0, 0, 0) para cada punto
         distances = np.linalg.norm(measurements, axis=1)
         
-        # Encontrar el índice de la distancia mínima
         min_index = np.argmin(distances)
-        
-        # Obtener las coordenadas del punto más cercano
         closest_point = measurements[min_index]
-        
-        # Calcular el ángulo en grados en el plano xy usando atan2
         angle = np.degrees(np.arctan2(closest_point[1], closest_point[0]))  # atan2(y, x)
         
-        # Imprimir el resultado
         print(f"El obstáculo más cercano está a {angle:.2f} grados, con una distancia de {distances[min_index]:.2f} unidades.")
 
 
