@@ -28,34 +28,7 @@ AGENT_ID: Final[str] = "Agent"
 class KeepLaneAgent(Agent):
     def __init__(self):
         self.state = DirectController()
-
-    def modificar_posicion_inicial(self, agent_state):
-        # Modificar la posición y la velocidad inicial del agente
-        agente_pos_inicial = (7, 0, 0)  # Inicializar en (x=0, y=0, z=0)
-        agente_vel_inicial = 0.0  # Velocidad inicial de 5 m/s
-
-        agent_state['ego_vehicle_state']['position'] = agente_pos_inicial
-        agent_state['ego_vehicle_state']['speed'] = agente_vel_inicial
-        print(f"Agente colocado en {agente_pos_inicial} con velocidad {agente_vel_inicial} m/s.")
-
-        return agent_state
     
-    def colocar_vehiculo_delante(self, env, agente_pos, distancia=3):
-        # Obtener la posición del agente en el eje X
-        x, y, z = agente_pos
-        # Colocar el nuevo vehículo 3 metros delante en el eje X
-        vehiculo_pos = (x + distancia, y, z)
-        
-        # Crear el vehículo delante
-        nuevo_vehiculo = {
-            "veh_id": "vehiculo_delante",
-            "vehicle_type": "car",
-            "pose": vehiculo_pos
-        }
-        
-        # Aquí puedes definir qué hacer con el vehículo, según lo permita el entorno SMARTS.
-        # Por ejemplo, si tu entorno tiene la opción de tráfico predefinido, lo añades allí.
-        print(f"Vehículo añadido delante del agente en {vehiculo_pos}.")
 
     def get_user_input(self):
         print("Select option:")
@@ -87,7 +60,41 @@ class KeepLaneAgent(Agent):
 
         return v, w
     
-    import numpy as np
+    def closest_obstacle_warning(self, measurements, aux_measures):
+        """
+        Encuentra el ángulo de la coordenada (x, y, z) más cercana al origen (0, 0, 0),
+        considerando solo las coordenadas en el plano xy para el cálculo del ángulo.
+        
+        Parameters:
+            measurements (np.ndarray): Arreglo de 300 coordenadas 3D (x, y, z).
+            aux_measures (np.ndarray): Arreglo con las coordenadas auxiliares para restar del arreglo `measurements`.
+        
+        Returns:
+            None
+        """
+        # Verificar que el arreglo tenga 300 puntos 3D
+        if measurements.shape != (300, 3):
+            print("Error: El arreglo debe contener 300 coordenadas 3D.")
+            return
+
+        # Eliminar las coordenadas [0, 0, 0] y restar el primer vector de aux_measures
+        measurements = measurements[~np.all(measurements == [0, 0, 0], axis=1)] - aux_measures[0]
+
+        # Calcular las distancias al origen (0, 0, 0) para cada punto
+        distances = np.linalg.norm(measurements, axis=1)
+        
+        # Encontrar el índice de la distancia mínima
+        min_index = np.argmin(distances)
+        
+        # Obtener las coordenadas del punto más cercano
+        closest_point = measurements[min_index]
+        
+        # Calcular el ángulo en grados en el plano xy usando atan2
+        angle = np.degrees(np.arctan2(closest_point[1], closest_point[0]))  # atan2(y, x)
+        
+        # Imprimir el resultado
+        print(f"El obstáculo más cercano está a {angle:.2f} grados, con una distancia de {distances[min_index]:.2f} unidades.")
+
 
 def main(scenarios, headless, num_episodes, max_episode_steps=None):
     agent_interface = AgentInterface(
@@ -119,11 +126,6 @@ def main(scenarios, headless, num_episodes, max_episode_steps=None):
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
 
-        observation = agent.modificar_posicion_inicial(observation)
-        
-        # Colocar un vehículo delante del agente a 3 metros
-        agent.colocar_vehiculo_delante(env, observation['ego_vehicle_state']['position'], distancia=3)
-
         terminated = False
         while not terminated:
             action = agent.act(observation)
@@ -138,6 +140,8 @@ def main(scenarios, headless, num_episodes, max_episode_steps=None):
             if resp == "yes":
                 print(f"RLidar: {observation['lidar_point_cloud']}")
             episode.record_step(observation, reward, terminated, truncated, info)
+
+            agent.closest_obstacle_warning(observation['lidar_point_cloud']['point_cloud'], observation['lidar_point_cloud']['ray_origin'])
 
     env.close()
 

@@ -73,7 +73,7 @@ for name, routes in enumerate(route_comb):
         flows=[
             Flow(
                 route=Route(
-                    begin=(f"{r[0]}", r[1], 20),
+                    begin=(f"{r[0]}", r[1], 5),
                     end=(f"{r[2]}", r[3], "max"),
                 ),
                 # Random flow rate, between x and y vehicles per minute.
@@ -100,7 +100,7 @@ duration = (route_length / default_speed) * 2
 ego_missions = [
     Mission(
         route=route,
-        start_time=10,  # Delayed start, to ensure road has prior traffic.
+        start_time=1,  # Delayed start, to ensure road has prior traffic.
     )
 ]
 
