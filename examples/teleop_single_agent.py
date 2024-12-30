@@ -59,17 +59,111 @@ class KeepLaneAgent(Agent):
             print("Invalid option. Defaulting to no action.")
 
         return v, w
+
+    def compute_parking_reward(self, lidar_data: np.ndarray, car_pose: np.ndarray) -> float:
+        """Calcula la recompensa basada en las medidas de LIDAR a 90° y 270°.
+
+        Args:
+            lidar_data (np.ndarray): Datos del punto LIDAR alrededor del vehículo.
+            car_pose (np.ndarray): Posición actual del agente (coordenadas absolutas).
+
+        Returns:
+            float: Recompensa calculada.
+        """
+        lidar_length = len(lidar_data)
+        index_90 = lidar_length // 4  # Índice correspondiente a 90°.
+        index_270 = (3 * lidar_length) // 4  # Índice correspondiente a 270°.
+
+        # Asignar 'inf' a los puntos donde no hay obstáculos ([0, 0, 0]).
+        lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('inf')
+
+        relative_lidar = lidar_data - car_pose  # Convertir a coordenadas relativas.
+        distances = np.linalg.norm(relative_lidar, axis=1)  # Calcular distancias.
+
+        # Obtener las distancias en los ángulos deseados.
+        distance_90 = distances[index_90]
+        distance_270 = distances[index_270]
+        print(f"Distancia delante: {distance_90}")
+        print(f"Distancia detrás: {distance_270}")
+
+        # Si alguno de los valores es infinito, penalización máxima.
+        if np.isinf(distance_90) or np.isinf(distance_270):
+            return -10.0  # Penalización por falta de datos relevantes.
+
+        # Calcula la diferencia absoluta entre las dos distancias.
+        distance_difference = abs(distance_90 - distance_270)
+
+        # Rangos de recompensa según la diferencia de distancias.
+        if distance_difference < 0.5:
+            reward = 0.0  # Perfecto equilibrio.
+        elif distance_difference < 1.0:
+            reward = -1.0  # Ligera penalización.
+        elif distance_difference < 1.5:
+            reward = -3.0  # Penalización moderada.
+        else:
+            reward = -5.0  # Penalización severa por desbalance.
+
+        return reward
     
     def closest_obstacle_warning(self, measurements, aux_measures):
 
-        measurements = measurements[~np.all(measurements == [0, 0, 0], axis=1)] - aux_measures[0]
-        distances = np.linalg.norm(measurements, axis=1)
-        
-        min_index = np.argmin(distances)
-        closest_point = measurements[min_index]
-        angle = np.degrees(np.arctan2(closest_point[1], closest_point[0]))  # atan2(y, x)
-        
-        print(f"El obstáculo más cercano está a {angle:.2f} grados, con una distancia de {distances[min_index]:.2f} unidades.")
+        if np.any(measurements != 0):
+            measurements = measurements[~np.all(measurements == [0, 0, 0], axis=1)] - aux_measures[0]
+            distances = np.linalg.norm(measurements, axis=1)
+            
+            min_index = np.argmin(distances)
+            closest_point = measurements[min_index]
+            angle = np.degrees(np.arctan2(closest_point[1], closest_point[0]))  # atan2(y, x)
+            
+            print(f"El obstáculo más cercano está a {angle:.2f} grados, con una distancia de {distances[min_index]:.2f} unidades.")
+        else:
+            print(f"No hay obstaculos")
+    
+    def discretize(self, value, step=0.25, max_value=10.0):
+        """Discretiza un valor continuo al múltiplo más cercano de 'step'.
+
+        Args:
+            value (float): Valor continuo a discretizar.
+            step (float): Tamaño del intervalo de discretización.
+            max_value (float): Límite máximo (los valores mayores se limitan).
+
+        Returns:
+            float: Valor discretizado al múltiplo más cercano de 'step'.
+        """
+        # Limitar el valor a [-max_value, max_value]
+        value = min(max(value, -max_value), max_value)
+        # Redondear al múltiplo más cercano de step
+        return round(value / step) * step
+
+    def get_state(self, observation):
+        """Extrae y discretiza el estado basado en el LiDAR y la posición del vehículo."""
+        lidar_data = observation["lidar_point_cloud"]["point_cloud"]
+        car_pose = np.array(observation["ego_vehicle_state"]["position"])
+        heading = observation["ego_vehicle_state"]["heading"]
+
+        # Procesar datos del LiDAR
+        lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('inf')  # Asignar inf a obstáculos ausentes.
+        relative_points = lidar_data - car_pose
+        distances = np.linalg.norm(relative_points, axis=1)
+
+        # Obtener distancias discretizadas a 90° y 270°
+        lidar_length = len(distances)
+        index_90 = lidar_length // 4
+        index_270 = (3 * lidar_length) // 4
+
+        # heading_deg = np.degrees(heading) % 360
+        # index_90 = int((heading_deg) % 360)
+        # index_270 = int((heading_deg + 180) % 360)
+
+        distance_90 = self.discretize(distances[index_90])
+        distance_270 = self.discretize(distances[index_270])
+
+        # Calcular la diferencia discretizada
+        distance_difference = self.discretize(abs(distance_90 - distance_270))
+
+        # Retornar el estado como un valor inmutable (float o tupla)
+        print(f"Diferencia de distancias: {distance_difference}")
+        return float(distance_difference)
 
 
 def main(scenarios, headless, num_episodes, max_episode_steps=None):
@@ -116,8 +210,9 @@ def main(scenarios, headless, num_episodes, max_episode_steps=None):
             if resp == "yes":
                 print(f"RLidar: {observation['lidar_point_cloud']}")
             episode.record_step(observation, reward, terminated, truncated, info)
-
-            agent.closest_obstacle_warning(observation['lidar_point_cloud']['point_cloud'], observation['lidar_point_cloud']['ray_origin'])
+            # agent.compute_parking_reward(observation['lidar_point_cloud']['point_cloud'], observation['ego_vehicle_state']['position'])
+            # agent.closest_obstacle_warning(observation['lidar_point_cloud']['point_cloud'], observation['lidar_point_cloud']['ray_origin'])
+            agent.get_state(observation)
 
     env.close()
 
@@ -136,6 +231,6 @@ if __name__ == "__main__":
     main(
         scenarios=args.scenarios,
         headless=args.headless,
-        num_episodes=args.episodes,
-        max_episode_steps=args.max_episode_steps,
+        num_episodes=100,
+        max_episode_steps=200,
     )

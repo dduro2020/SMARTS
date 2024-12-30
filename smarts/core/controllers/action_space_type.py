@@ -114,3 +114,8 @@ class ActionSpaceType(Enum):
     float, float]``. Continuous action space of vehicle's next pose in terms of delta x 
     coordinate, delta y coordinate, and delta heading, to be reached in 0.1 seconds.
     """
+    Absolute = 12
+    """
+    Action=(linear_velocity, angular_velocity). Type= ``Union[float, 
+    (float,float)]``.
+    """

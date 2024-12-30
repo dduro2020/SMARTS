@@ -156,12 +156,21 @@ class EpisodeLog:
                 observations, rewards, terminateds, truncateds, infos
             )
 
-        if terminateds.get("__all__", False) and infos is not None:
-            for agent, score in infos.items():
-                self.scores[agent] = score["score"]
-        else:
-            for id in (_id for _id, t in terminateds.items() if t):
-                self.scores[id] = infos[id]["score"]
+        # if terminateds.get("__all__", False) and infos is not None:
+        #     for agent, score in infos.items():
+        #         self.scores[agent] = score["score"]
+        # else:
+        #     for id in (_id for _id, t in terminateds.items() if t):
+        #         self.scores[id] = infos[id]["score"]
+        
+        # Recompensas personalizadas
+        for agent in rewards:
+            if agent not in self.scores:
+                self.scores[agent] = 0
+
+        # Acumula los rewards para cada agente
+        for agent, reward in rewards.items():
+            self.scores[agent] += reward
 
     def _convert_to_dict(self, observations, rewards, terminateds, truncateds, infos):
         observations, rewards, infos = [
