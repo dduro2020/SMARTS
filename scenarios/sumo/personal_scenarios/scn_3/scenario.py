@@ -35,9 +35,9 @@ traffic["0"] = Traffic(
     flows=[]
 )
 
-random.seed(time.time())
-begin_pose = random.randint(28, 30)
-route = Route(begin=("gneE3", 1, begin_pose), end=("gneE3", 1, 100))
+# random.seed(time.time())
+# begin_pose = random.randint(28, 30)
+route = Route(begin=("gneE3", 1, 30), end=("gneE3", 1, 100))
 ego_missions = [
     Mission(
         route=route,

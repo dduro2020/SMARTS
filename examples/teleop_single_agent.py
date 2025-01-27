@@ -46,9 +46,9 @@ class KeepLaneAgent(Agent):
         action = self.get_user_input()
 
         if action == '0':  # Accelerate
-            v = 15
+            v = 1
         elif action == '1':  # Slow down
-            v = -15
+            v = -1
         elif action == '2':  # Turn left
             v = 1
             w = -0.5
@@ -138,12 +138,13 @@ class KeepLaneAgent(Agent):
     def get_state(self, observation):
         """Extrae y discretiza el estado basado en el LiDAR y la posición del vehículo."""
         lidar_data = observation["lidar_point_cloud"]["point_cloud"]
+        lidar_data_copy = np.copy(lidar_data)
         car_pose = np.array(observation["ego_vehicle_state"]["position"])
         heading = observation["ego_vehicle_state"]["heading"]
 
         # Procesar datos del LiDAR
-        lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('inf')  # Asignar inf a obstáculos ausentes.
-        relative_points = lidar_data - car_pose
+        lidar_data_copy[np.all(lidar_data_copy == [0, 0, 0], axis=1)] = float('inf')  # Asignar inf a obstáculos ausentes.
+        relative_points = lidar_data_copy - car_pose
         distances = np.linalg.norm(relative_points, axis=1)
 
         # Obtener distancias discretizadas a 90° y 270°
@@ -208,7 +209,7 @@ def main(scenarios, headless, num_episodes, max_episode_steps=None):
             # print(observation)
             resp = input("Printig point_cloud? (yes/no): ")
             if resp == "yes":
-                print(f"RLidar: {observation['lidar_point_cloud']}")
+                print(f"RLidar: {observation['lidar_point_cloud']['point_cloud']}")
             episode.record_step(observation, reward, terminated, truncated, info)
             # agent.compute_parking_reward(observation['lidar_point_cloud']['point_cloud'], observation['ego_vehicle_state']['position'])
             # agent.closest_obstacle_warning(observation['lidar_point_cloud']['point_cloud'], observation['lidar_point_cloud']['ray_origin'])

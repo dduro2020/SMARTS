@@ -2,8 +2,76 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-def compute_parking_reward( lidar_data: np.ndarray, car_pose: np.ndarray) -> float:
-        heading = 1.57
+
+def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> np.ndarray:
+    """
+    Transforma los puntos LIDAR para que sean relativos al vehículo, con el índice 0 a 90° a la izquierda del agente.
+
+    Args:
+        lidar_data (np.ndarray): Datos del LIDAR en coordenadas absolutas.
+        car_pose (np.ndarray): Posición actual del vehículo en coordenadas absolutas.
+        heading (float): Ángulo de orientación del vehículo en radianes.
+
+    Returns:
+        np.ndarray: Datos LIDAR transformados en coordenadas relativas.
+    """
+    # Asignar '0' a los puntos inválidos (donde todo es [0, 0, 0])
+    lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('0')
+
+    # Calcular puntos relativos
+    relative_points = lidar_data - car_pose
+    relative_points = relative_points[::-1]
+
+    # Convertir heading a grados
+    heading_deg = np.degrees(heading)
+
+    num_points = len(lidar_data)
+    lidar_resolution = 360 / num_points
+
+    shift = int(round((heading_deg-90) / lidar_resolution))
+    # Aplicar el desplazamiento circular
+    rotated_lidar = np.roll(relative_points, shift=shift, axis=0)
+
+    return rotated_lidar
+
+
+def print_distance(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float):
+        filtrate_l = filtrate_lidar(lidar_data, car_pose, heading)
+        print(filtrate_l)
+        distances = np.linalg.norm(filtrate_l, axis=1)  # Calcular distancias.
+
+        # Obtener las distancias en los ángulos deseados.
+        lidar_resolution = 360 / len(distances)
+        index_90 = int(round(90 / lidar_resolution))
+        index_270 = int(round(270 / lidar_resolution))
+        distance_90 = distances[index_90]
+        distance_270 = distances[index_270]
+        print(f"Distancia delante: {distance_90}")
+        print(f"Distancia detras: {distance_270}")
+
+        # x = filtrate_l[:, 0]
+        # y = filtrate_l[:, 1]
+        # z = filtrate_l[:, 2]
+        # # Crear una figura y un eje 3D
+        # fig = plt.figure(figsize=(10, 7))
+        # ax = fig.add_subplot(111, projection='3d')
+
+        # # Graficar los puntos
+        # ax.scatter(x, y, z, c='b', marker='o', s=10)
+        # ax.set_xlim([-10, 10])  # Límite del eje x
+        # ax.set_ylim([-10, 10])  # Límite del eje y
+        # ax.set_zlim([0, 1.5])    # Límite del eje z
+        # # Etiquetas y título
+        # ax.set_xlabel('X')
+        # ax.set_ylabel('Y')
+        # ax.set_zlabel('Z')
+        # ax.set_title('Nube de Puntos Lidar')
+
+        # # Mostrar el gráfico
+        # plt.show()
+
+
+def compute_parking_reward( lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> float:
         lidar_length = len(lidar_data)
         lidar_resolution = 360/300
         heading_deg = np.degrees(heading)
@@ -13,8 +81,8 @@ def compute_parking_reward( lidar_data: np.ndarray, car_pose: np.ndarray) -> flo
         index_90 = int(round(heading_deg / lidar_resolution))
         index_270 = int(round((heading_deg + 180) / lidar_resolution))
 
-        # Asignar 'inf' a los puntos donde no hay obstáculos ([0, 0, 0]).
-        lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('inf')
+        # Asignar '0' a los puntos donde no hay obstáculos ([0, 0, 0]).
+        lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('0')
 
         relative_lidar = lidar_data - car_pose  # Convertir a coordenadas relativas.
         distances = np.linalg.norm(relative_lidar, axis=1)  # Calcular distancias.
@@ -26,7 +94,7 @@ def compute_parking_reward( lidar_data: np.ndarray, car_pose: np.ndarray) -> flo
         print(f"Distancia delante: {distance_90}")
         print(f"Distancia detrás: {distance_270}")
 
-        # Si alguno de los valores es infinito, penalización máxima.
+        # Si alguno de los valores es 0inito, penalización máxima.
         if np.isinf(distance_90) or np.isinf(distance_270):
             return -10.0  # Penalización por falta de datos relevantes.
 
@@ -46,7 +114,144 @@ def compute_parking_reward( lidar_data: np.ndarray, car_pose: np.ndarray) -> flo
         return reward
 
 
-point_cloud_1 = np.array([[  0.        ,   0.        ,   0.        ],
+point_cloud_1 = np.array([[ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
@@ -112,25 +317,6 @@ point_cloud_1 = np.array([[  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
-       [ 24.        ,  99.32602977,   1.0006269 ],
-       [ 24.        ,  99.40230972,   1.00062454],
-       [ 24.        ,  99.47805031,   1.00062247],
-       [ 24.        ,  99.553323  ,   1.00062068],
-       [ 24.        ,  99.62819758,   1.00061918],
-       [ 24.        ,  99.70274238,   1.00061795],
-       [ 24.        ,  99.77702457,   1.00061699],
-       [ 24.        ,  99.85111037,   1.00061631],
-       [ 24.        ,  99.92506534,   1.0006159 ],
-       [ 24.        ,  99.99895454,   1.00061577],
-       [ 24.        , 100.07284282,   1.0006159 ],
-       [ 24.        , 100.14679503,   1.0006163 ],
-       [ 24.        , 100.22087623,   1.00061697],
-       [ 24.        , 100.29515195,   1.00061792],
-       [ 24.        , 100.3696884 ,   1.00061914],
-       [ 24.        , 100.44455271,   1.00062063],
-       [ 24.        , 100.51981319,   1.00062241],
-       [ 24.        , 100.59553956,   1.00062448],
-       [ 24.        , 100.67180325,   1.00062683],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
@@ -145,6 +331,23 @@ point_cloud_1 = np.array([[  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
+       [ 32.32      , 100.70728057,   1.00073648],
+       [ 32.32      , 100.61795706,   1.00073402],
+       [ 32.32      , 100.5291876 ,   1.00073191],
+       [ 32.32      , 100.44088988,   1.00073012],
+       [ 32.32      , 100.35298326,   1.00072867],
+       [ 32.32      , 100.26538851,   1.00072753],
+       [ 32.32      , 100.17802752,   1.00072672],
+       [ 32.32      , 100.09082298,   1.00072623],
+       [ 32.32      , 100.00369816,   1.00072606],
+       [ 32.32      ,  99.91657658,   1.0007262 ],
+       [ 32.32      ,  99.82938179,   1.00072667],
+       [ 32.32      ,  99.74203707,   1.00072745],
+       [ 32.32      ,  99.6544652 ,   1.00072856],
+       [ 32.32      ,  99.56658812,   1.00072999],
+       [ 32.32      ,  99.47832671,   1.00073174],
+       [ 32.32      ,  99.38960048,   1.00073383],
+       [ 32.32      ,  99.30032726,   1.00073625],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
@@ -199,157 +402,24 @@ point_cloud_1 = np.array([[  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
        [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [ 32.32      , 100.71182754,   1.00084553],
-       [ 32.32      , 100.6095736 ,   1.00084309],
-       [ 32.32      , 100.50786305,   1.00084103],
-       [ 32.32      , 100.40660302,   1.00083935],
-       [ 32.32      , 100.30570223,   1.00083805],
-       [ 32.32      , 100.20507071,   1.00083711],
-       [ 32.32      , 100.10461941,   1.00083655],
-       [ 32.32      , 100.00425993,   1.00083635],
-       [ 32.32      ,  99.90390418,   1.00083652],
-       [ 32.32      ,  99.8034641 ,   1.00083705],
-       [ 32.32      ,  99.70285133,   1.00083795],
-       [ 32.32      ,  99.60197689,   1.00083923],
-       [ 32.32      ,  99.50075088,   1.00084088],
-       [ 32.32      ,  99.39908217,   1.0008429 ],
-       [ 32.32      ,  99.29687802,   1.0008453 ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ],
-       [  0.        ,   0.        ,   0.        ]])
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ],
+       [ 28.16      , 100.        ,   1.        ]])
 
 
-point_cloud_2 = np.array([[ 27.52807709, 100.        ,   1.        ],
-       [ 27.52807709, 100.        ,   1.        ]])
+point_cloud_2 = np.array(([ 28.17, 100.  ,   1.  ],
+       [ 28.17, 100.  ,   1.  ],
+       [ 28.17, 100.  ,   1.  ],
+))
 
 
 # point_cloud_3 = np.array()
@@ -360,8 +430,8 @@ point_cloud_2 = np.array([[ 27.52807709, 100.        ,   1.        ],
 #     ~((point_cloud_1[:, 0] == 0) & (point_cloud_1[:, 1] == 0) & (point_cloud_1[:, 2] == 0))  # Elimina puntos en (0, 0, 0)
 # ]
 
-compute_parking_reward(point_cloud_1, point_cloud_2[0])
-
+compute_parking_reward(point_cloud_1, point_cloud_2[0], 1.57)
+print_distance(point_cloud_1, point_cloud_2[0], 1.57)
 #[ (point_cloud_1[:, 2] < 1) & (point_cloud_1[:, 2] >= 0.0)]
 np.set_printoptions(suppress=True, precision=10)
 
@@ -379,19 +449,19 @@ def print_point_clouds(point_cloud):
 # print_point_clouds(point_cloud_3)
 
 point_cloud_1 = point_cloud_1[~np.all(point_cloud_1 == [0, 0, 0], axis=1)] - point_cloud_2[0]
-
+# print_point_clouds(point_cloud_1)
 x = point_cloud_1[:, 0]
 y = point_cloud_1[:, 1]
 z = point_cloud_1[:, 2]
 
-# x2 = point_cloud_2[:, 0]
-# y2 = point_cloud_2[:, 1]
-# z2 = point_cloud_2[:, 2]
+# # x2 = point_cloud_2[:, 0]
+# # y2 = point_cloud_2[:, 1]
+# # z2 = point_cloud_2[:, 2]
 
-# x3 = point_cloud_3[:, 0]
-# y3 = point_cloud_3[:, 1]
-# z3 = point_cloud_3[:, 2]
-# Crear una figura y un eje 3D
+# # x3 = point_cloud_3[:, 0]
+# # y3 = point_cloud_3[:, 1]
+# # z3 = point_cloud_3[:, 2]
+# # Crear una figura y un eje 3D
 fig = plt.figure(figsize=(10, 7))
 ax = fig.add_subplot(111, projection='3d')
 

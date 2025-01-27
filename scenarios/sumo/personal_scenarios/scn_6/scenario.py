@@ -24,69 +24,73 @@ from pathlib import Path
 
 from smarts.sstudio import gen_scenario
 from smarts.sstudio.sstypes import (
-    Flow,
     Mission,
+    EndlessMission,
     Route,
     Scenario,
     Traffic,
+    Trip,
     TrafficActor,
     TrapEntryTactic,
 )
 
-normal = TrafficActor(
-    name="car",
-)
+from smarts.sstudio import types as t
 
-# flow_name = (start_lane, end_lane)
-route_opt = [
-    (0, 0),
-    (1, 1),
-    (2, 2),
+vertical_routes = [
+    ("E2", 0, "E7", 0),
+    ("E8", 0, "E1", 1),
 ]
 
-# Traffic combinations = 3C2 + 3C3 = 3 + 1 = 4
-# Repeated traffic combinations = 4 * 100 = 400
-min_flows = 2
-max_flows = 3
-route_comb = [
-    com
-    for elems in range(min_flows, max_flows + 1)
-    for com in combinations(route_opt, elems)
-] * 100
+horizontal_routes = [
+    ("E3", 0, "E5", 0),
+    ("E3", 1, "E5", 1),
+    ("E3", 2, "E5", 2),
+    ("E6", 1, "E4", 1),
+    ("E6", 0, "E4", 0),
+]
+
+turn_left_routes = [
+    ("E8", 0, "E5", 2),
+    ("E6", 1, "E1", 1),
+    ("E2", 1, "E4", 1),
+    ("E3", 2, "E7", 0),
+]
+
+turn_right_routes = [
+    ("E6", 0, "E7", 0),
+    ("E3", 0, "E1", 0),
+    ("E2", 0, "E5", 0),
+    ("E8", 0, "E4", 0),
+]
+
+normal = TrafficActor(name="car", depart_speed=0)
 
 traffic = {}
-for name, routes in enumerate(route_comb):
-    traffic[str(name)] = Traffic(
-        flows=[
-            Flow(
-                route=Route(
-                    begin=("gneE3", start_lane, 0),
-                    end=("gneE3", end_lane, "max"),
-                ),
-                # Random flow rate, between x and y vehicles per minute.
-                rate=60 * random.uniform(10, 20),
-                # Random flow start time, between x and y seconds.
-                begin=random.uniform(0, 5),
-                # For an episode with maximum_episode_steps=3000 and step
-                # time=0.1s, the maximum episode time=300s. Hence, traffic is
-                # set to end at 900s, which is greater than maximum episode
-                # time of 300s.
-                end=60 * 15,
-                actors={normal: 1},
-                randomly_spaced=True,
-            )
-            for start_lane, end_lane in routes
-        ]
-    )
+traffic["0"] = Traffic(
+    engine="SUMO",
+    trips=[
+        Trip(
+            vehicle_name=f"car_{i+1}",
+            route=Route(
+                begin=("E6", 1, (i+2) * 12),
+                end=("E6", 1, 40)
+            ),
+            depart=0,
+            actor=normal
+        )
+        for i in range(2)
+    ],
+    flows=[]
+)
 
-
-route = Route(begin=("gneE3", 0, 10), end=("gneE3", 0, "max"))
+route = Route(begin=("E6", 1, 28), end=("E6", 1, 40))
 ego_missions = [
     Mission(
-        route=route,
+        # route=route,
+        route=t.RandomRoute(),
         entry_tactic=TrapEntryTactic(
             start_time=0
-        ),  # Delayed start, to ensure road has prior traffic.
+        ),
     )
 ]
 

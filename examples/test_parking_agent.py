@@ -22,11 +22,10 @@ from smarts.core.utils.episodes import episodes
 from smarts.sstudio.scenario_construction import build_scenarios
 from smarts.core.scenario import Scenario
 
-import time
-
-MAX_ALIGN_STEPS = 19
+from q_table import q_table
 
 AGENT_ID: Final[str] = "Agent"
+MAX_ALIGN_STEPS = 19
 
 def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> np.ndarray:
     """
@@ -55,7 +54,6 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
     lidar_resolution = 360 / num_points
 
     shift = int(round((heading_deg-90) / lidar_resolution))
-    # Aplicar el desplazamiento circular
     rotated_lidar = np.roll(relative_points, shift=shift, axis=0)
 
     return rotated_lidar
@@ -64,13 +62,8 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
 class LearningAgent:
     """Agente de Q-learning optimizado para aparcamiento, que utiliza LiDAR con velocidad angular fija."""
 
-    def __init__(self, epsilon=0.99, min_epsilon=0, decay_rate=0.99, alpha=0.2, gamma=0.9):
-        self.epsilon = epsilon  # Probabilidad inicial de exploración
-        self.min_epsilon = min_epsilon  # Valor mínimo de epsilon
-        self.decay_rate = decay_rate  # Tasa de decremento para epsilon
-        self.alpha = alpha  # Tasa de aprendizaje
-        self.gamma = gamma  # Factor de descuento
-        self.q_table = {} # Tabla Q para almacenar los valores de estado-acción
+    def __init__(self):
+        self.q_table = q_table # Tabla Q para almacenar los valores de estado-acción
         self.actions = [-1, 0, 1]  # Aceleraciones lineales posibles
 
     def discretize(self, value, step=0.25, max_value=10.0):
@@ -91,10 +84,13 @@ class LearningAgent:
 
     def get_state(self, observation):
         """Extrae y discretiza el estado basado en el LiDAR y la velocidad del vehículo."""
-        lidar_data = observation["lidar_point_cloud"]["point_cloud"]
+        lidar_data = np.copy(observation["lidar_point_cloud"]["point_cloud"])
         filtrated_lidar = filtrate_lidar(observation["lidar_point_cloud"]["point_cloud"], np.array(observation["ego_vehicle_state"]["position"]), observation["ego_vehicle_state"]["heading"])
-
+        # print("INSIDE:")
+        # print(observation["lidar_point_cloud"]["point_cloud"])
         distances = np.linalg.norm(filtrated_lidar, axis=1)
+        # choice = input("Option number: ")
+        # print(observation["lidar_point_cloud"])
         lidar_resolution = 360 / len(distances)
         index_90 = int(round(90 / lidar_resolution))
         index_270 = int(round(270 / lidar_resolution))
@@ -110,17 +106,6 @@ class LearningAgent:
         return (distance_difference, discretized_velocity)
 
     def choose_action(self, state):
-        """Selecciona una acción basada en la política epsilon-greedy."""
-        if np.random.rand() < self.epsilon:
-            # Explorar: Elegir una acción aleatoria
-            return np.random.choice(self.actions)
-
-        # Explotar: Elegir la mejor acción conocida
-        # print(f"Diferencia de distancias: {state}")
-        if state not in self.q_table:
-            # Inicializar valores Q para acciones en el estado si no existen
-            self.q_table[state] = {action: 0.0 for action in self.actions}
-
         # Devolver la acción con el valor Q más alto en este estado
         return max(self.q_table[state], key=self.q_table[state].get)
 
@@ -130,32 +115,6 @@ class LearningAgent:
         action = self.choose_action(state)
         # print(f"Accion elegida: {action}       En estado: {state}")
         return np.array([action, 0.0])
-
-    def learn(self, state, action, reward, next_state):
-        """Actualiza la tabla Q según la fórmula de Q-learning."""
-        # Inicializar los estados en la tabla Q si no están presentes
-        if state not in self.q_table:
-            self.q_table[state] = {action: 0.0 for action in self.actions}
-        if next_state not in self.q_table:
-            self.q_table[next_state] = {action: 0.0 for action in self.actions}
-
-        # Calcular el valor Q futuro máximo
-        max_future_q = max(self.q_table[next_state].values())
-
-        # Actualizar la tabla Q
-        current_q = self.q_table[state].get(action, 0.0)
-        self.q_table[state][action] = current_q + self.alpha * (reward + self.gamma * max_future_q - current_q)
-
-    def decay_epsilon(self):
-        """Reduce epsilon según la tasa de decremento."""
-        self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
-    
-    def print_q_table(self):
-        """Imprime la tabla Q completa."""
-        for state, actions in self.q_table.items():
-            print(f"State: {state}")
-            for action, value in actions.items():
-                print(f"  Action: {action}, Q-value: {value}")
 
     def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
         """Mueve el vehículo a una posición (target)."""
@@ -202,15 +161,19 @@ def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
 
     env = ParkingAgent(env)
     agent = LearningAgent()
+    values = [-1, 0, 1, 2]
+    n = 0
 
     for episode in episodes(n=num_episodes):
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
 
         # np.random.seed(int(time.time()))
-        random_offset = np.random.choice([-1, 0, 1, 2])
+        if n >= len(values):
+            n = 0
+        offset = values[n]
         actual_pose = observation["ego_vehicle_state"]["position"][0]
-        target =  actual_pose + random_offset
+        target =  actual_pose + offset
 
         # print(f"Moving from pose: {actual_pose} to pose: {target}")
 
@@ -247,21 +210,17 @@ def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
 
             # Nos quedan TOTAL_STEPS-MAX_ALIGN_STEPS para el entrenamiento, SIEMPRE las mismas
             else:
+                
                 state = agent.get_state(observation)
+                print(f"{state[0]}")
                 action = agent.act(observation)
 
                 next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]))
                 next_state = agent.get_state(next_observation)
 
-                agent.learn(state, action[0], reward, next_state)
-
                 observation = next_observation
-                # t_reward = t_reward + reward
                 episode.record_step(observation, reward, terminated, truncated, info)
-        # print(f"Recompensa de episodio: {t_reward}")
-        agent.decay_epsilon()
-    agent.print_q_table()
-
+        n = n + 1
     env.close()
 
 
@@ -280,6 +239,6 @@ if __name__ == "__main__":
     main(
         scenarios=args.scenarios,
         headless=args.headless,
-        num_episodes=500,
+        num_episodes=50,
         max_episode_steps=200,
     )

@@ -38,6 +38,7 @@ from smarts.core.utils.core_math import wrap_value
 from smarts.core.utils.file import make_dir_in_smarts_log_dir, replace
 
 from . import sstypes
+import time
 
 SECONDS_PER_HOUR_INV = 1 / 60 / 60
 
@@ -47,6 +48,105 @@ class InvalidRoute(Exception):
 
     pass
 
+class CustomRandomRouteGenerator:
+    """Generates all possible routes within a specific road and lane."""
+
+    def __init__(self, road_map, road_id="E6", lane_index=1, position_range=(28, 31)):
+        """
+        Args:
+            road_map: The road network map (e.g., SumoRoadNetwork).
+            road_id: The ID of the road where routes will be generated.
+            lane_index: The lane index where routes will be generated.
+            position_range: A tuple (start, end) specifying the range of starting positions.
+        """
+        self._log = logging.getLogger(self.__class__.__name__)
+        self._road_map = road_map
+        self._road_id = road_id
+        self._lane_index = lane_index
+        self._position_range = position_range
+
+        # Validate the road_id
+        if not self._road_map.road_by_id(self._road_id):
+            raise ValueError(f"Road ID '{self._road_id}' not found in the road map.")
+        
+        # Get lane information
+        self._lanes = self._road_map.road_by_id(self._road_id).lanes
+        if self._lane_index >= len(self._lanes):
+            raise ValueError(f"Lane index {self._lane_index} is out of range for road {self._road_id}.")
+
+        # Generate all possible routes from each position within the range
+        self._routes = self._generate_routes_within_range()
+
+        self._current_index = 0
+
+    def _generate_routes_within_range(self):
+        """Generate all routes from each position in the range to the end of the lane."""
+        start_pos = self._position_range[0]
+        end_pos = self._position_range[1]
+
+        routes = []
+
+        # Generate a route from each position in the range to the "end" (max position)
+        for start_offset in range(start_pos, end_pos + 1):
+            route = sstypes.Route(
+                begin=(self._road_id, self._lane_index, start_offset),
+                via=(),
+                end=(self._road_id, self._lane_index, float('inf'))  # End at "max" position
+            )
+            routes.append(route)
+
+        return routes
+
+    def __iter__(self):
+        """Allows the class to be used in a loop to generate all possible routes."""
+        self._current_index = 0
+        return self
+
+    def __next__(self):
+        """Return the next route in the list of generated routes."""
+        if self._current_index >= len(self._routes):
+            raise StopIteration
+        route = self._routes[self._current_index]
+        self._current_index += 1
+        return route
+
+class CustomRandomRouteGenerator2:
+    """Generates random routes within a specific road and lane."""
+
+    def __init__(self, road_map, road_id="E6", lane_index=1, position_range=(28, 31)):
+        """
+        Args:
+            road_map: The road network map (e.g., SumoRoadNetwork).
+            road_id: The ID of the road where routes will be generated.
+            lane_index: The lane index where routes will be generated.
+            position_range: A tuple (start, end) specifying the range of starting positions.
+        """
+        self._log = logging.getLogger(self.__class__.__name__)
+        self._road_map = road_map
+        self._road_id = road_id
+        self._lane_index = lane_index
+        self._position_range = position_range
+
+        # Validate the road_id
+        if not self._road_map.road_by_id(self._road_id):
+            raise ValueError(f"Road ID '{self._road_id}' not found in the road map.")
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        """Generates the next random route."""
+        random.seed(time.time())
+        start_position = random.uniform(*self._position_range)
+        end_position = "max"  # Set end position as the end of the lane
+
+        self._log.info(f"Generating route: Start={start_position}, End={end_position}")
+
+        return sstypes.Route(
+            begin=(self._road_id, self._lane_index, start_position),
+            via=(),
+            end=(self._road_id, self._lane_index, end_position),
+        )
 
 class RandomRouteGenerator:
     """Generates a random route out of the routes available in the road map.
@@ -418,6 +518,7 @@ class TrafficGenerator:
             road_map = self._map_for_route(route)
             # Lazy-load to improve performance when not using random route generation.
             self._random_route_generator = RandomRouteGenerator(road_map)
+            # self._random_route_generator = CustomRandomRouteGenerator(road_map, "E6", 1, (28,30))
 
         return next(self._random_route_generator)
 
