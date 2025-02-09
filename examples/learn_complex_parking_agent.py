@@ -1,0 +1,396 @@
+import argparse
+import logging
+import random
+import sys
+import warnings
+import numpy as np
+from pathlib import Path
+from typing import Final, Any
+
+logging.basicConfig(level=logging.ERROR)
+warnings.filterwarnings("ignore")
+
+import gymnasium as gym
+from smarts.env.gymnasium.wrappers.complex_parking_agent import CParkingAgent
+
+SMARTS_REPO_PATH = Path(__file__).parents[1].absolute()
+sys.path.insert(0, str(SMARTS_REPO_PATH))
+from examples.tools.argument_parser import minimal_argument_parser
+from smarts.core.agent import Agent
+from smarts.core.agent_interface import AgentInterface, ActionSpaceType, AgentType
+from smarts.core.utils.episodes import episodes
+from smarts.sstudio.scenario_construction import build_scenarios
+from smarts.core.scenario import Scenario
+
+import time
+import random
+
+from scipy.spatial.distance import cdist
+
+MAX_ALIGN_STEPS = 19
+
+AGENT_ID: Final[str] = "Agent"
+
+TARGET_HEADING = -np.pi/2
+# ROAD: -pi/2
+# DEST: [28.16 96.8   0.  ]
+
+def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> np.ndarray:
+    """
+    Transforma los puntos LIDAR para que sean relativos al vehículo, con el índice 0 a 90° a la izquierda del agente.
+
+    Args:
+        lidar_data (np.ndarray): Datos del LIDAR en coordenadas absolutas.
+        car_pose (np.ndarray): Posición actual del vehículo en coordenadas absolutas.
+        heading (float): Ángulo de orientación del vehículo en radianes.
+
+    Returns:
+        np.ndarray: Datos LIDAR transformados en coordenadas relativas.
+    """
+    lidar_data_copy = np.copy(lidar_data)
+    # Asignar 'inf' a los puntos inválidos (donde todo es [0, 0, 0])
+    lidar_data_copy[np.all(lidar_data_copy == [0, 0, 0], axis=1)] = float('inf')
+
+    # Calcular puntos relativos
+    relative_points = lidar_data_copy - car_pose
+    # relative_points = relative_points[::-1]
+
+    # Convertir heading a grados
+    heading_deg = np.degrees(heading)
+
+    num_points = len(lidar_data_copy)
+    lidar_resolution = 360 / num_points
+
+    shift = int(round((heading_deg-90) / lidar_resolution))
+    # Aplicar el desplazamiento circular
+    rotated_lidar = np.roll(relative_points, shift=shift, axis=0)
+
+    return rotated_lidar
+
+
+class LearningAgent:
+    """Agente de Q-learning optimizado para aparcamiento, que utiliza LiDAR con velocidad angular fija."""
+
+    def __init__(self, epsilon=0.99, min_epsilon=0, decay_rate=0.99, alpha=0.2, gamma=0.9):
+        self.epsilon = epsilon  # Probabilidad inicial de exploración
+        self.min_epsilon = min_epsilon  # Valor mínimo de epsilon
+        self.decay_rate = decay_rate  # Tasa de decremento para epsilon
+        self.alpha = alpha  # Tasa de aprendizaje
+        self.gamma = gamma  # Factor de descuento
+        self.init_pose = np.array([0,0,0])
+        self.q_table = {} # Tabla Q para almacenar los valores de estado-acción
+        self.actions = [(0,-0.5),(-1, 0),(0, 0),(1, 0),(0,0.5)]  # Posibles acciones
+
+    def discretize(self, value, step=0.25, max_value=10.0):
+        """Discretiza un valor continuo al múltiplo más cercano de 'step'.
+
+        Args:
+            value (float): Valor continuo a discretizar.
+            step (float): Tamaño del intervalo de discretización.
+            max_value (float): Límite máximo (los valores mayores se limitan).
+
+        Returns:
+            float: Valor discretizado al múltiplo más cercano de 'step'.
+        """
+        # Limitar el valor a [-max_value, max_value]
+        value = min(max(value, -max_value), max_value)
+        # Redondear al múltiplo más cercano de step
+        return round(value / step) * step
+
+    def get_state(self, observation, target_pose):
+        """Extrae y discretiza el estado basado en la posición, orientación, velocidad y LiDAR del vehículo."""
+        
+        # Extraer información relevante
+        car_position = np.array(observation["ego_vehicle_state"]["position"])
+        car_heading = observation["ego_vehicle_state"]["heading"]
+        car_speed = observation["ego_vehicle_state"]["speed"]
+        
+        # Calcular la posición relativa del vehículo con respecto a init_pose
+        car_pose_relative = car_position - init_pose  # Restamos los arrays directamente
+        
+        # Sumar la posición relativa del vehículo con target_pose (relativo a init_pose)
+        target_pose_relative = car_pose_relative + target_pose  # Sumar directamente los arrays
+        
+        # Distancia euclidiana al objetivo (target_pose ahora es relativa al vehículo)
+        distance_to_target = np.linalg.norm(target_pose_relative)
+        if target_pose_relative[0] > 0:
+            signed_distance_to_target = distance_to_target  # Positiva si está delante
+        else:
+            signed_distance_to_target = -distance_to_target
+        
+        # Diferencia de orientación (ajustada a [-pi, pi])
+        heading_error = np.arctan2(
+            np.sin(TARGET_HEADING - car_heading), 
+            np.cos(TARGET_HEADING - car_heading)
+        )
+        
+        # Filtrar datos del LiDAR
+        filtered_lidar = filtrate_lidar(
+            observation["lidar_point_cloud"]["point_cloud"], 
+            car_position, 
+            car_heading
+        )
+        
+        distances = np.linalg.norm(filtered_lidar, axis=1)
+        lidar_resolution = 360 / len(distances)
+        index_90 = int(round(90 / lidar_resolution))
+        index_270 = int(round(270 / lidar_resolution))
+        distance_90 = self.discretize(distances[index_90])
+        distance_270 = self.discretize(distances[index_270])
+        distance_difference = self.discretize(distance_270 - distance_90)
+        
+        # Discretizar velocidad para mejor aprendizaje
+        discretized_speed = self.discretize(car_speed, step=0.1, max_value=20)
+
+        # Encontrar la distancia mínima no nula directamente en el array 'distances'
+        min_distance = np.min(distances[distances > 0]) if np.any(distances > 0) else np.inf
+
+        # Si se encontró una distancia válida
+        if min_distance != np.inf:
+            # Obtener el índice de la distancia mínima en el array original
+            min_index = np.argmin(distances)
+
+            # Calcular el ángulo correspondiente a ese índice
+            angle = min_index * lidar_resolution
+
+            # Asignar signo según el ángulo (delante: positivo, detrás: negativo)
+            if 0 <= angle <= 180:
+                min_distance_signed = min_distance  # Positivo si está delante
+            else:
+                min_distance_signed = -min_distance  # Negativo si está detrás
+
+            # Discretizar la distancia mínima con el signo
+            discretized_min_distance = self.discretize(min_distance_signed)
+        else:
+            # Si no hay distancias válidas, asignamos infinito
+            discretized_min_distance = np.inf
+
+        return (
+            self.discretize(distance_to_target), 
+            self.discretize(heading_error, step=0.1, max_value=np.pi), 
+            discretized_speed, 
+            distance_difference,
+            discretized_min_distance
+        )
+
+
+
+    def choose_action(self, state):
+        """Selecciona una acción basada en la política epsilon-greedy."""
+        if np.random.rand() < self.epsilon:
+            # Explorar: Elegir una acción aleatoria
+            return random.choice(self.actions)
+
+        # Explotar: Elegir la mejor acción conocida
+        # print(f"Diferencia de distancias: {state}")
+        if state not in self.q_table:
+            # Inicializar valores Q para acciones en el estado si no existen
+            self.q_table[state] = {action: 0.0 for action in self.actions}
+
+        # Devolver la acción con el valor Q más alto en este estado
+        return max(self.q_table[state], key=self.q_table[state].get)
+
+    def act(self, observation, target_pose):
+        """Genera una acción basada en la observación del entorno."""
+        state = self.get_state(observation, target_pose)
+        action = self.choose_action(state)
+        # print(f"Accion elegida: {action}       En estado: {state}")
+        return np.array(action)
+
+    def learn(self, state, action, reward, next_state):
+        """Actualiza la tabla Q según la fórmula de Q-learning."""
+        # Inicializar los estados en la tabla Q si no están presentes
+        if state not in self.q_table:
+            self.q_table[state] = {action: 0.0 for action in self.actions}
+        if next_state not in self.q_table:
+            self.q_table[next_state] = {action: 0.0 for action in self.actions}
+
+        # Calcular el valor Q futuro máximo
+        max_future_q = max(self.q_table[next_state].values())
+
+        # Actualizar la tabla Q
+        current_q = self.q_table[state].get(action, 0.0)
+        self.q_table[state][action] = current_q + self.alpha * (reward + self.gamma * max_future_q - current_q)
+
+    def decay_epsilon(self):
+        """Reduce epsilon según la tasa de decremento."""
+        self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
+    
+    def print_q_table(self):
+        """Imprime la tabla Q completa."""
+        for state, actions in self.q_table.items():
+            print(f"State: {state}")
+            for action, value in actions.items():
+                print(f"  Action: {action}, Q-value: {value}")
+
+    def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
+        """Mueve el vehículo a una posición (target)."""
+
+        distance = target_position - current_position
+        action = 0
+
+        # Determinar si avanzar o retroceder
+        if accelerate == True:
+            action = 10 if distance > 0 else -10
+
+        # Paramos si estamos cerca o si llegamos a las maximas steps
+        if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
+            # print(f"finished, current pose: {current_position}")
+            action = -first_act
+                
+        return np.array([action, 0.0])
+
+    def find_closest_corners(self, observation):
+        """Finds the closest corners of two detected obstacles from LiDAR data."""
+        pose = np.array(observation["ego_vehicle_state"]["position"])
+        self.init_pose = pose
+        filtrated_lidar = filtrate_lidar(observation["lidar_point_cloud"]["point_cloud"], pose, observation["ego_vehicle_state"]["heading"])
+
+        # Remove 'inf' values and noise
+        filtrated_lidar = filtrated_lidar[~np.isinf(filtrated_lidar).any(axis=1)]
+        
+        # Determine separation threshold using the median X value
+        depth_axis = 1 if np.isclose(abs(TARGET_HEADING), np.pi/2, atol=0.1) else 0
+
+        threshold_x = np.median(filtrated_lidar[:, 1 - depth_axis])
+        
+        # Split points into two obstacles
+        obstacle_1 = filtrated_lidar[filtrated_lidar[:, 0] < threshold_x]
+        obstacle_2 = filtrated_lidar[filtrated_lidar[:, 0] >= threshold_x]
+        
+        def get_corners(obstacle):
+            """Finds the leftmost and rightmost points among the closest to the sensor."""
+            closest_points = obstacle[np.argsort(np.abs(obstacle[:, depth_axis]))[:10]]  # 10 closest in |y|
+            left_corner = closest_points[np.argmin(closest_points[:, 0])]
+            right_corner = closest_points[np.argmax(closest_points[:, 0])]
+            return np.array([left_corner, right_corner])
+
+        # Get corners for both obstacles
+        corners_1 = get_corners(obstacle_1)
+        corners_2 = get_corners(obstacle_2)
+
+        # Find the closest pair of corners
+        distances = cdist(corners_1, corners_2)
+        min_idx = np.unravel_index(np.argmin(distances), distances.shape)
+
+        punto_1 = corners_1[min_idx[0]]
+        punto_2 = corners_2[min_idx[1]]
+        n = 1
+        if punto_1[1] < 0:
+            n = -1
+        punto_medio = np.array([(punto_1[0] + punto_2[0])/2 + pose[0], punto_1[1]+(0.7*n) + pose[1], 1.0])
+        # print(f"{punto_medio}\n--------------")
+        
+        return punto_medio 
+
+
+
+def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
+    agent_interface = AgentInterface(
+        action=ActionSpaceType.Direct,
+        # max_episode_steps=max_episode_steps,
+        max_episode_steps=200,
+        neighborhood_vehicle_states=True,
+        # waypoint_paths=True,
+        # road_waypoints=True,
+        drivable_area_grid_map=True,
+        occupancy_grid_map=True,
+        top_down_rgb=True,
+        lidar_point_cloud=True,
+        accelerometer=True,
+        lane_positions=True,
+        signals=True,
+    )
+
+    env = gym.make(
+        "smarts.env:hiway-v1",
+        scenarios=scenarios,
+        agent_interfaces={AGENT_ID: agent_interface},
+        headless=headless,
+    )
+
+    env = CParkingAgent(env)
+    agent = LearningAgent()
+
+    for episode in episodes(n=num_episodes):
+        observation, _ = env.reset()
+        episode.record_scenario(env.unwrapped.scenario_log)
+
+        # np.random.seed(int(time.time()))
+        random_offset = np.random.choice([-1, 0, 1, 2])
+        actual_pose = observation["ego_vehicle_state"]["position"][0]
+        target =  actual_pose + random_offset
+
+        # print(f"Moving from pose: {actual_pose} to pose: {target}")
+
+        terminated = False
+        moved = False
+        
+        accelerate = True
+        first_action = np.array([0.0, 0.0])
+        n_steps = 0
+        # parking_target = np.array([0.0, 0.0, 0.0])
+        parking_target = agent.find_closest_corners(observation)
+        # t_reward = 0
+        while not terminated:                
+            # Mover a posicion aleatoria
+            if not moved:
+                # Indice 0 es el que se usa en nuestro escenario
+                action = agent.move_to_random_position(observation["ego_vehicle_state"]["position"][0], target, accelerate, n_steps, first_action[0])
+                accelerate = False
+                
+                if action[0] + first_action[0] == 0:
+                    moved = True
+
+                if n_steps == 0:                    
+                    first_action = action
+                    
+                observation, _, terminated, _, _ = env.step((action[0],action[1]), parking_target)
+                n_steps = n_steps + 1
+                # print(observation['ego_vehicle_state']['heading'])
+                # print(observation["ego_vehicle_state"]["position"])
+            
+            # Tenemos que asegurarnos que SIEMPRE gastamos MAX_ALIGN_STEPS steps, así no modificamos el entrenamiento
+            elif n_steps <= MAX_ALIGN_STEPS:
+                # print(observation['ego_vehicle_state']['speed'])
+                observation, _, terminated, _, _ = env.step((0.0,0.0), parking_target)
+                n_steps = n_steps + 1
+
+            # Nos quedan TOTAL_STEPS-MAX_ALIGN_STEPS para el entrenamiento, SIEMPRE las mismas
+            else:
+                state = agent.get_state(observation, parking_target)
+                action = agent.act(observation, parking_target)
+
+                next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), parking_target)
+                next_state = agent.get_state(next_observation, parking_target)
+
+                agent.learn(state, action[0], reward, next_state)
+
+                observation = next_observation
+                # t_reward = t_reward + reward
+                episode.record_step(observation, reward, terminated, truncated, info)
+        # print(f"Recompensa de episodio: {t_reward}")
+        agent.decay_epsilon()
+    agent.print_q_table()
+
+    env.close()
+
+
+if __name__ == "__main__":
+    parser = minimal_argument_parser(Path(__file__).stem)
+    args = parser.parse_args()
+
+    if not args.scenarios:
+        args.scenarios = [
+            str(SMARTS_REPO_PATH / "scenarios" / "sumo" / "loop"),
+            str(SMARTS_REPO_PATH / "scenarios" / "sumo" / "figure_eight"),
+        ]
+
+    build_scenarios(scenarios=args.scenarios)
+
+    main(
+        scenarios=args.scenarios,
+        headless=args.headless,
+        num_episodes=1500,
+        max_episode_steps=200,
+    )

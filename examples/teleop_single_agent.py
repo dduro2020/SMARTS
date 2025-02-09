@@ -209,7 +209,7 @@ def main(scenarios, headless, num_episodes, max_episode_steps=None):
             # print(observation)
             resp = input("Printig point_cloud? (yes/no): ")
             if resp == "yes":
-                print(f"RLidar: {observation['lidar_point_cloud']['point_cloud']}")
+                print(f"RLidar: {observation['lidar_point_cloud']}")
             episode.record_step(observation, reward, terminated, truncated, info)
             # agent.compute_parking_reward(observation['lidar_point_cloud']['point_cloud'], observation['ego_vehicle_state']['position'])
             # agent.closest_obstacle_warning(observation['lidar_point_cloud']['point_cloud'], observation['lidar_point_cloud']['ray_origin'])
