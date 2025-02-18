@@ -3,6 +3,35 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 from scipy.spatial.distance import cdist
+from sklearn.cluster import DBSCAN
+
+def get_relative_coordinates(position, heading):
+    """
+    Transforma una posición global a coordenadas relativas usando la orientación (heading) en 3D.
+    
+    Parámetros:
+        position (array-like): Coordenadas [x, y, z] en el sistema global.
+        heading (float): Ángulo de orientación en radianes.
+
+    Retorna:
+        np.ndarray: Coordenadas [x', y', z'] en el sistema relativo.
+    """
+    init_position = np.array([100.00046399,  28.16019732,   1.        ])
+
+    # Calcular el desplazamiento en coordenadas globales
+    delta_position = position - init_position
+
+    # Matriz de rotación en el plano XY (Z no cambia)
+    rotation_matrix = np.array([
+        [np.cos(-heading), -np.sin(-heading), 0],
+        [np.sin(-heading),  np.cos(-heading), 0],
+        [0,                0,                1]  # La Z se mantiene igual
+    ])
+
+    # Aplicar la transformación
+    pose_relative = rotation_matrix @ delta_position
+
+    return pose_relative
 
 
 def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> np.ndarray:
@@ -22,7 +51,16 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
 
     # Calcular puntos relativos
     relative_points = lidar_data - car_pose
-    relative_points = relative_points[::-1]
+
+    # 2. Matriz de rotación para el plano XY (Z no cambia)
+    rotation_matrix = np.array([
+        [np.cos(-heading), -np.sin(-heading), 0],
+        [np.sin(-heading),  np.cos(-heading), 0],
+        [0,                0,                1]  # Z no cambia
+    ])
+
+    # 3. Aplicar la transformación de rotación
+    rotated_points = relative_points @ rotation_matrix.T
 
     # Convertir heading a grados
     heading_deg = np.degrees(heading)
@@ -32,60 +70,60 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
 
     shift = int(round((heading_deg-90) / lidar_resolution))
     # Aplicar el desplazamiento circular
-    rotated_lidar = np.roll(relative_points, shift=shift, axis=0)
+    rotated_lidar = np.roll(rotated_points, shift=shift, axis=0)
 
     return rotated_lidar
 
 def discretize(value, step=0.25, max_value=10.0):
-        """Discretiza un valor continuo al múltiplo más cercano de 'step'.
+    """Discretiza un valor continuo al múltiplo más cercano de 'step'.
 
-        Args:
-            value (float): Valor continuo a discretizar.
-            step (float): Tamaño del intervalo de discretización.
-            max_value (float): Límite máximo (los valores mayores se limitan).
+    Args:
+        value (float): Valor continuo a discretizar.
+        step (float): Tamaño del intervalo de discretización.
+        max_value (float): Límite máximo (los valores mayores se limitan).
 
-        Returns:
-            float: Valor discretizado al múltiplo más cercano de 'step'.
-        """
-        # Limitar el valor a [-max_value, max_value]
-        value = min(max(value, -max_value), max_value)
-        # Redondear al múltiplo más cercano de step
-        return round(value / step) * step
+    Returns:
+        float: Valor discretizado al múltiplo más cercano de 'step'.
+    """
+    # Limitar el valor a [-max_value, max_value]
+    value = min(max(value, -max_value), max_value)
+    # Redondear al múltiplo más cercano de step
+    return round(value / step) * step
 
 def print_distance(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float):
-        filtrate_l = filtrate_lidar(lidar_data, car_pose, heading)
-        # print(filtrate_l)
-        distances = np.linalg.norm(filtrate_l, axis=1)  # Calcular distancias.
+    filtrate_l = filtrate_lidar(lidar_data, car_pose, heading)
+    # print(filtrate_l)
+    distances = np.linalg.norm(filtrate_l, axis=1)  # Calcular distancias.
 
-        # Obtener las distancias en los ángulos deseados.
-        lidar_resolution = 360 / len(distances)
-        index_90 = int(round(90 / lidar_resolution))
-        index_270 = int(round(270 / lidar_resolution))
-        distance_90 = distances[index_90]
-        distance_270 = distances[index_270]
-        print(f"Distancia delante: {distance_90}")
-        print(f"Distancia detras: {distance_270}")
+    # Obtener las distancias en los ángulos deseados.
+    lidar_resolution = 360 / len(distances)
+    index_90 = int(round(90 / lidar_resolution))
+    index_270 = int(round(270 / lidar_resolution))
+    distance_90 = distances[index_90]
+    distance_270 = distances[index_270]
+    print(f"Distancia delante: {distance_90}")
+    print(f"Distancia detras: {distance_270}")
 
-        # x = filtrate_l[:, 0]
-        # y = filtrate_l[:, 1]
-        # z = filtrate_l[:, 2]
-        # # Crear una figura y un eje 3D
-        # fig = plt.figure(figsize=(10, 7))
-        # ax = fig.add_subplot(111, projection='3d')
+    # x = filtrate_l[:, 0]
+    # y = filtrate_l[:, 1]
+    # z = filtrate_l[:, 2]
+    # # Crear una figura y un eje 3D
+    # fig = plt.figure(figsize=(10, 7))
+    # ax = fig.add_subplot(111, projection='3d')
 
-        # # Graficar los puntos
-        # ax.scatter(x, y, z, c='b', marker='o', s=10)
-        # ax.set_xlim([-10, 10])  # Límite del eje x
-        # ax.set_ylim([-10, 10])  # Límite del eje y
-        # ax.set_zlim([0, 1.5])    # Límite del eje z
-        # # Etiquetas y título
-        # ax.set_xlabel('X')
-        # ax.set_ylabel('Y')
-        # ax.set_zlabel('Z')
-        # ax.set_title('Nube de Puntos Lidar')
+    # # Graficar los puntos
+    # ax.scatter(x, y, z, c='b', marker='o', s=10)
+    # ax.set_xlim([-10, 10])  # Límite del eje x
+    # ax.set_ylim([-10, 10])  # Límite del eje y
+    # ax.set_zlim([0, 1.5])    # Límite del eje z
+    # # Etiquetas y título
+    # ax.set_xlabel('X')
+    # ax.set_ylabel('Y')
+    # ax.set_zlabel('Z')
+    # ax.set_title('Nube de Puntos Lidar')
 
-        # # Mostrar el gráfico
-        # plt.show()
+    # # Mostrar el gráfico
+    # plt.show()
 def get_state(filtered_lidar, target_pose, target_heading, car_heading, car_speed):
     """Extrae y discretiza el estado basado en la posición, orientación, velocidad y LiDAR del vehículo."""
     
@@ -144,78 +182,152 @@ def get_state(filtered_lidar, target_pose, target_heading, car_heading, car_spee
 
 
 def compute_parking_reward( lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> float:
-        lidar_length = len(lidar_data)
-        lidar_resolution = 360/300
-        heading_deg = np.degrees(heading)
+    lidar_length = len(lidar_data)
+    lidar_resolution = 360/300
+    heading_deg = np.degrees(heading)
 
-        # index_90 = lidar_length // 4  # Índice correspondiente a 90°.
-        # index_270 = (3 * lidar_length) // 4  # Índice correspondiente a 270°.
-        index_90 = int(round(heading_deg / lidar_resolution))
-        index_270 = int(round((heading_deg + 180) / lidar_resolution))
+    # index_90 = lidar_length // 4  # Índice correspondiente a 90°.
+    # index_270 = (3 * lidar_length) // 4  # Índice correspondiente a 270°.
+    index_90 = int(round(heading_deg / lidar_resolution))
+    index_270 = int(round((heading_deg + 180) / lidar_resolution))
 
-        # Asignar '0' a los puntos donde no hay obstáculos ([0, 0, 0]).
-        lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('0')
+    # Asignar '0' a los puntos donde no hay obstáculos ([0, 0, 0]).
+    lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('0')
 
-        relative_lidar = lidar_data - car_pose  # Convertir a coordenadas relativas.
-        distances = np.linalg.norm(relative_lidar, axis=1)  # Calcular distancias.
+    relative_lidar = lidar_data - car_pose  # Convertir a coordenadas relativas.
+    distances = np.linalg.norm(relative_lidar, axis=1)  # Calcular distancias.
 
-        
-        # Obtener las distancias en los ángulos deseados.
-        distance_90 = distances[index_90]
-        distance_270 = distances[index_270]
-        print(f"Distancia delante: {distance_90}")
-        print(f"Distancia detrás: {distance_270}")
-
-        # Si alguno de los valores es 0inito, penalización máxima.
-        if np.isinf(distance_90) or np.isinf(distance_270):
-            return -10.0  # Penalización por falta de datos relevantes.
-
-        # Calcula la diferencia absoluta entre las dos distancias.
-        distance_difference = abs(distance_90 - distance_270)
-
-        # Rangos de recompensa según la diferencia de distancias.
-        if distance_difference < 0.5:
-            reward = 0.0  # Perfecto equilibrio.
-        elif distance_difference < 1.0:
-            reward = -1.0  # Ligera penalización.
-        elif distance_difference < 1.5:
-            reward = -3.0  # Penalización moderada.
-        else:
-            reward = -5.0  # Penalización severa por desbalance.
-
-        return reward
-
-def find_closest_corners(point_cloud):
-    """Finds the closest corners of two detected obstacles from LiDAR data."""
-
-    # Remove 'inf' values and noise
-    point_cloud = point_cloud[~np.isinf(point_cloud).any(axis=1)]
     
-    # Determine separation threshold using the median X value
-    depth_axis = 1 if np.isclose(abs(-1.57), np.pi/2, atol=0.1) else 0
+    # Obtener las distancias en los ángulos deseados.
+    distance_90 = distances[index_90]
+    distance_270 = distances[index_270]
+    print(f"Distancia delante: {distance_90}")
+    print(f"Distancia detrás: {distance_270}")
 
-    threshold_x = np.median(point_cloud[:, 1 - depth_axis])
-    
-    # Split points into two obstacles
-    obstacle_1 = point_cloud[point_cloud[:, 0] < threshold_x]
-    obstacle_2 = point_cloud[point_cloud[:, 0] >= threshold_x]
-    
-    def get_corners(obstacle):
-        """Finds the leftmost and rightmost points among the closest to the sensor."""
-        closest_points = obstacle[np.argsort(np.abs(obstacle[:, depth_axis]))[:10]]  # 10 closest in |y|
-        left_corner = closest_points[np.argmin(closest_points[:, 0])]
-        right_corner = closest_points[np.argmax(closest_points[:, 0])]
-        return np.array([left_corner, right_corner])
+    # Si alguno de los valores es 0inito, penalización máxima.
+    if np.isinf(distance_90) or np.isinf(distance_270):
+        return -10.0  # Penalización por falta de datos relevantes.
 
-    # Get corners for both obstacles
-    corners_1 = get_corners(obstacle_1)
-    corners_2 = get_corners(obstacle_2)
+    # Calcula la diferencia absoluta entre las dos distancias.
+    distance_difference = abs(distance_90 - distance_270)
 
-    # Find the closest pair of corners
-    distances = cdist(corners_1, corners_2)
-    min_idx = np.unravel_index(np.argmin(distances), distances.shape)
+    # Rangos de recompensa según la diferencia de distancias.
+    if distance_difference < 0.5:
+        reward = 0.0  # Perfecto equilibrio.
+    elif distance_difference < 1.0:
+        reward = -1.0  # Ligera penalización.
+    elif distance_difference < 1.5:
+        reward = -3.0  # Penalización moderada.
+    else:
+        reward = -5.0  # Penalización severa por desbalance.
+
+    return reward
+
+# def find_closest_corners(point_cloud):
+#     """Finds the closest corners of two detected obstacles from LiDAR data."""
+
+#     # Remove 'inf' values and noise
+#     point_cloud = point_cloud[~np.isinf(point_cloud).any(axis=1)]
     
-    return corners_1[min_idx[0]], corners_2[min_idx[1]]
+#     # Determine separation threshold using the median X value
+#     depth_axis = 1 if np.isclose(abs(np.pi), np.pi/2, atol=0.1) else 0
+
+#     threshold_x = np.median(point_cloud[:, depth_axis])
+    
+#     # Split points into two obstacles
+#     obstacle_1 = point_cloud[point_cloud[:, 0] < threshold_x]
+#     obstacle_2 = point_cloud[point_cloud[:, 0] >= threshold_x]
+    
+#     def get_corners(obstacle):
+#         """Finds the leftmost and rightmost points among the closest to the sensor."""
+#         closest_points = obstacle[np.argsort(np.abs(obstacle[:, 1 - depth_axis]))[:10]]  # 10 closest in |y|
+#         left_corner = closest_points[np.argmin(closest_points[:, 0])]
+#         right_corner = closest_points[np.argmax(closest_points[:, 0])]
+#         return np.array([left_corner, right_corner])
+
+#     # Get corners for both obstacles
+#     corners_1 = get_corners(obstacle_1)
+#     corners_2 = get_corners(obstacle_2)
+
+#     # Find the closest pair of corners
+#     distances = cdist(corners_1, corners_2)
+#     min_idx = np.unravel_index(np.argmin(distances), distances.shape)
+    
+#     return corners_1[min_idx[0]], corners_2[min_idx[1]]
+
+def plot_clusters(point_cloud, labels):
+    """Función para visualizar los clusters detectados en el point cloud."""
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    
+    unique_labels = np.unique(labels)
+    colors = plt.cm.jet(np.linspace(0, 1, len(unique_labels)))
+    
+    for label, color in zip(unique_labels, colors):
+        cluster_points = point_cloud[labels == label]
+        ax.scatter(cluster_points[:, 0], cluster_points[:, 1], cluster_points[:, 2], 
+                   c=[color], label=f'Cluster {label}', s=10)
+    
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    ax.set_zlabel("Z")
+    ax.set_title("Clusters Detectados")
+    plt.legend()
+    plt.show()
+
+def find_closest_corners(point_cloud, eps=2.5, min_samples=10):
+    """
+    Encuentra las esquinas más cercanas de dos vehículos que delimitan un hueco de aparcamiento a partir de un point cloud.
+    
+    :param point_cloud: Nube de puntos del escenario (Nx3 numpy array)
+    :param eps: Parámetro de distancia para el algoritmo DBSCAN (tolerancia en la agrupación de puntos).
+    :param min_samples: Número mínimo de puntos para que un conjunto sea considerado un clúster (DBSCAN).
+    
+    :return: Punto medio entre las esquinas más cercanas (numpy array con las coordenadas [x, y, z]).
+    """
+    
+    # 1. Filtrar los puntos que representan ruido o valores infinitos
+    point_cloud = point_cloud[~np.isnan(point_cloud).any(axis=1)]  # Elimina NaNs
+    point_cloud = point_cloud[~np.isinf(point_cloud).any(axis=1)]  # Elimina infs
+    
+    # 2. Aplicar DBSCAN para dividir el point cloud en dos grupos (vehículos)
+    clustering = DBSCAN(eps=eps, min_samples=min_samples).fit(point_cloud)
+    
+    
+    # Obtener las etiquetas de los clusters y filtramos solo aquellos que tienen más de 10 puntos
+    labels = clustering.labels_
+
+    # plot_clusters(point_cloud, labels)
+    
+    # Asegurarnos de que hay al menos dos clústeres
+    unique_labels = np.unique(labels)
+    if len(unique_labels) < 2:
+        raise ValueError("No se detectaron dos vehículos en el point cloud.")
+    
+    # Dividir los puntos en dos grupos (vehículos)
+    group_1 = point_cloud[labels == unique_labels[0]]
+    group_2 = point_cloud[labels == unique_labels[1]]
+    
+    # 3. Encontrar las esquinas más cercanas entre los dos vehículos
+    closest_distance = np.inf
+    closest_pair = None
+    
+    for corner_1 in group_1:
+        for corner_2 in group_2:
+            distance = np.linalg.norm(corner_1 - corner_2)  # Distancia euclidiana
+            if distance < closest_distance:
+                closest_distance = distance
+                closest_pair = (corner_1, corner_2)
+    
+    # 4. Calcular el punto medio entre las dos esquinas más cercanas
+    if closest_pair is None:
+        raise ValueError("No se pudo encontrar un par de esquinas cercanas.")
+    
+    corner_1, corner_2 = closest_pair
+    midpoint = (corner_1 + corner_2) / 2
+    
+    return corner_1, corner_2
+
 
 def find_deepest_point(point_cloud_1, punto_1, punto_2, threshold=0.25):
     """
@@ -553,312 +665,311 @@ point_cloud_11 = np.array([[ 0.        ,  0.        ,  0.        ],
        [ 0.        ,  0.        ,  0.        ],
        [ 0.        ,  0.        ,  0.        ]])
 
-point_cloud_1 = np.array([[ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [24.        , 96.09205499,  1.00099626],
-       [24.        , 96.25290795,  1.00097725],
-       [24.        , 96.40780486,  1.00095937],
-       [24.        , 96.55719912,  1.00094254],
-       [24.        , 96.70150317,  1.00092668],
-       [24.        , 96.84109313,  1.00091175],
-       [24.        , 96.97631296,  1.00089767],
-       [24.        , 97.10747796,  1.00088441],
-       [24.        , 97.23487788,  1.0008719 ],
-       [24.        , 97.35877965,  1.00086012],
-       [24.        , 97.47942974,  1.00084902],
-       [23.89256433, 97.535     ,  1.00086022],
-       [23.67842626, 97.535     ,  1.00089278],
-       [23.44733516, 97.535     ,  1.00092832],
-       [23.19696623, 97.535     ,  1.00096726],
-       [22.92455296, 97.535     ,  1.00101006],
-       [22.62677673, 97.535     ,  1.00105731],
-       [22.29962161, 97.535     ,  1.00110971],
-       [21.9381808 , 97.535     ,  1.00116812],
-       [21.53639478, 97.535     ,  1.00123358],
-       [21.08669144, 97.535     ,  1.00130743],
-       [20.57948228, 97.535     ,  1.00139133],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [35.77211264, 97.535     ,  1.00139642],
-       [35.26130986, 97.535     ,  1.00131189],
-       [34.80862937, 97.535     ,  1.00123753],
-       [34.40434951, 97.535     ,  1.00117163],
-       [34.04079911, 97.535     ,  1.00111285],
-       [33.71184375, 97.535     ,  1.00106014],
-       [33.41251915, 97.535     ,  1.00101261],
-       [33.13876464, 97.535     ,  1.00096957],
-       [32.88722639, 97.535     ,  1.00093043],
-       [32.65510986, 97.535     ,  1.00089471],
-       [32.44006774, 97.535     ,  1.00086199],
-       [32.32      , 97.4867274 ,  1.00084822],
-       [32.32      , 97.36628125,  1.00085928],
-       [32.32      , 97.24259754,  1.00087102],
-       [32.32      , 97.11543093,  1.00088348],
-       [32.32      , 96.98451577,  1.0008967 ],
-       [32.32      , 96.84956373,  1.00091072],
-       [32.32      , 96.71026111,  1.00092561],
-       [32.32      , 96.56626576,  1.0009414 ],
-       [32.32      , 96.41720353,  1.00095818],
-       [32.32      , 96.26266427,  1.00097599],
-       [32.32      , 96.10219713,  1.00099493],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ]])
+point_cloud_1 = np.array([[  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [102.465     ,  35.7621184 ,   1.00139477],
+       [102.465     ,  35.25235452,   1.00131042],
+       [102.465     ,  34.80054243,   1.00123621],
+       [102.465     ,  34.3969966 ,   1.00117043],
+       [102.465     ,  34.0340728 ,   1.00111177],
+       [102.465     ,  33.7056571 ,   1.00105914],
+       [102.465     ,  33.40680099,   1.0010117 ],
+       [102.465     ,  33.13345614,   1.00096873],
+       [102.465     ,  32.88227845,   1.00092966],
+       [102.465     ,  32.65048118,   1.00089399],
+       [102.465     ,  32.43572329,   1.00086132],
+       [102.5157781 ,  32.32      ,   1.00084843],
+       [102.63627617,  32.32      ,   1.0008595 ],
+       [102.76001534,  32.32      ,   1.00087125],
+       [102.88724125,  32.32      ,   1.00088372],
+       [103.01821987,  32.32      ,   1.00089695],
+       [103.15323987,  32.32      ,   1.00091099],
+       [103.29261538,  32.32      ,   1.00092588],
+       [103.43668898,  32.32      ,   1.0009417 ],
+       [103.58583532,  32.32      ,   1.00095848],
+       [103.74046513,  32.32      ,   1.00097632],
+       [103.90102991,  32.32      ,   1.00099527],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [103.91532332,  24.        ,   1.00099703],
+       [103.75421712,  24.        ,   1.00097797],
+       [103.59908682,  24.        ,   1.00096005],
+       [103.44947719,  24.        ,   1.00094317],
+       [103.3049742 ,  24.        ,   1.00092728],
+       [103.16520027,  24.        ,   1.0009123 ],
+       [103.02981019,  24.        ,   1.0008982 ],
+       [102.89848752,  24.        ,   1.0008849 ],
+       [102.77094152,  24.        ,   1.00087236],
+       [102.64690434,  24.        ,   1.00086055],
+       [102.5261287 ,  24.        ,   1.00084943],
+       [102.465     ,  23.9021868 ,   1.00085867],
+       [102.465     ,  23.68877991,   1.0008911 ],
+       [102.465     ,  23.45851478,   1.0009265 ],
+       [102.465     ,  23.20908397,   1.00096527],
+       [102.465     ,  22.93774248,   1.00100789],
+       [102.465     ,  22.64119868,   1.00105493],
+       [102.465     ,  22.31547086,   1.00110708],
+       [102.465     ,  21.95569608,   1.00116519],
+       [102.465     ,  21.55587187,   1.00123032],
+       [102.465     ,  21.10850138,   1.00130375],
+       [102.465     ,  20.60409701,   1.00138716],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ],
+       [  0.        ,   0.        ,   0.        ]])
 
-
-point_cloud_2 = np.array(([ 28.17, 100.  ,   1.  ],
-       [ 28.17, 100.  ,   1.  ],
-       [ 28.17, 100.  ,   1.  ],
-))
+point_cloud_2 = np.array([[100.00046399,  28.16019732,   1.        ],
+       [100.00046399,  28.16019732,   1.        ],
+       [100.00046399,  28.16019732,   1.        ]
+])
 
 point_cloud_22 = np.array(([29.07018483, 99.9990929 ,  1.        ],
        [29.07018483, 99.9990929 ,  1.        ],
@@ -890,19 +1001,22 @@ def print_point_clouds(point_cloud):
 # print("-------------------------")
 # print("Point Cloud 2:")
 # print_point_clouds(point_cloud_3)
-point_cloud_1 = filtrate_lidar(point_cloud_11, point_cloud_22[0], 1.57)
+point_cloud_1 = filtrate_lidar(point_cloud_1, point_cloud_2[0], 0)
 
 # point_cloud_1 = point_cloud_1[~np.all(point_cloud_1 == [0, 0, 0], axis=1)] - point_cloud_2[0]
 
 
 punto_1, punto_2 = find_closest_corners(point_cloud_1)
-punto_profundo = find_deepest_point(point_cloud_1, punto_1, punto_2)
-n = 1
-if punto_1[1] < 0:
-    n = -1
-punto_medio = [(punto_1[0] + punto_2[0])/2, punto_1[1]+(0.7*n), punto_1[2]]
-state = get_state(point_cloud_1, punto_medio, 1.57, 1.57, 1)
-print(state)
+punto_medio = (punto_1 + punto_2) / 2
+print((punto_medio+np.array([100.00046399,  28.16019732,   1.        ])))
+
+car_pose_relative = get_relative_coordinates(np.array([102.50046399,  27.16019732,   1.        ]), 0)
+        
+# Sumar la posición relativa del vehículo con target_pose (relativo a init_pose)
+target_pose_relative = punto_medio - car_pose_relative 
+# punto_profundo = find_deepest_point(point_cloud_1, punto_1, punto_2)
+# state = get_state(point_cloud_1, punto_medio, 1.57, 1.57, 1)
+# print(state)
 # print(filtrated_lidar)
 # print_point_clouds(point_cloud_1)
 x = point_cloud_1[:, 0]
@@ -926,14 +1040,17 @@ ax.scatter(x, y, z, c='b', marker='o', s=10)
 # ax.scatter(x3, y3, z3, c='g', marker='o', s=10)
 
 # Graficar los puntos de referencia
-ax.scatter(punto_1[0], punto_1[1], punto_1[2], c='r', marker='x', s=100, label='Punto más cercano (Obstáculo 1)')
-ax.scatter(punto_2[0], punto_2[1], punto_2[2], c='g', marker='x', s=100, label='Punto más cercano (Obstáculo 2)')
+ax.scatter(punto_1[0], punto_1[1], 0, c='r', marker='x', s=100, label='Punto más cercano (Obstáculo 1)')
+ax.scatter(punto_2[0], punto_2[1], 0, c='g', marker='x', s=100, label='Punto más cercano (Obstáculo 2)')
 
 
-print(punto_medio + point_cloud_22[0])
-ax.scatter(punto_medio[0], punto_medio[1], punto_medio[2], c='b', marker='x', s=100, label='Punto más medio')
-ax.scatter(punto_profundo[0], punto_profundo[1], punto_profundo[2], c='g', marker='x', s=100, label='Punto más profundo')
-ax.scatter(28.16-29.07018483, 96.8-100, punto_profundo[2], c='r', marker='x', s=100, label='Punto más profundo')
+# print(punto_medio + point_cloud_22[0])
+ax.plot([0, punto_medio[0]], [0, punto_medio[1]], [0, punto_medio[2]], c='black', linestyle='--', label='Línea al punto medio')
+ax.plot([0, target_pose_relative[0]], [0, target_pose_relative[1]], [0, target_pose_relative[2]], c='b', linestyle='--', label='Línea al punto medio')
+ax.scatter(punto_medio[0], punto_medio[1], 0, c='black', marker='x', s=100, label='Punto más medio')
+ax.scatter(car_pose_relative[0], car_pose_relative[1], 0, c='b', marker='x', s=100, label='Punto más medio')
+# ax.scatter(punto_profundo[0], punto_profundo[1], punto_profundo[2], c='g', marker='x', s=100, label='Punto más profundo')
+# ax.scatter(28.16-29.07018483, 96.8-100, 0, c='r', marker='x', s=100, label='Punto más profundo')
 
 ax.set_xlim([-10, 10])  # Límite del eje x
 ax.set_ylim([-10, 10])  # Límite del eje y

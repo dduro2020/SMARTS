@@ -73,23 +73,27 @@ class CParkingAgent(gym.Wrapper):
 
         # 1. Distancia al objetivo (el target ya está en relativas)
         dist_to_target = np.linalg.norm(target_pose)
-        distance_reward = max(0, 1 - dist_to_target) * 100  # Máx: 100, Mín: 0
+        if dist_to_target < 0.1:
+            dist_to_target = 0.1
+        
+        distance_reward = (1 / dist_to_target)
 
         # 2. Recompensa por orientación (solo si está cerca del parking)
         if dist_to_target < 0.5:
             orient_diff = np.abs(np.arctan2(np.sin(car_orient - target_orient), np.cos(car_orient - target_orient)))
             orientation_reward = max(0, 1 - orient_diff / np.pi) * 50  # Máx: 50, Mín: 0
+           
         else:
             orientation_reward = 0
 
-        # 3. Penalización por velocidad (si está cerca y va rápido)
-        if dist_to_target < 1 and speed > 2:
+        # 3. Penalización por velocidad
+        if speed > 2:
             speed_penalty = -10
         else:
             speed_penalty = 0
 
-        # 4. Bonificación por detenerse correctamente
-        if dist_to_target < 0.5 and abs(speed) < 0.1:
+         # 4. Bonificación por detenerse correctamente estando alineado
+        if orientation_reward > 40 and dist_to_target < 0.2 and abs(speed) < 0.1:
             stopping_bonus = 50
         else:
             stopping_bonus = 0
