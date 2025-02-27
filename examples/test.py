@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 
 epsilon_0 = 0.99
 min_epsilon = 0.0
-decay_rate = 0.99
-episodes = 500
+decay_rate = 0.995
+episodes = 1000
 
 epsilon_values = []
 epsilon = epsilon_0

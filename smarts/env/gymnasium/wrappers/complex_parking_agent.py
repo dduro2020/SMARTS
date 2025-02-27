@@ -74,34 +74,47 @@ class CParkingAgent(gym.Wrapper):
         # 1. Distancia al objetivo (el target ya está en relativas)
         dist_to_target = np.linalg.norm(target_pose)
         if dist_to_target < 0.1:
+            print("MUY CERCAAA")
             dist_to_target = 0.1
         
+        
+        # distance_reward = (1 / (dist_to_target**2)) # Recompensa pronunciada cuanto más cerca
         distance_reward = (1 / dist_to_target)
+        if dist_to_target > 6.5:
+            distance_reward = -10
+            # print("Terminado por distancia")
+        # print(f"Distancia a hueco: {dist_to_target}")
 
         # 2. Recompensa por orientación (solo si está cerca del parking)
-        if dist_to_target < 0.5:
-            orient_diff = np.abs(np.arctan2(np.sin(car_orient - target_orient), np.cos(car_orient - target_orient)))
+        orient_diff = np.abs(np.arctan2(np.sin(car_orient - target_orient), np.cos(car_orient - target_orient)))
+        if dist_to_target < 0.25:
             orientation_reward = max(0, 1 - orient_diff / np.pi) * 50  # Máx: 50, Mín: 0
-           
-        else:
+        else: 
             orientation_reward = 0
+            
+        if orient_diff > np.pi/3:
+            orientation_reward = -10
+            # print("Terminado por orientacion")
+                
+        
 
         # 3. Penalización por velocidad
-        if speed > 2:
+        if abs(speed) > 2.5:
             speed_penalty = -10
         else:
             speed_penalty = 0
 
          # 4. Bonificación por detenerse correctamente estando alineado
-        if orientation_reward > 40 and dist_to_target < 0.2 and abs(speed) < 0.1:
-            stopping_bonus = 50
+        if orient_diff < 0.1 and dist_to_target < 0.1 and abs(speed) < 0.1:
+            stopping_bonus = 200
+            print("CONSEGUIDO!!")
         else:
             stopping_bonus = 0
 
         # 5. Penalización por colisión (usando la menor distancia del LiDAR)
         min_lidar_dist = np.min(np.linalg.norm(lidar_data, axis=1)) if len(lidar_data) > 0 else np.inf
-        if min_lidar_dist < 0.3:
-            collision_penalty = -50
+        if min_lidar_dist < 0.1:
+            collision_penalty = -10
         else:
             collision_penalty = 0
 
@@ -129,12 +142,26 @@ class CParkingAgent(gym.Wrapper):
             np.ndarray: Datos LIDAR transformados en coordenadas relativas.
         """
         lidar_data_copy = np.copy(lidar_data)
+        
         # Asignar 'inf' a los puntos inválidos (donde todo es [0, 0, 0])
         lidar_data_copy[np.all(lidar_data_copy == [0, 0, 0], axis=1)] = float('inf')
 
-        # Calcular puntos relativos
-        relative_points = lidar_data_copy - car_pose
-        # relative_points = relative_points[::-1]
+        # Reordenar de (y, x, z) a (x, y, z)
+        # lidar_data_copy = lidar_data_copy[:, [1, 0, 2]]
+        
+        # Calcular puntos relativos en el nuevo formato
+        relative_points = car_pose - lidar_data_copy# - car_pose
+        relative_points = relative_points[:, [1, 0, 2]]
+        
+        # Matriz de rotación en el sistema dextrógiro
+        rotation_matrix = np.array([
+            [ np.cos(heading), np.sin(heading), 0],  # x'
+            [-np.sin(heading), np.cos(heading), 0],  # y'
+            [0,                0,               1]  # z no cambia
+        ])
+
+        # Aplicar la transformación de rotación
+        rotated_points = relative_points @ rotation_matrix.T
 
         # Convertir heading a grados
         heading_deg = np.degrees(heading)
@@ -142,9 +169,9 @@ class CParkingAgent(gym.Wrapper):
         num_points = len(lidar_data_copy)
         lidar_resolution = 360 / num_points
 
-        shift = int(round((heading_deg-90) / lidar_resolution))
+        shift = int(round((heading_deg - 90) / lidar_resolution))
         # Aplicar el desplazamiento circular
-        rotated_lidar = np.roll(relative_points, shift=shift, axis=0)
+        rotated_lidar = np.roll(rotated_points, shift=shift, axis=0)
 
         return rotated_lidar
 

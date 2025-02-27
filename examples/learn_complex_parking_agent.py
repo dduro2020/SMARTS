@@ -49,19 +49,25 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
         np.ndarray: Datos LIDAR transformados en coordenadas relativas.
     """
     lidar_data_copy = np.copy(lidar_data)
+    
     # Asignar 'inf' a los puntos inválidos (donde todo es [0, 0, 0])
     lidar_data_copy[np.all(lidar_data_copy == [0, 0, 0], axis=1)] = float('inf')
 
-    # Calcular puntos relativos
-    relative_points = lidar_data_copy - car_pose
-
+    # Reordenar de (y, x, z) a (x, y, z)
+    # lidar_data_copy = lidar_data_copy[:, [1, 0, 2]]
+    
+    # Calcular puntos relativos en el nuevo formato
+    relative_points = car_pose - lidar_data_copy# - car_pose
+    relative_points = relative_points[:, [1, 0, 2]]
+    
+    # Matriz de rotación en el sistema dextrógiro
     rotation_matrix = np.array([
-        [np.cos(-heading), -np.sin(-heading), 0],
-        [np.sin(-heading),  np.cos(-heading), 0],
-        [0,                0,                1]  # Z no cambia
+        [ np.cos(heading), np.sin(heading), 0],  # x'
+        [-np.sin(heading), np.cos(heading), 0],  # y'
+        [0,                0,               1]  # z no cambia
     ])
 
-    # 3. Aplicar la transformación de rotación
+    # Aplicar la transformación de rotación
     rotated_points = relative_points @ rotation_matrix.T
 
     # Convertir heading a grados
@@ -70,7 +76,7 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
     num_points = len(lidar_data_copy)
     lidar_resolution = 360 / num_points
 
-    shift = int(round((heading_deg-90) / lidar_resolution))
+    shift = int(round((heading_deg - 90) / lidar_resolution))
     # Aplicar el desplazamiento circular
     rotated_lidar = np.roll(rotated_points, shift=shift, axis=0)
 

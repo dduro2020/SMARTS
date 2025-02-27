@@ -31,6 +31,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from collections import deque
+import math
 
 MAX_ALIGN_STEPS = 19
 
@@ -53,19 +54,25 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
         np.ndarray: Datos LIDAR transformados en coordenadas relativas.
     """
     lidar_data_copy = np.copy(lidar_data)
+    
     # Asignar 'inf' a los puntos inválidos (donde todo es [0, 0, 0])
     lidar_data_copy[np.all(lidar_data_copy == [0, 0, 0], axis=1)] = float('inf')
 
-    # Calcular puntos relativos
-    relative_points = lidar_data_copy - car_pose
-
+    # Reordenar de (y, x, z) a (x, y, z)
+    # lidar_data_copy = lidar_data_copy[:, [1, 0, 2]]
+    
+    # Calcular puntos relativos en el nuevo formato
+    relative_points = car_pose - lidar_data_copy# - car_pose
+    relative_points = relative_points[:, [1, 0, 2]]
+    
+    # Matriz de rotación en el sistema dextrógiro
     rotation_matrix = np.array([
-        [np.cos(-heading), -np.sin(-heading), 0],
-        [np.sin(-heading),  np.cos(-heading), 0],
-        [0,                0,                1]  # Z no cambia
+        [ np.cos(heading), np.sin(heading), 0],  # x'
+        [-np.sin(heading), np.cos(heading), 0],  # y'
+        [0,                0,               1]  # z no cambia
     ])
 
-    # 3. Aplicar la transformación de rotación
+    # Aplicar la transformación de rotación
     rotated_points = relative_points @ rotation_matrix.T
 
     # Convertir heading a grados
@@ -74,7 +81,7 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
     num_points = len(lidar_data_copy)
     lidar_resolution = 360 / num_points
 
-    shift = int(round((heading_deg-90) / lidar_resolution))
+    shift = int(round((heading_deg - 90) / lidar_resolution))
     # Aplicar el desplazamiento circular
     rotated_lidar = np.roll(rotated_points, shift=shift, axis=0)
 
@@ -84,9 +91,9 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
 class DQN(nn.Module):
     def __init__(self, state_size, action_size):
         super(DQN, self).__init__()
-        self.fc1 = nn.Linear(state_size, 64)
-        self.fc2 = nn.Linear(64, 64)
-        self.fc3 = nn.Linear(64, action_size)
+        self.fc1 = nn.Linear(state_size, 32)
+        self.fc2 = nn.Linear(32, 32)
+        self.fc3 = nn.Linear(32, action_size)
     
     def forward(self, x):
         x = torch.relu(self.fc1(x))
@@ -94,7 +101,7 @@ class DQN(nn.Module):
         return self.fc3(x)
 
 class DQNAgent:
-    def __init__(self, state_size, action_size, gamma=0.9, alpha=0.001, epsilon=1.0, min_epsilon=0.1, decay_rate=0.995):
+    def __init__(self, state_size, action_size, gamma=0.99, alpha=0.001, epsilon=1.0, min_epsilon=0.0, decay_rate=0.995):
         self.state_size = state_size
         self.action_size = action_size
         self.gamma = gamma  # Factor de descuento
@@ -102,8 +109,11 @@ class DQNAgent:
         self.min_epsilon = min_epsilon
         self.decay_rate = decay_rate
         self.batch_size = 32
-        self.memory = deque(maxlen=10000)
+        self.memory = deque(maxlen=50000)
+        self.steps = 0
 
+        self.init_pose = np.array([0,0,0])
+        self.parking_target_pose = np.array([0,0,0])
         self.actions = [(0, -0.5), (-1, 0), (0.0, 0.0), (1, 0), (0, 0.5)]  # Definir acciones fijas
         
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -115,38 +125,80 @@ class DQNAgent:
         self.loss_fn = nn.MSELoss()
     
     def remember(self, state, action, reward, next_state, done):
-        """Guarda una experiencia en la memoria."""
-        self.memory.append((state, action, reward, next_state, done))
-    
+        """Guarda la experiencia con prioridad basada en TD error"""
+        state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+        next_state_tensor = torch.FloatTensor(next_state).unsqueeze(0).to(self.device)
+
+        with torch.no_grad():
+            q_values = self.model(state_tensor)
+            next_q_values = self.target_model(next_state_tensor).max(1)[0]
+
+        td_error = abs(reward + (self.gamma * next_q_values.item() * (1 - done)) - q_values.max().item())
+
+        # Guardar en memoria con su prioridad Prioritized Experience Replay (PER)
+        self.memory.append((state, action, reward, next_state, done, td_error))
+
     def act(self, state):
         if np.random.rand() < self.epsilon:
-            return random.choice(self.actions)  # Exploración (elige una acción aleatoria)
+            return random.choice(self.actions)  # Exploración
         
         state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
         with torch.no_grad():
             q_values = self.model(state_tensor)
-        return self.actions[torch.argmax(q_values).item()]  # Explotación (elige la mejor acción)
+        
+        try:
+            probs = torch.nn.functional.softmax(q_values, dim=1)  # Convierte valores Q en probabilidades
+            action_index = torch.multinomial(probs, num_samples=1).item()  # Escoge acción aleatoria basada en esas probabilidades
+            return self.actions[action_index]
+        except IndexError:
+            return random.choice(self.actions)  # Si hay error, elige aleatorio
+
+
     
     def train(self):
         if len(self.memory) < self.batch_size:
             return
-        batch = random.sample(self.memory, self.batch_size)
-        states, actions, rewards, next_states, dones = zip(*batch)
-        
+
+        # Ordenar memoria por error TD
+        self.memory = deque(sorted(self.memory, key=lambda x: x[5], reverse=True), maxlen=50000)
+
+        # Selección priorizada del batch
+        batch = random.choices(self.memory, weights=[exp[5] for exp in self.memory], k=self.batch_size)
+
+        states, actions, rewards, next_states, dones, _ = zip(*batch)
+
         states = torch.FloatTensor(states).to(self.device)
         actions = torch.LongTensor([self.actions.index(a) for a in actions]).unsqueeze(1).to(self.device)
         rewards = torch.FloatTensor(rewards).to(self.device)
         next_states = torch.FloatTensor(next_states).to(self.device)
         dones = torch.FloatTensor(dones).to(self.device)
-        
-        q_values = self.model(states).gather(1, actions).squeeze(1)
-        next_q_values = self.target_model(next_states).max(1)[0]
+
+        # Double DQN: Evaluar acción con `model`, estimar Q con `target_model`
+        next_actions = self.model(next_states).argmax(1, keepdim=True)
+        next_q_values = self.target_model(next_states).gather(1, next_actions).squeeze(1)
+
         targets = rewards + (self.gamma * next_q_values * (1 - dones))
-        
+        q_values = self.model(states).gather(1, actions).squeeze(1)
+
+        # Cálculo de pérdida y optimización
         loss = self.loss_fn(q_values, targets.detach())
+
+        if torch.isnan(loss) or loss.item() == float('inf'):
+            print("⚠️ ERROR: `loss` es NaN o infinito. Saltando actualización.")
+            return
+
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
+
+        # Guardar la pérdida
+        # log_loss(loss.item())
+
+        # Actualizar red objetivo periódicamente
+        if self.steps % 20 == 0:
+            self.update_target_model()
+
+        self.steps += 1
     
     def update_target_model(self):
         self.target_model.load_state_dict(self.model.state_dict())
@@ -168,7 +220,9 @@ class DQNAgent:
         # Limitar el valor a [-max_value, max_value]
         value = min(max(value, -max_value), max_value)
         # Redondear al múltiplo más cercano de step
-        return round(value / step) * step
+        discretized = round(value / step) * step
+        # Truncar a un decimal
+        return math.floor(discretized * 10) / 10
 
     def get_relative_coordinates(self, position, heading):
         """
@@ -185,18 +239,19 @@ class DQNAgent:
 
         # Calcular el desplazamiento en coordenadas globales
         delta_position = position - init_position
+        delta_position = np.array([delta_position[0], -delta_position[1], delta_position[2]])
 
-        # Matriz de rotación en el plano XY (Z no cambia)
+        # Los puntos absolutos no están en funcion de 0º sino de la orientacion de la carretera
+
         rotation_matrix = np.array([
-            [np.cos(-heading), -np.sin(-heading), 0],
-            [np.sin(-heading),  np.cos(-heading), 0],
-            [0,                0,                1]  # La Z se mantiene igual
+            [np.cos(heading), np.sin(heading), 0],
+            [-np.sin(heading),  np.cos(heading), 0],
+            [0,                0,                1]  # Z no cambia
         ])
-
-        # Aplicar la transformación
+        # # Aplicar la transformación
         pose_relative = rotation_matrix @ delta_position
 
-        return pose_relative
+        return delta_position
 
     def get_state(self, observation, target_pose):
         """Extrae y discretiza el estado basado en la posición, orientación, velocidad y LiDAR del vehículo."""
@@ -207,19 +262,18 @@ class DQNAgent:
         car_speed = observation["ego_vehicle_state"]["speed"]
         
         # Calcular la posición relativa del vehículo con respecto a init_pose
-        car_pose_relative = self.get_relative_coordinates(car_position, car_heading)
+        car_pose_relative = self.get_relative_coordinates(car_position, TARGET_HEADING)
         
         # Sumar la posición relativa del vehículo con target_pose (relativo a init_pose)
         self.parking_target_pose = target_pose - car_pose_relative
         
-        # Distancia euclidiana al objetivo (target_pose ahora es relativa al vehículo)
+        # Distancia euclidiana al objetivo
         distance_to_target = np.linalg.norm(self.parking_target_pose)
-        if self.parking_target_pose[0] > 0:
-            signed_distance_to_target = distance_to_target  # Positiva si está delante
-        else:
-            signed_distance_to_target = -distance_to_target
+        distance_to_target = np.clip(distance_to_target, 0, 1e6)  # Evitar valores extremos
         
-        # Diferencia de orientación (ajustada a [-pi, pi])
+        signed_distance_to_target = distance_to_target if self.parking_target_pose[0] > 0 else -distance_to_target
+        
+        # Diferencia de orientación ajustada a [-pi, pi]
         heading_error = np.arctan2(
             np.sin(TARGET_HEADING - car_heading), 
             np.cos(TARGET_HEADING - car_heading)
@@ -233,57 +287,66 @@ class DQNAgent:
         )
         
         distances = np.linalg.norm(filtered_lidar, axis=1)
+        distances = np.nan_to_num(distances, nan=0.0, posinf=1e6, neginf=-1e6)  # Reemplazar NaN e Inf
+        
         lidar_resolution = 360 / len(distances)
         index_90 = int(round(90 / lidar_resolution))
         index_270 = int(round(270 / lidar_resolution))
+        
         if np.isfinite(distances[index_90]) and np.isfinite(distances[index_270]):
             distance_90 = self.discretize(distances[index_90])
             distance_270 = self.discretize(distances[index_270])
             distance_difference = self.discretize(distance_270 - distance_90)
         else:
-            distance_difference = np.inf
-        
+            distance_difference = 1e6   # En vez de Inf
         
         # Discretizar velocidad para mejor aprendizaje
+        # Test: 0 quieto, -1 atras, 1 alante
         discretized_speed = self.discretize(car_speed, step=0.1, max_value=20)
+        # discretized_speed = 0
+        # if car_speed > 0:
+        #     discretized_speed = 1
+        # elif car_speed < 0:
+        #     discretized_speed = -1
 
-        # Encontrar la distancia mínima no nula directamente en el array 'distances'
-        min_distance = np.min(distances[distances > 0]) if np.any(distances > 0) else np.inf
+        # Encontrar la distancia mínima válida en el array 'distances'
+        distances[distances == 0] = 1e6
+        min_index = np.argmin(distances)
+        min_distance = distances[min_index]
 
-        # Si se encontró una distancia válida
-        if min_distance != np.inf:
-            # Obtener el índice de la distancia mínima en el array original
-            min_index = np.argmin(distances)
+        # Determinar el ángulo de la distancia mínima
+        angle = min_index * lidar_resolution
 
-            # Calcular el ángulo correspondiente a ese índice
-            angle = min_index * lidar_resolution
+        # Asignar signo a la distancia mínima según el ángulo
+        min_distance_signed = min_distance if 0 <= angle <= 180 else -min_distance
+        discretized_min_distance = self.discretize(min_distance_signed, 0.2)
 
-            # Asignar signo según el ángulo (delante: positivo, detrás: negativo)
-            if 0 <= angle <= 180:
-                min_distance_signed = min_distance  # Positivo si está delante
-            else:
-                min_distance_signed = -min_distance  # Negativo si está detrás
-
-            # Discretizar la distancia mínima con el signo
-            discretized_min_distance = self.discretize(min_distance_signed, 0.2)
-        else:
-            # Si no hay distancias válidas, asignamos infinito
-            discretized_min_distance = np.inf
-
+        # Devolver estado asegurando que todos los valores sean finitos
         return (
-            self.discretize(distance_to_target), 
-            self.discretize(heading_error, step=0.1, max_value=np.pi), 
-            discretized_speed, 
-            distance_difference,
+            self.discretize(signed_distance_to_target, step=0.2, max_value=7),
+            self.discretize(heading_error, step=0.1, max_value=np.pi),
+            discretized_speed,
+            # distance_difference,
             discretized_min_distance
         )
     
-    def print_q_table(self):
-        """Imprime la tabla Q completa."""
-        for state, actions in self.q_table.items():
-            print(f"State: {state}")
-            for action, value in actions.items():
-                print(f"  Action: {action}, Q-value: {value}")
+    def save_q_table(agent, filename="/home/duro/SMARTS/examples/neural-q.log"):
+        """Guarda la tabla Q estimada a partir de la memoria del agente."""
+        with open(filename, "w") as file:
+            file.write("Estado\tValores Q\n")
+
+            for experience in agent.memory:
+                state, action, reward, next_state, done, td_error = experience
+
+                # Convertir el estado en tensor
+                state_tensor = torch.FloatTensor(state).unsqueeze(0).to(agent.device)
+
+                # Obtener valores Q de la red
+                with torch.no_grad():
+                    q_values = agent.model(state_tensor).cpu().numpy().flatten()
+
+                # Guardar en archivo
+                file.write(f"{state} \t {q_values.tolist()}\n")
 
     def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
         """Mueve el vehículo a una posición (target)."""
@@ -333,7 +396,9 @@ class DQNAgent:
         # Asegurarnos de que hay al menos dos clústeres
         unique_labels = np.unique(labels)
         if len(unique_labels) != 2:
-            raise ValueError("No se detectaron dos vehículos en el point cloud.")
+            print("No se detectaron dos vehículos en el point cloud.")
+            return None
+            
         
         # Dividir los puntos en dos grupos (vehículos)
         group_1 = filtrated_lidar[labels == unique_labels[0]]
@@ -356,16 +421,18 @@ class DQNAgent:
         
         corner_1, corner_2 = closest_pair
         midpoint = (corner_1 + corner_2) / 2
+        midpoint[2] = 0
+        midpoint[1] = midpoint[1] + 0.5 # Le sumamos 1/2 ancho del coche para centrar aparcamiento
         
         return midpoint
 
 
 
-def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
+def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     agent_interface = AgentInterface(
         action=ActionSpaceType.Direct,
         # max_episode_steps=max_episode_steps,
-        max_episode_steps=200,
+        max_episode_steps=300,
         neighborhood_vehicle_states=True,
         # waypoint_paths=True,
         # road_waypoints=True,
@@ -386,7 +453,8 @@ def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
     )
 
     env = CParkingAgent(env)
-    agent = DQNAgent(5, 5)
+    agent = DQNAgent(4, 5)
+    n_ep = 0
 
     print(f"El modelo se ejecutará en: {agent.device}")
     if torch.cuda.is_available():
@@ -404,13 +472,23 @@ def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
         # print(f"Moving from pose: {actual_pose} to pose: {target}")
 
         terminated = False
-        moved = False
         
+        # Modificar posicion inicial
+        # moved = False
+        # n_steps = 0
+
+        # Empenzar siempre centrado
+        moved = True
+        n_steps = MAX_ALIGN_STEPS
+        agent.steps = 0
+
         accelerate = True
         first_action = np.array([0.0, 0.0])
-        n_steps = 0
+        
         # parking_target = np.array([0.0, 0.0, 0.0])
         parking_target = agent.find_closest_corners(observation)
+        if parking_target is None:
+            terminated = True
         # print(f"El target se encuentra en: {parking_target}")
         # t_reward = 0
         while not terminated:                
@@ -452,9 +530,17 @@ def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
 
                 observation = next_observation
                 episode.record_step(observation, reward, terminated, truncated, info)
+                if abs(state[0]) > 6.5 or abs(state[1]) > np.pi/3:
+                    # print("TERMINADO")
+                    terminated = True
+                    break
         # print(f"Recompensa de episodio: {t_reward}")
         agent.decay_epsilon()
-    agent.print_q_table()
+        n_ep = n_ep + 1
+        if (n_ep % 100 == 0):
+            agent.save_q_table()
+            # agent.update_target_model()
+    agent.save_q_table()
 
     env.close()
 
@@ -474,6 +560,6 @@ if __name__ == "__main__":
     main(
         scenarios=args.scenarios,
         headless=args.headless,
-        num_episodes=1500,
-        max_episode_steps=200,
+        num_episodes=1000,
+        max_episode_steps=300,
     )

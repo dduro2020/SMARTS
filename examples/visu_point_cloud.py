@@ -16,19 +16,23 @@ def get_relative_coordinates(position, heading):
     Retorna:
         np.ndarray: Coordenadas [x', y', z'] en el sistema relativo.
     """
-    init_position = np.array([100.00046399,  28.16019732,   1.        ])
+    #init_position = np.array([100.00046399,  28.16019732,   1.        ])
+    init_position = np.array([29.07018483, 99.9990929 ,  1.        ])
+
 
     # Calcular el desplazamiento en coordenadas globales
     delta_position = position - init_position
+    delta_position = np.array([delta_position[1], delta_position[0], delta_position[2]])
 
-    # Matriz de rotación en el plano XY (Z no cambia)
+
+    # Los puntos absolutos no están en funcion de 0º sino de la orientacion de la carretera
+
     rotation_matrix = np.array([
-        [np.cos(-heading), -np.sin(-heading), 0],
-        [np.sin(-heading),  np.cos(-heading), 0],
-        [0,                0,                1]  # La Z se mantiene igual
+        [np.cos(heading), np.sin(heading), 0],
+        [-np.sin(heading),  np.cos(heading), 0],
+        [0,                0,                1]  # Z no cambia
     ])
-
-    # Aplicar la transformación
+    # # Aplicar la transformación
     pose_relative = rotation_matrix @ delta_position
 
     return pose_relative
@@ -46,29 +50,35 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
     Returns:
         np.ndarray: Datos LIDAR transformados en coordenadas relativas.
     """
+    lidar_data_copy = np.copy(lidar_data)
+    
     # Asignar 'inf' a los puntos inválidos (donde todo es [0, 0, 0])
-    lidar_data[np.all(lidar_data == [0, 0, 0], axis=1)] = float('inf')
+    lidar_data_copy[np.all(lidar_data_copy == [0, 0, 0], axis=1)] = float('inf')
 
-    # Calcular puntos relativos
-    relative_points = lidar_data - car_pose
-
-    # 2. Matriz de rotación para el plano XY (Z no cambia)
+    # Reordenar de (y, x, z) a (x, y, z)
+    # lidar_data_copy = lidar_data_copy[:, [1, 0, 2]]
+    
+    # Calcular puntos relativos en el nuevo formato
+    relative_points = car_pose - lidar_data_copy# - car_pose
+    relative_points = relative_points[:, [1, 0, 2]]
+    
+    # Matriz de rotación en el sistema dextrógiro
     rotation_matrix = np.array([
-        [np.cos(-heading), -np.sin(-heading), 0],
-        [np.sin(-heading),  np.cos(-heading), 0],
-        [0,                0,                1]  # Z no cambia
+        [ np.cos(heading), np.sin(heading), 0],  # x'
+        [-np.sin(heading), np.cos(heading), 0],  # y'
+        [0,                0,               1]  # z no cambia
     ])
 
-    # 3. Aplicar la transformación de rotación
+    # Aplicar la transformación de rotación
     rotated_points = relative_points @ rotation_matrix.T
 
     # Convertir heading a grados
     heading_deg = np.degrees(heading)
 
-    num_points = len(lidar_data)
+    num_points = len(lidar_data_copy)
     lidar_resolution = 360 / num_points
 
-    shift = int(round((heading_deg-90) / lidar_resolution))
+    shift = int(round((heading_deg - 90) / lidar_resolution))
     # Aplicar el desplazamiento circular
     rotated_lidar = np.roll(rotated_points, shift=shift, axis=0)
 
@@ -325,6 +335,8 @@ def find_closest_corners(point_cloud, eps=2.5, min_samples=10):
     
     corner_1, corner_2 = closest_pair
     midpoint = (corner_1 + corner_2) / 2
+    midpoint[2] = 0
+    midpoint[1] = midpoint[1] + 0.75 # Le sumamos 1/2 ancho del coche para centrar aparcamiento
     
     return corner_1, corner_2
 
@@ -1001,16 +1013,20 @@ def print_point_clouds(point_cloud):
 # print("-------------------------")
 # print("Point Cloud 2:")
 # print_point_clouds(point_cloud_3)
-point_cloud_1 = filtrate_lidar(point_cloud_1, point_cloud_2[0], 0)
+HEADING = -np.pi/2
+# HEADING = 0
+point_cloud_1 = filtrate_lidar(point_cloud_11, point_cloud_22[0], HEADING)
 
 # point_cloud_1 = point_cloud_1[~np.all(point_cloud_1 == [0, 0, 0], axis=1)] - point_cloud_2[0]
 
 
 punto_1, punto_2 = find_closest_corners(point_cloud_1)
 punto_medio = (punto_1 + punto_2) / 2
-print((punto_medio+np.array([100.00046399,  28.16019732,   1.        ])))
+punto_medio[1] = punto_medio[1] + 0.5
+# print((punto_medio+np.array([100.00046399,  28.16019732,   1.        ])))
 
-car_pose_relative = get_relative_coordinates(np.array([102.50046399,  27.16019732,   1.        ]), 0)
+# car_pose_relative = get_relative_coordinates(np.array([102.50046399,  27.16019732,   1.        ]), 0)
+car_pose_relative = get_relative_coordinates(np.array([31.07018483, 100 ,  1.        ]), HEADING)
         
 # Sumar la posición relativa del vehículo con target_pose (relativo a init_pose)
 target_pose_relative = punto_medio - car_pose_relative 
