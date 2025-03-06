@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 
 epsilon_0 = 0.99
 min_epsilon = 0.0
-decay_rate = 0.995
-episodes = 1000
+decay_rate = 0.999
+episodes = 3000
 
 epsilon_values = []
 epsilon = epsilon_0
@@ -123,3 +123,19 @@ plt.show()
 # # Ajustar el diseño
 # plt.tight_layout(rect=[0, 0, 1, 0.95])  # Reservar espacio para el título principal
 # plt.show()
+
+# Abrir el archivo de entrada
+# with open('/home/duro/SMARTS/examples/acts.log', 'r') as input_file:
+#     # Abrir el archivo de salida en modo escritura
+#     with open('/home/duro/SMARTS/examples/acciones_resultado.log', 'w') as output_file:
+#         # Leer cada línea del archivo de entrada
+#         for line in input_file:
+#             if 'Option number:' in line:
+#                 # Extraemos lo que sigue después de "Option number:"
+#                 parts = line.split(':')
+#                 if len(parts) > 1 and parts[1].strip().isdigit():
+#                     # Si hay un número, lo escribimos
+#                     output_file.write(parts[1].strip() + '\n')
+#                 else:
+#                     # Si no hay un número (opción inválida), escribimos 4
+#                     output_file.write('4\n')

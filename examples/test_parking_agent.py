@@ -216,7 +216,6 @@ def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
                 action = agent.act(observation)
 
                 next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]))
-                next_state = agent.get_state(next_observation)
 
                 observation = next_observation
                 episode.record_step(observation, reward, terminated, truncated, info)

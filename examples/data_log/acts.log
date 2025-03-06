@@ -1,0 +1,4563 @@
+╭────────────────────┬────────────────────┬────────────────────┬────────────────────┬────────────────────┬────────────────────┬────────────────────┬────────────────────╮
+│            Episode │     Sim T / Wall T │        Total Steps │        Steps / Sec │       Scenario Map │    Scenario Routes │     Mission (Hash) │             Scores │
+├────────────────────┼────────────────────┼────────────────────┼────────────────────┼────────────────────┼────────────────────┼────────────────────┼────────────────────┤
+Renderer started with backend %s glxGraphicsPipe
+CAR RELATIVE (0,0,0): [ 0. -0.  0.], CAR ABS: [ 28.16 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.55271368e-15  3.01621674e+00  0.00000000e+00], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.1047068210308869, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.1047068210308869
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: 0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0. -0.  0.], CAR ABS: [ 28.16 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.55271368e-15  3.01621674e+00  0.00000000e+00], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.1047068210308869, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 0
+RECOMPENSA: 0.1047068210308869
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.05 -0.    0.  ], CAR ABS: [ 28.21 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.05        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.10457809148096985, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 0
+RECOMPENSA: 0.10457809148096985
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.15 -0.    0.  ], CAR ABS: [ 28.31 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.15        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.10355450617956699, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.10355450617956699
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.25 -0.    0.  ], CAR ABS: [ 28.41 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.25        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.10154026666037479, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.10154026666037479
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.35 -0.    0.  ], CAR ABS: [ 28.51 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.35        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.09859931417658487, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.09859931417658487
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.45 -0.    0.  ], CAR ABS: [ 28.61 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.45        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.09482292726463007, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.09482292726463007
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.55 -0.    0.  ], CAR ABS: [ 28.71 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.55        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.09032461447095073, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.09032461447095073
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.65 -0.    0.  ], CAR ABS: [ 28.81 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.65        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.0852340014348839, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0852340014348839
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.75 -0.    0.  ], CAR ABS: [ 28.91 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.75        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.07969020320214187, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.07969020320214187
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.85 -0.    0.  ], CAR ABS: [ 29.01 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.85        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.07383518136760506, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.07383518136760506
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 0.95 -0.    0.  ], CAR ABS: [ 29.11 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.95        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.06780754398361369, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.06780754398361369
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.05 -0.    0.  ], CAR ABS: [ 29.21 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.05        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.06173716353382054, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.06173716353382054
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.15 -0.    0.  ], CAR ABS: [ 29.31 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.15        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.05574087847840816, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.05574087847840816
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.25 -0.    0.  ], CAR ABS: [ 29.41 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.25        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.049919422618837805, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.049919422618837805
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.35 -0.    0.  ], CAR ABS: [ 29.51 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.35        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.044355608848292996, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.044355608848292996
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.45 -0.    0.  ], CAR ABS: [ 29.61 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.45        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.03911369205071549, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.03911369205071549
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.55 -0.    0.  ], CAR ABS: [ 29.71 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.55        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.03423975824238579, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.03423975824238579
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.65 -0.    0.  ], CAR ABS: [ 29.81 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.65        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.029762937290677804, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.029762937290677804
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.75 -0.    0.  ], CAR ABS: [ 29.91 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.75        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.02569721434978812, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.02569721434978812
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.85 -0.    0.  ], CAR ABS: [ 30.01 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.85        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.02204361698321712, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.02204361698321712
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 1.95 -0.    0.  ], CAR ABS: [ 30.11 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.95        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.018792575267015683, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.018792575267015683
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [ 2.05 -0.    0.  ], CAR ABS: [ 30.21 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.05        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.015926284673754062, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.015926284673754062
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.6207963228225708
+CAR RELATIVE (0,0,0): [ 2.15 -0.    0.  ], CAR ABS: [ 30.31 100.     0.  ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.15        3.01621674  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.04999999602767424
+Recp dist: 0.013420940140948086, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.013420940140948086
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.670796275138855
+CAR RELATIVE (0,0,0): [2.24987503 0.00499792 0.        ], CAR ABS: [30.40987503 99.99500208  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.24987503  3.01121882  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.09999994834395842
+Recp dist: 0.0113871117251494, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0113871117251494
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.670796275138855
+CAR RELATIVE (0,0,0): [2.34937544 0.01498126 0.        ], CAR ABS: [30.50937544 99.98501874  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.34937544  3.00123548  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.09999994834395842
+Recp dist: 0.009728742049186107, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.009728742049186107
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.7207963466644287
+CAR RELATIVE (0,0,0): [2.44887586 0.0249646  0.        ], CAR ABS: [30.60887586 99.9750354   0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.44887586  2.99125214  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.15000001986953218
+Recp dist: 0.008265138637298292, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.008265138637298292
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [2.54775297 0.03990841 0.        ], CAR ABS: [30.70775297 99.96009159  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.54775297  2.97630833  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 0.007071822549337081, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.007071822549337081
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [2.64575962 0.05977535 0.        ], CAR ABS: [30.80575962 99.94022465  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.64575962  2.95644139  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 0.006094624243032353, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.006094624243032353
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [2.74265087 0.08451574 0.        ], CAR ABS: [30.90265087 99.91548426  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.74265087  2.931701    0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 0.005291037524559328, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.005291037524559328
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [2.83954211 0.10925614 0.        ], CAR ABS: [30.99954211 99.89074386  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.83954211  2.9069606   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 0.004567068550008556, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.004567068550008556
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [2.93643335 0.13399653 0.        ], CAR ABS: [31.09643335 99.86600347  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.93643335  2.88222021  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 0.003920363407252383, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.003920363407252383
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [3.03332459 0.15873693 0.        ], CAR ABS: [31.19332459 99.84126307  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.03332459  2.85747981  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 0.0033473068521567184, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0033473068521567184
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [3.13021584 0.18347733 0.        ], CAR ABS: [31.29021584 99.81652267  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.13021584  2.83273941  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 0.002843361418817964, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.002843361418817964
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [3.22710708 0.20821772 0.        ], CAR ABS: [31.38710708 99.79178228  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.22710708  2.80799902  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 0.0024033733620459144, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0024033733620459144
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [3.32399832 0.23295812 0.        ], CAR ABS: [31.48399832 99.76704188  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.32399832  2.78325862  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 0.00202183857976275, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.00202183857976275
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [3.42088956 0.25769851 0.        ], CAR ABS: [31.58088956 99.74230149  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.42088956  2.75851823  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 0.0016931253997497767, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0016931253997497767
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [3.51889622 0.27756545 0.        ], CAR ABS: [31.67889622 99.72243455  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.51889622  2.73865129  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 0.0013953521633203714, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0013953521633203714
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [3.61690288 0.29743238 0.        ], CAR ABS: [31.77690288 99.70256762  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.61690288  2.71878436  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 0.0011454976218837104, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0011454976218837104
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [3.71490954 0.31729931 0.        ], CAR ABS: [31.87490954 99.68270069  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.71490954  2.69891743  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 0.0009368990416425557, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0009368990416425557
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [3.81291619 0.33716625 0.        ], CAR ABS: [31.97291619 99.66283375  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.81291619  2.67905049  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 0.0007635708748173724, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0007635708748173724
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [3.91092285 0.35703318 0.        ], CAR ABS: [32.07092285 99.64296682  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.91092285  2.65918356  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 0.0006201985453088612, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0006201985453088612
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.7207963466644287
+CAR RELATIVE (0,0,0): [4.00892951 0.37690011 0.        ], CAR ABS: [32.16892951 99.62309989  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.00892951  2.63931663  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.15000001986953218
+Recp dist: 0.0005021124945674138, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0005021124945674138
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.7207963466644287
+CAR RELATIVE (0,0,0): [4.10780662 0.39184393 0.        ], CAR ABS: [32.26780662 99.60815607  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.10780662  2.62437282  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.15000001986953218
+Recp dist: 0.00040115711957825487, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.00040115711957825487
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.670796275138855
+CAR RELATIVE (0,0,0): [4.20668372 0.40678774 0.        ], CAR ABS: [32.36668372 99.59321226  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.20668372  2.609429    0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.09999994834395842
+Recp dist: 0.00031964560587350026, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.00031964560587350026
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.6207963228225708
+CAR RELATIVE (0,0,0): [4.30618414 0.41677108 0.        ], CAR ABS: [32.46618414 99.58322892  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.30618414  2.59944566  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.04999999602767424
+Recp dist: 0.00025169992401195834, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.00025169992401195834
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.6207963228225708
+CAR RELATIVE (0,0,0): [4.40605917 0.421769   0.        ], CAR ABS: [32.56605917 99.578231    0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.40605917  2.59444774  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.04999999602767424
+Recp dist: 0.00019608797177295164, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.00019608797177295164
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.6207963228225708
+CAR RELATIVE (0,0,0): [4.50593419 0.42676691 0.        ], CAR ABS: [32.66593419 99.57323309  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.50593419  2.58944983  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.04999999602767424
+Recp dist: 0.00015249225078565562, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.00015249225078565562
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [4.60580922 0.43176483 0.        ], CAR ABS: [32.76580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.60580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 0.00011838872423770265, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.00011838872423770265
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [4.70580922 0.43176483 0.        ], CAR ABS: [32.86580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.70580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.107481724407805e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 9.107481724407805e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [4.80580922 0.43176483 0.        ], CAR ABS: [32.96580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.80580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 6.997187524379939e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 6.997187524379939e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [4.90580922 0.43176483 0.        ], CAR ABS: [33.06580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.90580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 5.369239224481457e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 5.369239224481457e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.00580922 0.43176483 0.        ], CAR ABS: [33.16580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.00580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 4.115202998711525e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 4.115202998711525e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.10580922 0.43176483 0.        ], CAR ABS: [33.26580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.10580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 3.150524124648354e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 3.150524124648354e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.20580922 0.43176483 0.        ], CAR ABS: [33.36580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.20580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 2.4094049381600216e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 2.4094049381600216e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.30580922 0.43176483 0.        ], CAR ABS: [33.46580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.30580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 1.840743821934155e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 1.840743821934155e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.40580922 0.43176483 0.        ], CAR ABS: [33.56580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.40580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 1.4049258802613457e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 1.4049258802613457e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.50580922 0.43176483 0.        ], CAR ABS: [33.66580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.50580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 1.0712943218896783e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 1.0712943218896783e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.60580922 0.43176483 0.        ], CAR ABS: [33.76580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.60580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 8.161637548158915e-06, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 8.161637548158915e-06
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: 0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.70580922 0.43176483 0.        ], CAR ABS: [33.86580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.70580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 6.212633344838372e-06, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 1
+RECOMPENSA: 6.212633344838372e-06
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.75580922 0.43176483 0.        ], CAR ABS: [33.91580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.75580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 5.41865066367839e-06, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 1
+RECOMPENSA: 5.41865066367839e-06
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.75580922 0.43176483 0.        ], CAR ABS: [33.91580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.75580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 5.41865066367839e-06, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 1
+RECOMPENSA: 5.41865066367839e-06
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: -1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [5.70580922 0.43176483 0.        ], CAR ABS: [33.86580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.70580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 6.212633344838372e-06, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 1
+RECOMPENSA: 6.212633344838372e-06
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.0
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [5.60580922 0.43176483 0.        ], CAR ABS: [33.76580922 99.56823517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.60580922  2.58445191  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 8.161637548158915e-06, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 8.161637548158915e-06
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: -1.5
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [5.50593419 0.43676275 0.        ], CAR ABS: [33.66593419 99.56323725  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.50593419  2.57945399  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 1.0777700480013551e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 1.0777700480013551e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.4707963466644287
+CAR RELATIVE (0,0,0): [5.35612165 0.44425962 0.        ], CAR ABS: [33.51612165 99.55574038  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.35612165  2.57195712  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.09999998013046785
+Recp dist: 1.6333121643537963e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 1.6333121643537963e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.420796275138855
+CAR RELATIVE (0,0,0): [5.20687103 0.45923464 0.        ], CAR ABS: [33.36687103 99.54076536  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.20687103  2.5569821   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.15000005165604158
+Recp dist: 2.4918093451381078e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 2.4918093451381078e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.3707963228225708
+CAR RELATIVE (0,0,0): [5.05855537 0.48165036 0.        ], CAR ABS: [33.21855537 99.51834964  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-5.05855537  2.53456638  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.20000000397232573
+Recp dist: 3.824756326617532e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 3.824756326617532e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.3207963705062866
+CAR RELATIVE (0,0,0): [4.91154538 0.51145076 0.        ], CAR ABS: [33.07154538 99.48854924  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.91154538  2.50476599  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.24999995628860994
+Recp dist: 5.9027998156409525e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 5.9027998156409525e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.270796298980713
+CAR RELATIVE (0,0,0): [4.76620852 0.54856135 0.        ], CAR ABS: [32.92620852 99.45143865  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.76620852  2.46765539  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.30000002781418367
+Recp dist: 9.153317156962306e-05, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 9.153317156962306e-05
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.2207963466644287
+CAR RELATIVE (0,0,0): [4.62290804 0.59288938 0.        ], CAR ABS: [32.78290804 99.40711062  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.62290804  2.42332736  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.3499999801304678
+Recp dist: 0.0001425089691197332, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.0001425089691197332
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -1.2207963466644287
+CAR RELATIVE (0,0,0): [4.48200214 0.64432405 0.        ], CAR ABS: [32.64200214 99.35567595  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.48200214  2.37189269  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.3499999801304678
+Recp dist: 0.0002225867273640392, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0002225867273640392
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -1.2207963466644287
+CAR RELATIVE (0,0,0): [4.34109623 0.69575872 0.        ], CAR ABS: [32.50109623 99.30424128  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.34109623  2.32045802  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.3499999801304678
+Recp dist: 0.00034757367256609754, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.00034757367256609754
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.170796275138855
+CAR RELATIVE (0,0,0): [4.20019032 0.74719339 0.        ], CAR ABS: [32.36019032 99.25280661  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.20019032  2.26902335  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.4000000516560416
+Recp dist: 0.0005425926377694544, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.0005425926377694544
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.1207963228225708
+CAR RELATIVE (0,0,0): [4.06203117 0.80560615 0.        ], CAR ABS: [32.22203117 99.19439385  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-4.06203117  2.2106106   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.45000000397232576
+Recp dist: 0.0008491365764956219, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0008491365764956219
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+3Actual Speed: -1.5
+Actual Heading: -1.1207963228225708
+CAR RELATIVE (0,0,0): [3.92696411 0.87085098 0.        ], CAR ABS: [32.08696411 99.12914902  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.92696411  2.14536577  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.45000000397232576
+Recp dist: 0.0013309223365332431, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.0013309223365332431
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.0707963705062866
+CAR RELATIVE (0,0,0): [3.79189704 0.93609581 0.        ], CAR ABS: [31.95189704 99.06390419  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.79189704  2.08012094  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.49999995628860994
+Recp dist: 0.002085929471739009, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.002085929471739009
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.020796298980713
+CAR RELATIVE (0,0,0): [3.66025966 1.00800964 0.        ], CAR ABS: [31.82025966 98.99199036  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.66025966  2.0082071   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.5500000278141837
+Recp dist: 0.0032709985249178035, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.0032709985249178035
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -0.9707963466644287
+CAR RELATIVE (0,0,0): [3.53238098 1.08641272 0.        ], CAR ABS: [31.69238098 98.91358728  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.53238098  1.92980402  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.5999999801304678
+Recp dist: 0.005126216026373762, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.005126216026373762
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -0.9207963347434998
+CAR RELATIVE (0,0,0): [3.40858064 1.17110909 0.        ], CAR ABS: [31.56858064 98.82889091  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.40858064  1.84510765  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.6499999920513968
+Recp dist: 0.00801844096943406, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.00801844096943406
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -0.9207963347434998
+CAR RELATIVE (0,0,0): [3.28916807 1.26188705 0.        ], CAR ABS: [31.44916807 98.73811295  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.28916807  1.75432969  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.6499999920513968
+Recp dist: 0.012500484988914312, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.012500484988914312
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -0.9207963347434998
+CAR RELATIVE (0,0,0): [3.1697555  1.35266501 0.        ], CAR ABS: [31.3297555  98.64733499  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.1697555   1.66355173  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.6499999920513968
+Recp dist: 0.01947400783048307, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 0.01947400783048307
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -0.8707963228225708
+CAR RELATIVE (0,0,0): [3.05034293 1.44344297 0.        ], CAR ABS: [31.21034293 98.55655703  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-3.05034293  1.57277377  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.7000000039723258
+Recp dist: 0.03031025161196079, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.03031025161196079
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -0.8707963228225708
+CAR RELATIVE (0,0,0): [2.9356166  1.54007563 0.        ], CAR ABS: [31.0956166  98.45992437  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.9356166   1.47614111  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.7000000039723258
+Recp dist: 0.046902765866983415, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.046902765866983415
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -0.8707963228225708
+CAR RELATIVE (0,0,0): [2.82089027 1.63670828 0.        ], CAR ABS: [30.98089027 98.36329172  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.82089027  1.37950846  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.7000000039723258
+Recp dist: 0.0724326589210702, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.0724326589210702
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -0.8707963228225708
+CAR RELATIVE (0,0,0): [2.70616395 1.73334093 0.        ], CAR ABS: [30.86616395 98.26665907  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.70616395  1.28287581  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.7000000039723258
+Recp dist: 0.1115628226323649, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.1115628226323649
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -0.8707963228225708
+CAR RELATIVE (0,0,0): [2.59143762 1.82997359 0.        ], CAR ABS: [30.75143762 98.17002641  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.59143762  1.18624315  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.7000000039723258
+Recp dist: 0.17122069164949413, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 0.17122069164949413
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -0.8707963228225708
+CAR RELATIVE (0,0,0): [2.47671129 1.92660624 0.        ], CAR ABS: [30.63671129 98.07339376  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.47671129  1.0896105   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.7000000039723258
+Recp dist: 0.2615025967326782, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.2615025967326782
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -0.9207963347434998
+CAR RELATIVE (0,0,0): [2.36198496 2.02323889 0.        ], CAR ABS: [30.52198496 97.97676111  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.36198496  0.99297785  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.6499999920513968
+Recp dist: 0.39670680311573564, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.39670680311573564
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -0.9707963466644287
+CAR RELATIVE (0,0,0): [2.24257239 2.11401685 0.        ], CAR ABS: [30.40257239 97.88598315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.24257239  0.90219989  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.5999999801304678
+Recp dist: 0.5998796268381629, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.5998796268381629
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -0.9707963466644287
+CAR RELATIVE (0,0,0): [2.11877205 2.19871322 0.        ], CAR ABS: [30.27877205 97.80128678  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-2.11877205  0.81750352  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.5999999801304678
+Recp dist: 0.9004844252351731, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 0.9004844252351731
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.020796298980713
+CAR RELATIVE (0,0,0): [1.99497171 2.2834096  0.        ], CAR ABS: [30.15497171 97.7165904   0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.99497171  0.73280715  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.5500000278141837
+Recp dist: 1.3285902759504256, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 1.3285902759504256
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.0707963705062866
+CAR RELATIVE (0,0,0): [1.86709303 2.36181268 0.        ], CAR ABS: [30.02709303 97.63818732  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.86709303  0.65440406  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.49999995628860994
+Recp dist: 1.922645004679961, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 1.922645004679961
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.1207963228225708
+CAR RELATIVE (0,0,0): [1.73545564 2.43372651 0.        ], CAR ABS: [29.89545564 97.56627349  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.73545564  0.58249023  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.45000000397232576
+Recp dist: 2.705559143377914, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 2.705559143377914
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.170796275138855
+CAR RELATIVE (0,0,0): [1.60038858 2.49897134 0.        ], CAR ABS: [29.76038858 97.50102866  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.60038858  0.5172454   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.4000000516560416
+Recp dist: 3.6686286543693822, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 3.6686286543693822
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.2207963466644287
+CAR RELATIVE (0,0,0): [1.46222943 2.55738409 0.        ], CAR ABS: [29.62222943 97.44261591  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.46222943  0.45883265  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.3499999801304678
+Recp dist: 4.756232842101865, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 4.756232842101865
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.270796298980713
+CAR RELATIVE (0,0,0): [1.32132352 2.60881876 0.        ], CAR ABS: [29.48132352 97.39118124  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.32132352  0.40739798  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.30000002781418367
+Recp dist: 5.870757041074309, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 5.870757041074309
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -1.270796298980713
+CAR RELATIVE (0,0,0): [1.17802305 2.65314679 0.        ], CAR ABS: [29.33802305 97.34685321  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.17802305  0.36306995  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.30000002781418367
+Recp dist: 6.903784737322118, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 6.903784737322118
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -1.270796298980713
+CAR RELATIVE (0,0,0): [1.03472258 2.69747483 0.        ], CAR ABS: [29.19472258 97.30252517  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.03472258  0.31874192  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.30000002781418367
+Recp dist: 7.776266877546127, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 7.776266877546127
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -1.270796298980713
+CAR RELATIVE (0,0,0): [0.8914221  2.74180286 0.        ], CAR ABS: [29.0514221  97.25819714  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.8914221   0.27441388  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.30000002781418367
+Recp dist: 8.457812430892472, Recp orient: 45.22535126456666, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 53.683163695459136
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -1.270796298980713
+CAR RELATIVE (0,0,0): [0.74812163 2.78613089 0.        ], CAR ABS: [28.90812163 97.21386911  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.74812163  0.23008585  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.30000002781418367
+Recp dist: 8.958450858554036, Recp orient: 45.22535126456666, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 54.1838021231207
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.3207963705062866
+CAR RELATIVE (0,0,0): [0.60482116 2.83045892 0.        ], CAR ABS: [28.76482116 97.16954108  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.60482116  0.18575782  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.24999995628860994
+Recp dist: 9.30982951642081, Recp orient: 46.021127118391, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 55.33095663481181
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.3707963228225708
+CAR RELATIVE (0,0,0): [0.45948429 2.86756951 0.        ], CAR ABS: [28.61948429 97.13243049  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.45948429  0.14864723  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.20000000397232573
+Recp dist: 9.548346795116846, Recp orient: 46.81690107494057, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 56.365247870057416
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.420796275138855
+CAR RELATIVE (0,0,0): [0.31247431 2.89736991 0.        ], CAR ABS: [28.47247431 97.10263009  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.31247431  0.11884683  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.15000005165604158
+Recp dist: 9.706040839829317, Recp orient: 47.612675031490134, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 57.318715871319455
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.4707963466644287
+CAR RELATIVE (0,0,0): [0.16415864 2.91978563 0.        ], CAR ABS: [28.32415864 97.08021437  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.16415864  0.09643111  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.09999998013046785
+MUY CERCAAA
+Recp dist: 9.801596942659225, Recp orient: 48.40845088531447, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 58.210047827973696
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [0.01490802 2.93476064 0.        ], CAR ABS: [28.17490802 97.06523936  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.01490802  0.0814561   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+MUY CERCAAA
+Recp dist: 9.801596942659225, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 59.00582178452326
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: -1.5
+Actual Heading: -1.4707963466644287
+CAR RELATIVE (0,0,0): [-0.13490452  2.94225752  0.        ], CAR ABS: [28.02509548 97.05774248  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.13490452 0.07395922 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.09999998013046785
+MUY CERCAAA
+Recp dist: 9.801596942659225, Recp orient: 48.40845088531447, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 58.210047827973696
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: -1.5
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.28415514  2.95723253  0.        ], CAR ABS: [27.87584486 97.04276747  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.28415514 0.05898421 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 9.741527161587435, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 58.945752003451474
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.43396768  2.96472941  0.        ], CAR ABS: [27.72603232 97.03527059  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.43396768 0.05148733 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 9.604169315997787, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 58.80839415786183
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.5
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.58378022  2.97222628  0.        ], CAR ABS: [27.57621978 97.02777372  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.58378022 0.04399046 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 9.395562241191925, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 58.599787083055965
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: -1.0
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.73359276  2.97972316  0.        ], CAR ABS: [27.42640724 97.02027684  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.73359276 0.03649358 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 9.085867771529053, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 0
+RECOMPENSA: 58.29009261339309
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: -0.5
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.83346779  2.98472108  0.        ], CAR ABS: [27.32653221 97.01527892  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.83346779 0.03149567 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 8.805671608647947, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 0
+RECOMPENSA: 58.00989645051199
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: 0.0
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.8834053   2.98722003  0.        ], CAR ABS: [27.2765947  97.01277997  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.8834053  0.02899671 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 8.639340581279926, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 0
+RECOMPENSA: 57.843565423143964
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: 0.5
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.8834053   2.98722003  0.        ], CAR ABS: [27.2765947  97.01277997  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.8834053  0.02899671 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 8.639340581279926, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 0
+RECOMPENSA: 57.843565423143964
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: 1.0
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.83346779  2.98472108  0.        ], CAR ABS: [27.32653221 97.01527892  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.83346779 0.03149567 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 8.805671608647947, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 58.00989645051199
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.4707963466644287
+CAR RELATIVE (0,0,0): [-0.73359276  2.97972316  0.        ], CAR ABS: [27.42640724 97.02027684  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.73359276 0.03649358 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.09999998013046785
+Recp dist: 9.085867771529053, Recp orient: 48.40845088531447, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 57.494318656843525
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.520796298980713
+CAR RELATIVE (0,0,0): [-0.63409235  2.96973982  0.        ], CAR ABS: [27.52590765 97.03026018  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.63409235 0.04647692 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: -0.05000002781418367
+Recp dist: 9.30385095761299, Recp orient: 49.20422484186404, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 58.50807579947703
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [-0.53421732  2.9647419   0.        ], CAR ABS: [27.62578268 97.0352581   0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.53421732 0.05147484 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.47346160337377, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 59.47346090768539
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.6207963228225708
+CAR RELATIVE (0,0,0): [-0.43421732  2.9647419   0.        ], CAR ABS: [27.72578268 97.0352581   0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.43421732 0.05147484 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.04999999602767424
+Recp dist: 9.60388817326053, Recp orient: 49.204225347762055, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 58.808113521022584
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.670796275138855
+CAR RELATIVE (0,0,0): [-0.33434229  2.96973982  0.        ], CAR ABS: [27.82565771 97.03026018  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.33434229 0.04647692 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.09999994834395842
+Recp dist: 9.70325064162267, Recp orient: 48.40845139121248, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 58.111702032835154
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.7207963466644287
+CAR RELATIVE (0,0,0): [-0.23484188  2.97972316  0.        ], CAR ABS: [27.92515812 97.02027684  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.23484188 0.03649358 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.15000001986953218
+Recp dist: 9.778391648686103, Recp orient: 47.61267553738814, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 57.391067186074245
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [-0.13596477  2.99466697  0.        ], CAR ABS: [28.02403523 97.00533303  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.13596477 0.02154977 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+MUY CERCAAA
+Recp dist: 9.801596942659225, Recp orient: 46.816901580838575, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 56.6184985234978
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [-0.03795811  3.0145339   0.        ], CAR ABS: [28.12204189 96.9854661   0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [0.03795811 0.00168284 0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+MUY CERCAAA
+Recp dist: 9.801596942659225, Recp orient: 46.816901580838575, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 56.6184985234978
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [0.06004855 3.03440084 0.        ], CAR ABS: [28.22004855 96.96559916  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.06004855 -0.0181841   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+MUY CERCAAA
+Recp dist: 9.801596942659225, Recp orient: 46.816901580838575, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 56.6184985234978
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [0.1580552  3.05426777 0.        ], CAR ABS: [28.3180552  96.94573223  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.1580552  -0.03805103  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+MUY CERCAAA
+Recp dist: 9.801596942659225, Recp orient: 46.816901580838575, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 56.6184985234978
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [0.25606186 3.0741347  0.        ], CAR ABS: [28.41606186 96.9258653   0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.25606186 -0.05791796  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 9.761634295663272, Recp orient: 46.816901580838575, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 56.578535876501846
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [0.35406852 3.09400164 0.        ], CAR ABS: [28.51406852 96.90599836  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.35406852 -0.0777849   0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 9.68091796210582, Recp orient: 46.02112572701424, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 55.70204368912006
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [0.45095976 3.11874203 0.        ], CAR ABS: [28.61095976 96.88125797  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.45095976 -0.10252529  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 9.574094051057063, Recp orient: 46.02112572701424, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 2
+RECOMPENSA: 55.595219778071296
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 2
+Actual Speed: 1.0
+Actual Heading: -1.8707963228225708
+CAR RELATIVE (0,0,0): [0.547851   3.14348243 0.        ], CAR ABS: [28.707851   96.85651757  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.547851   -0.12726569  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.29999999602767424
+Recp dist: 9.433574038763291, Recp orient: 45.22535177046467, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 54.65892580922796
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.8207963705062866
+CAR RELATIVE (0,0,0): [0.64338465 3.17303445 0.        ], CAR ABS: [28.80338465 96.82696555  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.64338465 -0.15681771  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.25000004371139006
+Recp dist: 9.250716847260176, Recp orient: 46.02112572701424, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 55.271842574274416
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+3Actual Speed: 1.0
+Actual Heading: -1.770796298980713
+CAR RELATIVE (0,0,0): [0.7402759  3.19777485 0.        ], CAR ABS: [28.9002759  96.80222515  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.7402759 -0.1815581  0.       ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.19999997218581633
+Recp dist: 9.014423930549155, Recp orient: 46.816901580838575, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 55.83132551138773
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.7207963466644287
+CAR RELATIVE (0,0,0): [0.83828255 3.21764178 0.        ], CAR ABS: [28.99828255 96.78235822  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.83828255 -0.20142504  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.15000001986953218
+Recp dist: 8.714199689614496, Recp orient: 47.61267553738814, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 33
+RECOMPENSA: 56.32687522700264
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.670796275138855
+CAR RELATIVE (0,0,0): [0.93715966 3.23258559 0.        ], CAR ABS: [29.09715966 96.76741441  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.93715966 -0.21636885  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.09999994834395842
+Recp dist: 8.34043774603291, Recp orient: 48.40845139121248, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 56.74888913724539
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.6207963228225708
+CAR RELATIVE (0,0,0): [1.03666008 3.24256893 0.        ], CAR ABS: [29.19666008 96.75743107  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.03666008 -0.22635219  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 0.04999999602767424
+Recp dist: 7.886401080447745, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 7.886401080447745
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 3
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.1365351  3.24756685 0.        ], CAR ABS: [29.2965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.1365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 7.350645534201952, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 3
+RECOMPENSA: 7.350645534201952
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 31
+Invalid option. Defaulting to no action.
+Actual Speed: 1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.2365351  3.24756685 0.        ], CAR ABS: [29.3965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.2365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 6.739326684137958, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 1
+RECOMPENSA: 6.739326684137958
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: 0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.3365351  3.24756685 0.        ], CAR ABS: [29.4965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.3365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 6.060572930393692, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 1
+RECOMPENSA: 6.060572930393692
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.3865351  3.24756685 0.        ], CAR ABS: [29.5465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.3865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 5.702544447214119, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 1
+RECOMPENSA: 5.702544447214119
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.3865351  3.24756685 0.        ], CAR ABS: [29.5465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.3865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 5.702544447214119, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 1
+RECOMPENSA: 5.702544447214119
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 1
+Actual Speed: -1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.3365351  3.24756685 0.        ], CAR ABS: [29.4965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.3365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 6.060572930393692, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 6.060572930393692
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.2365351  3.24756685 0.        ], CAR ABS: [29.3965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.2365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 6.739326684137958, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 6.739326684137958
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.1365351  3.24756685 0.        ], CAR ABS: [29.2965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.1365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 7.350645534201952, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 7.350645534201952
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -1.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [1.0365351  3.24756685 0.        ], CAR ABS: [29.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-1.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 7.8816194766517285, Recp orient: 0, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 0
+RECOMPENSA: 7.8816194766517285
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.9365351  3.24756685 0.        ], CAR ABS: [29.0965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.9365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 8.328468354227109, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 58.32846765853873
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.8865351  3.24756685 0.        ], CAR ABS: [29.0465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.8865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 8.521200283435714, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 58.52119958774733
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.8365351  3.24756685 0.        ], CAR ABS: [28.9965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.8365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 8.694597409215502, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 58.694596713527126
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.7865351  3.24756685 0.        ], CAR ABS: [28.9465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.7865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 8.849779048719567, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 58.84977835303119
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.7365351  3.24756685 0.        ], CAR ABS: [28.8965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.7365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 8.987994409743267, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 58.98799371405489
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.6865351  3.24756685 0.        ], CAR ABS: [28.8465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.6865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.110559800719606, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.11055910503123
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.6365351  3.24756685 0.        ], CAR ABS: [28.7965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.6365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.218806926567417, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.21880623087904
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.5865351  3.24756685 0.        ], CAR ABS: [28.7465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.5865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.314041861052974, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.3140411653646
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.5365351  3.24756685 0.        ], CAR ABS: [28.6965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.5365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.39751350878407, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.397512813095695
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.4865351  3.24756685 0.        ], CAR ABS: [28.6465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.4865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.470389857285106, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.47038916159673
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.4365351  3.24756685 0.        ], CAR ABS: [28.5965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.4365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.533739972629593, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.53373927694122
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.3865351  3.24756685 0.        ], CAR ABS: [28.5465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.3865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.58851940452474, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.58851870883636
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.3365351  3.24756685 0.        ], CAR ABS: [28.4965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.3365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.63555635099568, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.6355556553073
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.2865351  3.24756685 0.        ], CAR ABS: [28.4465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.2865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.675535595306231, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.67553489961785
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.2365351  3.24756685 0.        ], CAR ABS: [28.3965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.2365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.708977208482102, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.708976512793726
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.1865351  3.24756685 0.        ], CAR ABS: [28.3465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.1865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.736208636866442, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.736207941178066
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.1365351  3.24756685 0.        ], CAR ABS: [28.2965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.1365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.757335618616244, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 59.75733492292787
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: -0.5
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0865351  3.24756685 0.        ], CAR ABS: [28.2465351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0865351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+Recp dist: 9.772235127174639, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 0, Recp collision: 0
+Plot point_cloud? (yes/no): 0
+RECOMPENSA: 59.77223443148626
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 0
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+
+
+
+
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: Invalid option. Defaulting to no action.
+
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+CAR RELATIVE (0,0,0): [0.0365351  3.24756685 0.        ], CAR ABS: [28.1965351  96.75243315  0.        ], CAR INIT: [ 28.16 100.     0.  ]
+TARGET RELATIVE: [-0.0365351  -0.23135011  0.        ], TARGET INIT: [-3.55271368e-15  3.01621674e+00  0.00000000e+00]
+Heading error: 4.371139006309477e-08
+CONSEGUIDO!!
+Recp dist: 9.780619075905792, Recp orient: 49.99999930431162, Recp speed: 0, Recp stop: 200, Recp collision: 0
+Plot point_cloud? (yes/no): 
+RECOMPENSA: 259.7806183802174
+Select option:
+0: Accelerate
+1: Go back
+2: Turn left
+3: Turn right
+Option number: 
+Invalid option. Defaulting to no action.
+Actual Speed: 0.0
+Actual Heading: -1.5707963705062866
+RECOMPENSA TOTAL: 38965.30772821465

@@ -122,6 +122,7 @@ class KeepLaneAgent(Agent):
         self.state = DirectController()
         self.init_pose = np.array([0,0,0])
         self.parking_target_pose = np.array([0,0,0])
+        self.reward = 0
     
 
     def get_user_input(self):
@@ -212,6 +213,7 @@ class KeepLaneAgent(Agent):
         # print(filtered_lidar)
 
         reward = self._compute_parking_reward(car_position, car_heading, car_speed, self.parking_target_pose , TARGET_HEADING, filtered_lidar)
+        self.reward += reward
         resp = input("Plot point_cloud? (yes/no): ")
         if resp == "yes":
             plot_scenario(filtered_lidar, self.parking_target_pose, target_pose)
@@ -269,39 +271,37 @@ class KeepLaneAgent(Agent):
 
         # 1. Distancia al objetivo (el target ya está en relativas)
         dist_to_target = np.linalg.norm(target_pose)
-        # print("DISTANCIA: ", dist_to_target)
-        if dist_to_target < 0.1:
-            dist_to_target = 0.1
+        if dist_to_target <= 0.2:
+            print("MUY CERCAAA")
+            dist_to_target = 0.2
         
         
-        # distance_reward = (1 / (dist_to_target**2)) # Recompensa pronunciada cuanto más cerca
-        distance_reward = (1 / dist_to_target)
+        # distance_reward = (1 / dist_to_target)
+        distance_reward = 10 / (1 + np.exp(3 * (dist_to_target - 1.5)))  
         if dist_to_target > 6.5:
-            distance_reward = -10
+            distance_reward = -50
             # print("Terminado por distancia")
         # print(f"Distancia a hueco: {dist_to_target}")
 
         # 2. Recompensa por orientación (solo si está cerca del parking)
         orient_diff = np.abs(np.arctan2(np.sin(car_orient - target_orient), np.cos(car_orient - target_orient)))
-        if dist_to_target < 0.25:
+        if dist_to_target < 1:
             orientation_reward = max(0, 1 - orient_diff / np.pi) * 50  # Máx: 50, Mín: 0
         else: 
             orientation_reward = 0
             
         if orient_diff > np.pi/2:
-            orientation_reward = -10
+            orientation_reward = -50
             # print("Terminado por orientacion")
-                
-        
 
         # 3. Penalización por velocidad
-        if abs(speed) > 2.5:
-            speed_penalty = -10
+        if abs(speed) > 2:
+            speed_penalty = -5 * abs(speed)
         else:
-            speed_penalty = 0
+            speed_penalty = 0#-1 * abs(speed)
 
          # 4. Bonificación por detenerse correctamente estando alineado
-        if orient_diff < 0.1 and dist_to_target < 0.1 and abs(speed) < 0.1:
+        if orient_diff < 0.1 and dist_to_target < 0.25 and abs(speed) < 0.1:
             stopping_bonus = 200
             print("CONSEGUIDO!!")
         else:
@@ -310,7 +310,7 @@ class KeepLaneAgent(Agent):
         # 5. Penalización por colisión (usando la menor distancia del LiDAR)
         min_lidar_dist = np.min(np.linalg.norm(lidar_data, axis=1)) if len(lidar_data) > 0 else np.inf
         if min_lidar_dist < 0.1:
-            collision_penalty = -10
+            collision_penalty = -50
         else:
             collision_penalty = 0
 
@@ -325,6 +325,8 @@ class KeepLaneAgent(Agent):
         )
 
         return reward
+
+        
 
     def get_relative_coordinates(self, position, heading):
         """
@@ -446,6 +448,7 @@ def main(scenarios, headless, num_episodes, max_episode_steps=None):
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
         parking_target = agent.find_closest_corners(observation)
+        agent.reward = 0
 
         terminated = False
         while not terminated:
@@ -466,6 +469,7 @@ def main(scenarios, headless, num_episodes, max_episode_steps=None):
             episode.record_step(observation, reward, terminated, truncated, info)
             # agent.compute_parking_reward(observation['lidar_point_cloud']['point_cloud'], observation['ego_vehicle_state']['position'])
             # agent.closest_obstacle_warning(observation['lidar_point_cloud']['point_cloud'], observation['lidar_point_cloud']['ray_origin'])
+        print(f"RECOMPENSA TOTAL: {agent.reward}")
 
     env.close()
 
@@ -485,5 +489,5 @@ if __name__ == "__main__":
         scenarios=args.scenarios,
         headless=args.headless,
         num_episodes=100,
-        max_episode_steps=200,
+        max_episode_steps=300,
     )

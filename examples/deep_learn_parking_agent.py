@@ -87,30 +87,51 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
 
     return rotated_lidar
 
+import csv
+import os
+
+def initialize_logger(log_file="/home/duro/SMARTS/examples/training_log.csv"):
+    """Inicializa el archivo de log con los encabezados, limpiando el contenido si ya existe"""
+    with open(log_file, mode='w', newline='') as file:  # Modo "w" borra el contenido anterior
+        writer = csv.writer(file)
+        writer.writerow(["episode", "reward", "loss", "epsilon", "distance_to_target", "steps"])
+
+def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps, log_file="/home/duro/SMARTS/examples/training_log.csv"):
+    """Guarda los datos de entrenamiento en un archivo CSV"""
+    with open(log_file, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([episode, reward, loss, epsilon, distance_to_target, steps])
+
 
 class DQN(nn.Module):
     def __init__(self, state_size, action_size):
         super(DQN, self).__init__()
-        self.fc1 = nn.Linear(state_size, 32)
-        self.fc2 = nn.Linear(32, 32)
-        self.fc3 = nn.Linear(32, action_size)
-    
+        self.fc1 = nn.Linear(state_size, 128)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, action_size)
+
+        self.layer_norm1 = nn.LayerNorm(128)
+        self.layer_norm2 = nn.LayerNorm(64)
+
     def forward(self, x):
-        x = torch.relu(self.fc1(x))
-        x = torch.relu(self.fc2(x))
+        x = torch.relu(self.layer_norm1(self.fc1(x)))
+        x = torch.relu(self.layer_norm2(self.fc2(x)))
         return self.fc3(x)
 
 class DQNAgent:
-    def __init__(self, state_size, action_size, gamma=0.99, alpha=0.001, epsilon=1.0, min_epsilon=0.0, decay_rate=0.995):
+    def __init__(self, state_size, action_size, gamma=0.999, alpha=0.0001, epsilon=1.0, min_epsilon=0.001, decay_rate=0.999):#decay_rate=0.9974):
         self.state_size = state_size
         self.action_size = action_size
         self.gamma = gamma  # Factor de descuento
         self.epsilon = epsilon  # Probabilidad de exploración
         self.min_epsilon = min_epsilon
         self.decay_rate = decay_rate
-        self.batch_size = 32
-        self.memory = deque(maxlen=50000)
+        self.batch_size = 64
+        self.memory = deque(maxlen=500000)
+        self.reward = 0
+        self.loss = 0
         self.steps = 0
+        self.med_dist = 0
 
         self.init_pose = np.array([0,0,0])
         self.parking_target_pose = np.array([0,0,0])
@@ -123,88 +144,86 @@ class DQNAgent:
         self.target_model.load_state_dict(self.model.state_dict())
         self.optimizer = optim.Adam(self.model.parameters(), lr=alpha)
         self.loss_fn = nn.MSELoss()
+        # self.loss_fn = nn.SmoothL1Loss()
     
     def remember(self, state, action, reward, next_state, done):
-        """Guarda la experiencia con prioridad basada en TD error"""
-        state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-        next_state_tensor = torch.FloatTensor(next_state).unsqueeze(0).to(self.device)
-
-        with torch.no_grad():
-            q_values = self.model(state_tensor)
-            next_q_values = self.target_model(next_state_tensor).max(1)[0]
-
-        td_error = abs(reward + (self.gamma * next_q_values.item() * (1 - done)) - q_values.max().item())
-
-        # Guardar en memoria con su prioridad Prioritized Experience Replay (PER)
-        self.memory.append((state, action, reward, next_state, done, td_error))
+        self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
         if np.random.rand() < self.epsilon:
-            return random.choice(self.actions)  # Exploración
+            return random.choice(self.actions)
         
         state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
         with torch.no_grad():
             q_values = self.model(state_tensor)
         
         try:
-            probs = torch.nn.functional.softmax(q_values, dim=1)  # Convierte valores Q en probabilidades
-            action_index = torch.multinomial(probs, num_samples=1).item()  # Escoge acción aleatoria basada en esas probabilidades
+            tau = 0.5
+            probs = torch.nn.functional.softmax(q_values / tau, dim=1)  # Q - probs
+            action_index = torch.multinomial(probs, num_samples=1).item()
             return self.actions[action_index]
         except IndexError:
-            return random.choice(self.actions)  # Si hay error, elige aleatorio
+            return random.choice(self.actions)  # error - random
 
-
-    
     def train(self):
         if len(self.memory) < self.batch_size:
-            return
+            return  # No hay suficientes muestras para entrenar
+        
+        # Seleccionar un batch aleatorio de experiencias
+        batch = random.sample(self.memory, self.batch_size)
 
-        # Ordenar memoria por error TD
-        self.memory = deque(sorted(self.memory, key=lambda x: x[5], reverse=True), maxlen=50000)
+        # Extraer estados, acciones, recompensas, next_states y dones del batch
+        states, actions, rewards, next_states, dones = zip(*batch)
 
-        # Selección priorizada del batch
-        batch = random.choices(self.memory, weights=[exp[5] for exp in self.memory], k=self.batch_size)
-
-        states, actions, rewards, next_states, dones, _ = zip(*batch)
-
+        # Convertir a tensores y mover a dispositivo
         states = torch.FloatTensor(states).to(self.device)
         actions = torch.LongTensor([self.actions.index(a) for a in actions]).unsqueeze(1).to(self.device)
         rewards = torch.FloatTensor(rewards).to(self.device)
         next_states = torch.FloatTensor(next_states).to(self.device)
         dones = torch.FloatTensor(dones).to(self.device)
 
-        # Double DQN: Evaluar acción con `model`, estimar Q con `target_model`
+        # Double DQN: Elegir la mejor acción con `model`, evaluar con `target_model`
         next_actions = self.model(next_states).argmax(1, keepdim=True)
         next_q_values = self.target_model(next_states).gather(1, next_actions).squeeze(1)
 
-        targets = rewards + (self.gamma * next_q_values * (1 - dones))
+        # Calcular el valor objetivo (Q-learning)
+        targets = rewards + self.gamma * next_q_values * (1 - dones)
+
+        # Obtener valores Q actuales
         q_values = self.model(states).gather(1, actions).squeeze(1)
 
-        # Cálculo de pérdida y optimización
+        # Calcular pérdida y actualizar pesos
         loss = self.loss_fn(q_values, targets.detach())
+        self.loss += loss.item() 
 
         if torch.isnan(loss) or loss.item() == float('inf'):
-            print("⚠️ ERROR: `loss` es NaN o infinito. Saltando actualización.")
+            print(" ERROR: `loss` es NaN o infinito. Saltando actualización.")
             return
 
         self.optimizer.zero_grad()
         loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)  # Gradient clipping
+
         self.optimizer.step()
 
-        # Guardar la pérdida
-        # log_loss(loss.item())
-
-        # Actualizar red objetivo periódicamente
+        # Actualizar la red objetivo periódicamente
         if self.steps % 20 == 0:
             self.update_target_model()
 
         self.steps += 1
     
-    def update_target_model(self):
-        self.target_model.load_state_dict(self.model.state_dict())
-    
+    def update_target_model(self, tau=0.01):
+        """Realiza un soft update del target model con un factor de mezcla tau."""
+        for target_param, model_param in zip(self.target_model.parameters(), self.model.parameters()):
+            target_param.data.copy_(tau * model_param.data + (1.0 - tau) * target_param.data)
+
     def decay_epsilon(self):
         self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
+
+    def save_model(self, filename="/home/duro/SMARTS/examples/dqn_model.pth"):
+        torch.save(self.model.state_dict(), filename)
+        print(f"Modelo guardado en {filename}")
+
 
     def discretize(self, value, step=0.25, max_value=10.0):
         """Discretiza un valor continuo al múltiplo más cercano de 'step'.
@@ -329,24 +348,6 @@ class DQNAgent:
             # distance_difference,
             discretized_min_distance
         )
-    
-    def save_q_table(agent, filename="/home/duro/SMARTS/examples/neural-q.log"):
-        """Guarda la tabla Q estimada a partir de la memoria del agente."""
-        with open(filename, "w") as file:
-            file.write("Estado\tValores Q\n")
-
-            for experience in agent.memory:
-                state, action, reward, next_state, done, td_error = experience
-
-                # Convertir el estado en tensor
-                state_tensor = torch.FloatTensor(state).unsqueeze(0).to(agent.device)
-
-                # Obtener valores Q de la red
-                with torch.no_grad():
-                    q_values = agent.model(state_tensor).cpu().numpy().flatten()
-
-                # Guardar en archivo
-                file.write(f"{state} \t {q_values.tolist()}\n")
 
     def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
         """Mueve el vehículo a una posición (target)."""
@@ -449,8 +450,9 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         "smarts.env:hiway-v1",
         scenarios=scenarios,
         agent_interfaces={AGENT_ID: agent_interface},
-        headless=headless,
+        headless=True,
     )
+    env.fast_mode = True
 
     env = CParkingAgent(env)
     agent = DQNAgent(4, 5)
@@ -459,13 +461,15 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     print(f"El modelo se ejecutará en: {agent.device}")
     if torch.cuda.is_available():
         print(f"GPU detectada: {torch.cuda.get_device_name(0)}")
+    
+    initialize_logger()
 
     for episode in episodes(n=num_episodes):
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
 
         # np.random.seed(int(time.time()))
-        random_offset = np.random.choice([-1, 0, 1, 2])
+        random_offset = np.random.choice([-2, -1, 0, 1, 2])
         actual_pose = observation["ego_vehicle_state"]["position"][0]
         target =  actual_pose + random_offset
 
@@ -478,9 +482,14 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         # n_steps = 0
 
         # Empenzar siempre centrado
-        moved = True
-        n_steps = MAX_ALIGN_STEPS
+        moved = False
+        n_steps = 0#MAX_ALIGN_STEPS
+        
+        # DEPURACION
         agent.steps = 0
+        agent.reward = 0
+        agent.loss = 0
+        agent.med_dist = 0
 
         accelerate = True
         first_action = np.array([0.0, 0.0])
@@ -490,8 +499,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         if parking_target is None:
             terminated = True
         # print(f"El target se encuentra en: {parking_target}")
-        # t_reward = 0
-        while not terminated:                
+        while not terminated:
             # Mover a posicion aleatoria
             if not moved:
                 # Indice 0 es el que se usa en nuestro escenario
@@ -506,12 +514,9 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
                     
                 observation, _, terminated, _, _ = env.step((action[0],action[1]), parking_target)
                 n_steps = n_steps + 1
-                # print(observation['ego_vehicle_state']['heading'])
-                # print(observation["ego_vehicle_state"]["position"])
             
             # Tenemos que asegurarnos que SIEMPRE gastamos MAX_ALIGN_STEPS steps, así no modificamos el entrenamiento
             elif n_steps <= MAX_ALIGN_STEPS:
-                # print(observation['ego_vehicle_state']['speed'])
                 observation, _, terminated, _, _ = env.step((0.0,0.0), parking_target)
                 n_steps = n_steps + 1
 
@@ -521,6 +526,8 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
                 action = agent.act(state)
 
                 next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), agent.parking_target_pose)
+                agent.reward += reward
+                agent.med_dist += abs(state[0])
                 next_state = agent.get_state(next_observation, parking_target)
 
                 # Almacenar la experiencia en la memoria
@@ -530,17 +537,18 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
 
                 observation = next_observation
                 episode.record_step(observation, reward, terminated, truncated, info)
-                if abs(state[0]) > 6.5 or abs(state[1]) > np.pi/3:
-                    # print("TERMINADO")
+                if abs(state[0]) > 6.5 or abs(state[1]) > ((5 * np.pi) / 12):
                     terminated = True
                     break
-        # print(f"Recompensa de episodio: {t_reward}")
         agent.decay_epsilon()
+        
         n_ep = n_ep + 1
-        if (n_ep % 100 == 0):
-            agent.save_q_table()
-            # agent.update_target_model()
-    agent.save_q_table()
+        if agent.loss != 0 and agent.med_dist != 0:
+            agent.loss = agent.loss/agent.steps
+            agent.med_dist = agent.med_dist/agent.steps
+
+        log_training_data(n_ep, agent.reward, agent.loss, agent.epsilon, agent.med_dist, agent.steps)
+    agent.save_model()
 
     env.close()
 
@@ -560,6 +568,6 @@ if __name__ == "__main__":
     main(
         scenarios=args.scenarios,
         headless=args.headless,
-        num_episodes=1000,
+        num_episodes=3000,
         max_episode_steps=300,
     )
