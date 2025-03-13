@@ -3,8 +3,6 @@ import numpy as np
 import gymnasium as gym
 
 TARGET_HEADING = -np.pi/2
-MAX_ALIGN_STEPS = 19
-MAX_STEPS = 350
 
 class CParkingAgent(gym.Wrapper):
     """Un agente adaptado para estacionamiento utilizando medidas específicas del LIDAR."""
@@ -15,7 +13,6 @@ class CParkingAgent(gym.Wrapper):
             env (gym.Env): Entorno de SMARTS para un solo agente.
         """
         super(CParkingAgent, self).__init__(env)
-        self.step_number = 0
 
         agent_ids = list(env.agent_interfaces.keys())
         assert (
@@ -164,15 +161,15 @@ class CParkingAgent(gym.Wrapper):
             dist_to_target = 0.1
 
         # Recompensa por distancia (escalada a [-1, 1])
-        distance_reward = 1 / (1 + np.exp(3 * (dist_to_target - 1)))
-        if dist_to_target > 7.5:
+        distance_reward = 1 / (1 + np.exp(3 * (dist_to_target - 1.5)))
+        if dist_to_target > 6.5:
             distance_reward = -0.5  # Penalización máxima por distancia
             print("Terminado por distancia")
 
         # 2. Recompensa por orientación (escalada a [0, 1])
         orient_diff = np.abs(np.arctan2(np.sin(car_orient - target_orient), np.cos(car_orient - target_orient)))
         if horizontal_dist < 0.1 and vertical_dist < 1.5:
-            orientation_reward = -(((5 * np.pi) / 12) * orient_diff) + 1 
+            orientation_reward = ((5 * np.pi) / 12) - (orient_diff*1.25)  # Recompensa lineal aumentamos diferencia para introducir negativos
             orientation_reward = max(-0.5, min(orientation_reward, 1))  # Asegurar rango [-0.5, 1]
             print(f"ORIENT_DIFF: {orient_diff} REWARD: {orientation_reward}")
         else:
@@ -192,14 +189,11 @@ class CParkingAgent(gym.Wrapper):
 
         # 4. Bonificación por detenerse correctamente (escalada a [0, 1])
         if orient_diff < 0.1 and horizontal_dist < 0.15 and vertical_dist < 0.25 and abs(speed) < 0.1:
-            stopping_bonus = 4  # Bonificación máxima por detenerse
+            stopping_bonus = 1  # Bonificación máxima por detenerse
             print("CONSEGUIDO!!")
         else:
             stopping_bonus = 0
 
-        if orient_diff < 0.1 and horizontal_dist < 0.1 and vertical_dist < 0.2 and abs(speed) < 0.1:
-            stopping_bonus = 250 + (MAX_STEPS - MAX_ALIGN_STEPS - self.step_number)*2
-            print("CONSEGUIDO Y TERMINADO!")
         # 5. Penalización por colisión (escalada a [-1, 0])
         min_lidar_dist = np.min(np.linalg.norm(lidar_data, axis=1)) if len(lidar_data) > 0 else np.inf
         if min_lidar_dist < 0.1:

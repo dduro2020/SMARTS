@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import time
 
-def plot_training_data_live(log_file="/home/duro/SMARTS/examples/training_log.csv", update_interval=5, max_episodes=3000):
+def plot_training_data_live(log_file="/home/duro/SMARTS/examples/training_log.csv", update_interval=5, max_episodes=3500):
     """Carga y grafica los datos del entrenamiento en tiempo real."""
     sns.set_theme(style="darkgrid")
 

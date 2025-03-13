@@ -102,6 +102,19 @@ def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps,
         writer = csv.writer(file)
         writer.writerow([episode, reward, loss, epsilon, distance_to_target, steps])
 
+# Clase para almacenar y muestrear experiencias (Experience Replay)
+class ReplayBuffer:
+    def __init__(self, capacity):
+        self.buffer = deque(maxlen=capacity)
+    
+    def push(self, state, action, reward, next_state, done):
+        self.buffer.append((state, action, reward, next_state, done))
+    
+    def sample(self, batch_size):
+        return random.sample(self.buffer, batch_size)
+    
+    def __len__(self):
+        return len(self.buffer)
 
 class DQN(nn.Module):
     def __init__(self, state_size, action_size):
@@ -119,7 +132,7 @@ class DQN(nn.Module):
         return self.fc3(x)
 
 class DQNAgent:
-    def __init__(self, state_size, action_size, gamma=0.999, alpha=0.0001, epsilon=1.0, min_epsilon=0.001, decay_rate=0.999):#decay_rate=0.9974):
+    def __init__(self, state_size, action_size, gamma=0.999, alpha=0.00005, epsilon=1.0, min_epsilon=0.001, decay_rate=0.999):
         self.state_size = state_size
         self.action_size = action_size
         self.gamma = gamma  # Factor de descuento
@@ -127,27 +140,29 @@ class DQNAgent:
         self.min_epsilon = min_epsilon
         self.decay_rate = decay_rate
         self.batch_size = 64
-        self.memory = deque(maxlen=500000)
+        self.memory = ReplayBuffer(capacity=1000000)  # Usar ReplayBuffer en lugar de deque
+
         self.reward = 0
         self.loss = 0
         self.steps = 0
         self.med_dist = 0
+        self.episodes = 0
+        self.episode = 0
 
-        self.init_pose = np.array([0,0,0])
-        self.parking_target_pose = np.array([0,0,0])
+        self.init_pose = np.array([0, 0, 0])
+        self.parking_target_pose = np.array([0, 0, 0])
         self.actions = [(0, -0.5), (-1, 0), (0.0, 0.0), (1, 0), (0, 0.5)]  # Definir acciones fijas
-        
+
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        
+
         self.model = DQN(state_size, action_size).to(self.device)
         self.target_model = DQN(state_size, action_size).to(self.device)
         self.target_model.load_state_dict(self.model.state_dict())
         self.optimizer = optim.Adam(self.model.parameters(), lr=alpha)
-        self.loss_fn = nn.MSELoss()
-        # self.loss_fn = nn.SmoothL1Loss()
-    
+        self.loss_fn = nn.SmoothL1Loss()
+
     def remember(self, state, action, reward, next_state, done):
-        self.memory.append((state, action, reward, next_state, done))
+        self.memory.push(state, action, reward, next_state, done)
 
     def act(self, state):
         if np.random.rand() < self.epsilon:
@@ -168,9 +183,9 @@ class DQNAgent:
     def train(self):
         if len(self.memory) < self.batch_size:
             return  # No hay suficientes muestras para entrenar
-        
+
         # Seleccionar un batch aleatorio de experiencias
-        batch = random.sample(self.memory, self.batch_size)
+        batch = self.memory.sample(self.batch_size)
 
         # Extraer estados, acciones, recompensas, next_states y dones del batch
         states, actions, rewards, next_states, dones = zip(*batch)
@@ -194,7 +209,7 @@ class DQNAgent:
 
         # Calcular pérdida y actualizar pesos
         loss = self.loss_fn(q_values, targets.detach())
-        self.loss += loss.item() 
+        self.loss += loss.item()
 
         if torch.isnan(loss) or loss.item() == float('inf'):
             print(" ERROR: `loss` es NaN o infinito. Saltando actualización.")
@@ -210,14 +225,18 @@ class DQNAgent:
         if self.steps % 20 == 0:
             self.update_target_model()
 
-        self.steps += 1
-    
     def update_target_model(self, tau=0.01):
         """Realiza un soft update del target model con un factor de mezcla tau."""
         for target_param, model_param in zip(self.target_model.parameters(), self.model.parameters()):
             target_param.data.copy_(tau * model_param.data + (1.0 - tau) * target_param.data)
 
     def decay_epsilon(self):
+        if self.episode < self.episodes // 2:
+            # Primera etapa: Decaimiento lento
+            decay_rate = 0.9992  # Tasa de decaimiento lenta
+        else:
+            # Segunda etapa: Decaimiento rápido
+            decay_rate = 0.997
         self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
 
     def save_model(self, filename="/home/duro/SMARTS/examples/dqn_model.pth"):
@@ -342,7 +361,7 @@ class DQNAgent:
 
         # Devolver estado asegurando que todos los valores sean finitos
         return (
-            self.discretize(signed_distance_to_target, step=0.2, max_value=7),
+            self.discretize(signed_distance_to_target, step=0.2, max_value=8),
             self.discretize(heading_error, step=0.1, max_value=np.pi),
             discretized_speed,
             # distance_difference,
@@ -433,7 +452,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     agent_interface = AgentInterface(
         action=ActionSpaceType.Direct,
         # max_episode_steps=max_episode_steps,
-        max_episode_steps=300,
+        max_episode_steps=350,
         neighborhood_vehicle_states=True,
         # waypoint_paths=True,
         # road_waypoints=True,
@@ -457,19 +476,23 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     env = CParkingAgent(env)
     agent = DQNAgent(4, 5)
     n_ep = 0
+    best_reward = 0
 
     print(f"El modelo se ejecutará en: {agent.device}")
     if torch.cuda.is_available():
         print(f"GPU detectada: {torch.cuda.get_device_name(0)}")
     
     initialize_logger()
+    agent.episodes = num_episodes
 
     for episode in episodes(n=num_episodes):
+        agent.episode += 1
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
 
         # np.random.seed(int(time.time()))
-        random_offset = np.random.choice([-2, -1, 0, 1, 2])
+        # random_offset = np.random.choice([-2, -1, 0, 1, 2])
+        random_offset = np.random.choice([-2, 0, 2])
         actual_pose = observation["ego_vehicle_state"]["position"][0]
         target =  actual_pose + random_offset
 
@@ -500,6 +523,8 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
             terminated = True
         # print(f"El target se encuentra en: {parking_target}")
         while not terminated:
+            # Save step number
+            env.step_number = agent.steps
             # Mover a posicion aleatoria
             if not moved:
                 # Indice 0 es el que se usa en nuestro escenario
@@ -528,6 +553,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
                 next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), agent.parking_target_pose)
                 agent.reward += reward
                 agent.med_dist += abs(state[0])
+                agent.steps += 1
                 next_state = agent.get_state(next_observation, parking_target)
 
                 # Almacenar la experiencia en la memoria
@@ -537,18 +563,28 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
 
                 observation = next_observation
                 episode.record_step(observation, reward, terminated, truncated, info)
-                if abs(state[0]) > 6.5 or abs(state[1]) > ((5 * np.pi) / 12):
+                
+                # Guardar el mejor modelo durante el entrenamiento
+                if reward > 200 and agent.reward > best_reward:
+                    best_reward = agent.reward
+                    agent.save_model()
+
+                # Terminar el programa si hay problemas o exito
+                if abs(state[0]) + 0.1 > 7.5 or (abs(state[1])) + 0.1 > ((5 * np.pi) / 12) or reward > 200:
                     terminated = True
+                    print("TERMINADO!")
                     break
         agent.decay_epsilon()
         
         n_ep = n_ep + 1
-        if agent.loss != 0 and agent.med_dist != 0:
+        if agent.loss != 0:
             agent.loss = agent.loss/agent.steps
+
+        if agent.med_dist != 0:
             agent.med_dist = agent.med_dist/agent.steps
 
         log_training_data(n_ep, agent.reward, agent.loss, agent.epsilon, agent.med_dist, agent.steps)
-    agent.save_model()
+    # agent.save_model()
 
     env.close()
 
@@ -568,6 +604,6 @@ if __name__ == "__main__":
     main(
         scenarios=args.scenarios,
         headless=args.headless,
-        num_episodes=3000,
-        max_episode_steps=300,
+        num_episodes=3500,
+        max_episode_steps=350,
     )

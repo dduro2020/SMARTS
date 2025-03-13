@@ -3,12 +3,18 @@ import matplotlib.pyplot as plt
 epsilon_0 = 0.99
 min_epsilon = 0.0
 decay_rate = 0.999
-episodes = 3000
+episodes = 2000
 
 epsilon_values = []
 epsilon = epsilon_0
 
 for episode in range(episodes):
+    if episode < episodes // 2:
+        # Primera etapa: Decaimiento lento
+        decay_rate = 0.9992  # Tasa de decaimiento lenta
+    else:
+        # Segunda etapa: Decaimiento rápido
+        decay_rate = 0.997
     epsilon = max(min_epsilon, epsilon * decay_rate)
     epsilon_values.append(epsilon)
 

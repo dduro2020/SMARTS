@@ -197,9 +197,6 @@ class CParkingAgent(gym.Wrapper):
         else:
             stopping_bonus = 0
 
-        if orient_diff < 0.1 and horizontal_dist < 0.1 and vertical_dist < 0.2 and abs(speed) < 0.1:
-            stopping_bonus = 250 + (MAX_STEPS - MAX_ALIGN_STEPS - self.step_number)*2
-            print("CONSEGUIDO Y TERMINADO!")
         # 5. Penalización por colisión (escalada a [-1, 0])
         min_lidar_dist = np.min(np.linalg.norm(lidar_data, axis=1)) if len(lidar_data) > 0 else np.inf
         if min_lidar_dist < 0.1:
