@@ -38,7 +38,8 @@ MAX_ALIGN_STEPS = 19
 AGENT_ID: Final[str] = "Agent"
 
 TARGET_HEADING = -np.pi/2
-dir_path = "data_log/park_v1_60/"
+dir_path = "data_log/park_v2_1/"
+# dir_path = ""
 model_path = "/home/duro/SMARTS/examples/"+ dir_path +"dqn_model.pth"
 # ROAD: -pi/2
 # DEST: [28.16 96.8   0.  ]
@@ -90,18 +91,73 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
     return rotated_lidar
 
 
-# Simple
-# class DQN(nn.Module):
-#     def __init__(self, state_size, action_size):
-#         super(DQN, self).__init__()
-#         self.fc1 = nn.Linear(state_size, 64)
-#         self.fc2 = nn.Linear(64, 32)
-#         self.fc3 = nn.Linear(32, action_size)
+class Desalignment:
+    def __init__(self, env, max_align_steps):
+        self.env = env
+        self.max_align_steps = max_align_steps
+
+    def reset(self, observation, rotate=False):
+        """Reinicia los parámetros de desalineación."""
+        self.moved = False
+        self.rotate = rotate
+        self.n_steps = 0
+        self.accelerate = True
+        self.first_action = np.array([0.0, 0.0])
+        self.random_offset = np.random.choice([-2, 0, 2])
+        self.random_rotation = np.random.choice([-2, 0, 2])
+        self.target = observation["ego_vehicle_state"]["position"][0] + self.random_offset
     
-#     def forward(self, x):
-#         x = torch.relu(self.fc1(x))
-#         x = torch.relu(self.fc2(x))
-#         return self.fc3(x)
+    def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
+        """Mueve el vehículo a una posición (target)."""
+
+        distance = target_position - current_position
+        action = 0
+
+        # Determinar si avanzar o retroceder
+        if accelerate == True:
+            # TRAINED action = 10
+            action = 15 if distance > 0 else -15
+
+        # Paramos si estamos cerca o si llegamos a las maximas steps
+        if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
+            # print(f"finished, current pose: {current_position}")
+            action = -first_act
+                
+        return np.array([action, 0.0])
+
+    def run(self, observation, parking_target):
+        """Mueve el vehículo a una posición aleatoria."""
+        if not self.moved:
+            action = self.move_to_random_position(
+                observation["ego_vehicle_state"]["position"][0], self.target, self.accelerate, self.n_steps, self.first_action[0]
+            )
+            self.accelerate = False
+
+            if action[0] + self.first_action[0] == 0:
+                self.moved = True
+
+            if self.n_steps == 0:
+                self.first_action = action
+
+            observation, _, terminated, _, _ = self.env.step((action[0], action[1]), parking_target)
+            self.n_steps += 1
+            return observation, terminated
+
+        elif self.n_steps <= self.max_align_steps:
+            default_rot = 0.0
+            if self.rotate:
+                default_rot = self.random_rotation
+                self.rotate = False
+            observation, _, terminated, _, _ = self.env.step((0.0, default_rot), parking_target)
+            self.n_steps += 1
+            return observation, terminated
+
+        else:
+            return observation, False
+
+    def is_desaligned(self):
+        """Devuelve True si la desalineación está en progreso, False si ha terminado."""
+        return self.n_steps <= self.max_align_steps
 
 class DQN(nn.Module):
     def __init__(self, state_size, action_size):
@@ -142,6 +198,18 @@ class DQNAgent:
         
         action_index = q_values.argmax().item()  # Escoge la acción con el mayor valor Q
         return self.action_space[action_index]
+    # def act(self, state):
+    #     state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+    #     with torch.no_grad():
+    #         q_values = self.model(state_tensor)
+        
+    #     try:
+    #         tau = 0.5
+    #         probs = torch.nn.functional.softmax(q_values / tau, dim=1)  # Q - probs
+    #         action_index = torch.multinomial(probs, num_samples=1).item()
+    #         return self.actions[action_index]
+    #     except IndexError:
+    #         return random.choice(self.actions)
 
 
     def discretize(self, value, step=0.25, max_value=10.0):
@@ -268,23 +336,6 @@ class DQNAgent:
             discretized_min_distance
         )
 
-    def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
-        """Mueve el vehículo a una posición (target)."""
-
-        distance = target_position - current_position
-        action = 0
-
-        # Determinar si avanzar o retroceder
-        if accelerate == True:
-            action = 10 if distance > 0 else -10
-
-        # Paramos si estamos cerca o si llegamos a las maximas steps
-        if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
-            # print(f"finished, current pose: {current_position}")
-            action = -first_act
-                
-        return np.array([action, 0.0])
-
     def find_closest_corners(self, observation, eps=3, min_samples=10):
         """
         Encuentra las esquinas más cercanas de dos vehículos que delimitan un hueco de aparcamiento a partir de un point cloud.
@@ -352,7 +403,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     agent_interface = AgentInterface(
         action=ActionSpaceType.Direct,
         # max_episode_steps=max_episode_steps,
-        max_episode_steps=300,
+        max_episode_steps=350,
         neighborhood_vehicle_states=True,
         # waypoint_paths=True,
         # road_waypoints=True,
@@ -377,6 +428,8 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     agent = DQNAgent(4, 5, model_path)
     n_ep = 0
 
+    desalignment = Desalignment(env, MAX_ALIGN_STEPS)
+
     print(f"El modelo se ejecutará en: {agent.device}")
     if torch.cuda.is_available():
         print(f"GPU detectada: {torch.cuda.get_device_name(0)}")
@@ -385,57 +438,31 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
 
-        # random_offset = np.random.choice([-2, -1, 0, 1, 2])
-        random_offset = np.random.choice([-2, 0, 2])
-        actual_pose = observation["ego_vehicle_state"]["position"][0]
-        target =  actual_pose + random_offset
-
+        # Reiniciar la desalineación
+        desalignment.reset(observation, False)
 
         terminated = False
-        moved = False
-        n_steps = 0
-        
-        accelerate = True
-        first_action = np.array([0.0, 0.0])
-        
-        # parking_target = np.array([0.0, 0.0, 0.0])
+
         parking_target = agent.find_closest_corners(observation)
         if parking_target is None:
             terminated = True
         # print(f"El target se encuentra en: {parking_target}")
         while not terminated:
             # Mover a posicion aleatoria
-            if not moved:
-                # Indice 0 es el que se usa en nuestro escenario
-                action = agent.move_to_random_position(observation["ego_vehicle_state"]["position"][0], target, accelerate, n_steps, first_action[0])
-                accelerate = False
-                
-                if action[0] + first_action[0] == 0:
-                    moved = True
+            if desalignment.is_desaligned():
+                observation, terminated = desalignment.run(observation, parking_target)
+                continue
 
-                if n_steps == 0:                    
-                    first_action = action
-                    
-                observation, _, terminated, _, _ = env.step((action[0],action[1]), parking_target)
-                n_steps = n_steps + 1
-            
-            # Tenemos que asegurarnos que SIEMPRE gastamos MAX_ALIGN_STEPS steps, así no modificamos el entrenamiento
-            elif n_steps <= MAX_ALIGN_STEPS:
-                observation, _, terminated, _, _ = env.step((0.0,0.0), parking_target)
-                n_steps = n_steps + 1
+            state = agent.get_state(observation, parking_target)
+            action = agent.act(state)
 
-            # Nos quedan TOTAL_STEPS-MAX_ALIGN_STEPS para el entrenamiento, SIEMPRE las mismas
-            else:
-                state = agent.get_state(observation, parking_target)
-                action = agent.act(state)
+            next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), agent.parking_target_pose)
 
-                next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), agent.parking_target_pose)
-
-                observation = next_observation
-                episode.record_step(observation, reward, terminated, truncated, info)
-                if abs(state[0]) + 0.1 > 7.5 or (abs(state[1])) + 0.1 > ((5 * np.pi) / 12) or reward > 200:
-                    terminated = True
-                    break
+            observation = next_observation
+            episode.record_step(observation, reward, terminated, truncated, info)
+            if abs(state[0]) + 0.1 > 7.5 or (abs(state[1])) + 0.1 > ((5 * np.pi) / 12) or reward > 200:
+                terminated = True
+                break
     env.close()
 
 
@@ -454,6 +481,6 @@ if __name__ == "__main__":
     main(
         scenarios=args.scenarios,
         headless=args.headless,
-        num_episodes=3000,
-        max_episode_steps=300,
+        num_episodes=100,
+        max_episode_steps=350,
     )
