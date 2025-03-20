@@ -37,6 +37,8 @@ import csv
 import os
 
 MAX_ALIGN_STEPS = 19
+EPISODES = 4000
+STEPS = 500
 
 AGENT_ID: Final[str] = "Agent"
 
@@ -94,13 +96,13 @@ def initialize_logger(log_file="/home/duro/SMARTS/examples/training_log.csv"):
     """Inicializa el archivo de log con los encabezados, limpiando el contenido si ya existe"""
     with open(log_file, mode='w', newline='') as file:  # Modo "w" borra el contenido anterior
         writer = csv.writer(file)
-        writer.writerow(["episode", "reward", "loss", "epsilon", "distance_to_target", "steps"])
+        writer.writerow(["episode", "reward", "loss", "epsilon", "distance_to_target", "steps", "vertical_distance", "horizontal_distance"])
 
-def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps, log_file="/home/duro/SMARTS/examples/training_log.csv"):
+def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps, vert_dist, hor_dist, log_file="/home/duro/SMARTS/examples/training_log.csv"):
     """Guarda los datos de entrenamiento en un archivo CSV"""
     with open(log_file, mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([episode, reward, loss, epsilon, distance_to_target, steps])
+        writer.writerow([episode, reward, loss, epsilon, distance_to_target, steps, vert_dist, hor_dist])
 
 class Desalignment:
     def __init__(self, env, max_align_steps):
@@ -114,7 +116,8 @@ class Desalignment:
         self.n_steps = 0
         self.accelerate = True
         self.first_action = np.array([0.0, 0.0])
-        self.random_offset = np.random.choice([-2, 0, 2])
+        self.random_offset = np.random.choice([-2, -1.75, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 1.75, 2])
+        # self.random_offset = np.random.choice([-2, 0, 2])
         self.random_rotation = np.random.choice([-2, 0, 2])
         self.target = observation["ego_vehicle_state"]["position"][0] + self.random_offset
     
@@ -124,12 +127,10 @@ class Desalignment:
         distance = target_position - current_position
         action = 0
 
-        # Determinar si avanzar o retroceder
         if accelerate == True:
             # TRAINED action = 10
             action = 15 if distance > 0 else -15
 
-        # Paramos si estamos cerca o si llegamos a las maximas steps
         if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
             # print(f"finished, current pose: {current_position}")
             action = -first_act
@@ -210,6 +211,7 @@ class DQNAgent:
         self.batch_size = 64
         self.memory = ReplayBuffer(capacity=1000000)  # Usar ReplayBuffer en lugar de deque
 
+        # DEBUG
         self.reward = 0
         self.loss = 0
         self.steps = 0
@@ -302,10 +304,10 @@ class DQNAgent:
     def decay_epsilon(self):
         if self.episode < self.episodes // 2:
             # Primera etapa: Decaimiento lento
-            decay_rate = 0.9992  # Tasa de decaimiento lenta
+            self.decay_rate = 0.9993  # Tasa de decaimiento lenta
         else:
             # Segunda etapa: Decaimiento rápido
-            decay_rate = 0.997
+            self.decay_rate = 0.998
         self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
 
     def save_model(self, filename="/home/duro/SMARTS/examples/dqn_model.pth"):
@@ -500,11 +502,11 @@ class DQNAgent:
 
 
 
-def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
+def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
     agent_interface = AgentInterface(
         action=ActionSpaceType.Direct,
         # max_episode_steps=max_episode_steps,
-        max_episode_steps=350,
+        max_episode_steps=STEPS,
         neighborhood_vehicle_states=True,
         # waypoint_paths=True,
         # road_waypoints=True,
@@ -542,7 +544,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
         # Reiniciar la desalineación
-        desalignment.reset(observation)
+        desalignment.reset(observation, True)
 
         terminated = False
         
@@ -555,7 +557,6 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         parking_target = agent.find_closest_corners(observation)
         if parking_target is None:
             terminated = True
-        # print(f"El target se encuentra en: {parking_target}")
         while not terminated:
             # Save step number
             env.step_number = agent.steps
@@ -604,7 +605,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         if agent.med_dist != 0:
             agent.med_dist = agent.med_dist/agent.steps
 
-        log_training_data(n_ep, agent.reward, agent.loss, agent.epsilon, agent.med_dist, agent.steps)
+        log_training_data(n_ep, agent.reward, agent.loss, agent.epsilon, agent.med_dist, agent.steps, agent.parking_target_pose[0], agent.parking_target_pose[1])
 
         # if n_ep >= 2600:
         #     break
@@ -633,6 +634,6 @@ if __name__ == "__main__":
     main(
         scenarios=args.scenarios,
         headless=args.headless,
-        num_episodes=3500,
-        max_episode_steps=350,
+        num_episodes=EPISODES,
+        max_episode_steps=STEPS,
     )

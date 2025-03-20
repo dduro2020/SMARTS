@@ -38,8 +38,8 @@ MAX_ALIGN_STEPS = 19
 AGENT_ID: Final[str] = "Agent"
 
 TARGET_HEADING = -np.pi/2
-dir_path = "data_log/park_v2_1/"
-# dir_path = ""
+# dir_path = "data_log/park_v2_1/"
+dir_path = ""
 model_path = "/home/duro/SMARTS/examples/"+ dir_path +"dqn_model.pth"
 # ROAD: -pi/2
 # DEST: [28.16 96.8   0.  ]
@@ -90,6 +90,43 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
 
     return rotated_lidar
 
+class SuccessTracker:
+    def __init__(self):
+        """Inicializa la clase con una lista vacía de puntuaciones."""
+        self.scores = []
+
+    def add_score(self, score):
+        """
+        Añade una nueva puntuación a la lista de puntuaciones.
+
+        Parámetros:
+            score (float): La puntuación a añadir.
+        """
+        self.scores.append(score)
+
+    def success_rate(self, threshold):
+        """
+        Calcula el porcentaje de éxito basado en un umbral.
+
+        Parámetros:
+            threshold (float): El umbral para considerar una puntuación como éxito.
+
+        Retorna:
+            float: El porcentaje de éxito (entre 0 y 100).
+        """
+        if not self.scores:
+            return 0.0  # Si no hay puntuaciones, el porcentaje de éxito es 0
+
+        # Contar el número de puntuaciones que superan el umbral
+        success_count = sum(1 for score in self.scores if score >= threshold)
+        
+        # Calcular el porcentaje de éxito
+        return (success_count / len(self.scores)) * 100
+
+    def reset(self):
+        """Reinicia la lista de puntuaciones."""
+        self.scores = []
+
 
 class Desalignment:
     def __init__(self, env, max_align_steps):
@@ -103,7 +140,8 @@ class Desalignment:
         self.n_steps = 0
         self.accelerate = True
         self.first_action = np.array([0.0, 0.0])
-        self.random_offset = np.random.choice([-2, 0, 2])
+        self.random_offset = np.random.choice([-2, -1.75, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 1.75, 2])
+        # self.random_offset = np.random.choice([-2, 0, 2])
         self.random_rotation = np.random.choice([-2, 0, 2])
         self.target = observation["ego_vehicle_state"]["position"][0] + self.random_offset
     
@@ -113,12 +151,10 @@ class Desalignment:
         distance = target_position - current_position
         action = 0
 
-        # Determinar si avanzar o retroceder
         if accelerate == True:
             # TRAINED action = 10
             action = 15 if distance > 0 else -15
 
-        # Paramos si estamos cerca o si llegamos a las maximas steps
         if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
             # print(f"finished, current pose: {current_position}")
             action = -first_act
@@ -184,6 +220,9 @@ class DQNAgent:
         # Cargar el modelo entrenado
         self.model.load_state_dict(torch.load(model_path, map_location=self.device))
         self.model.eval()  # Poner en modo evaluación
+
+        # DEBUG
+        self.reward = 0
 
         self.action_space = self.actions
 
@@ -403,7 +442,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     agent_interface = AgentInterface(
         action=ActionSpaceType.Direct,
         # max_episode_steps=max_episode_steps,
-        max_episode_steps=350,
+        max_episode_steps=500,
         neighborhood_vehicle_states=True,
         # waypoint_paths=True,
         # road_waypoints=True,
@@ -429,17 +468,19 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     n_ep = 0
 
     desalignment = Desalignment(env, MAX_ALIGN_STEPS)
+    success_tracker = SuccessTracker()
 
     print(f"El modelo se ejecutará en: {agent.device}")
     if torch.cuda.is_available():
         print(f"GPU detectada: {torch.cuda.get_device_name(0)}")
     
     for episode in episodes(n=num_episodes):
+        agent.reward = 0
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
 
         # Reiniciar la desalineación
-        desalignment.reset(observation, False)
+        desalignment.reset(observation, True)
 
         terminated = False
 
@@ -460,10 +501,20 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
 
             observation = next_observation
             episode.record_step(observation, reward, terminated, truncated, info)
-            if abs(state[0]) + 0.1 > 7.5 or (abs(state[1])) + 0.1 > ((5 * np.pi) / 12) or reward > 200:
+            # if abs(state[0]) + 0.1 > 7.5 or (abs(state[1])) + 0.1 > ((5 * np.pi) / 12) or reward > 200:
+            #     terminated = True
+            #     break
+            # Terminar el programa si hay problemas o exito
+            agent.reward += reward
+            if reward <= -3 or reward > 25:
                 terminated = True
+                print("TERMINADO!")
                 break
+        success_tracker.add_score(agent.reward)
     env.close()
+
+    success_rate = success_tracker.success_rate(400)
+    print(f"El porcentaje de exito ha sido: {success_rate}")
 
 
 if __name__ == "__main__":
@@ -482,5 +533,5 @@ if __name__ == "__main__":
         scenarios=args.scenarios,
         headless=args.headless,
         num_episodes=100,
-        max_episode_steps=350,
+        max_episode_steps=500,
     )

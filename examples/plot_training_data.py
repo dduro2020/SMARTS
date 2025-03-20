@@ -2,13 +2,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import time
+import argparse
 
-def plot_training_data_live(log_file="/home/duro/SMARTS/examples/training_log.csv", update_interval=5, max_episodes=3500):
+def plot_training_data_live(log_file="/home/duro/SMARTS/examples/training_log.csv", update_interval=5, max_episodes=3500, show_distance_plots=False):
     """Carga y grafica los datos del entrenamiento en tiempo real."""
     sns.set_theme(style="darkgrid")
 
     # Crear la figura y los ejes antes del bucle
-    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+    if show_distance_plots:
+        fig, axes = plt.subplots(3, 2, figsize=(12, 15))  # 3 filas, 2 columnas
+    else:
+        fig, axes = plt.subplots(2, 2, figsize=(12, 10))  # 2 filas, 2 columnas
 
     while True:
         try:
@@ -54,6 +58,20 @@ def plot_training_data_live(log_file="/home/duro/SMARTS/examples/training_log.cs
             axes[1, 1].set_xlabel("Episode")
             axes[1, 1].set_ylabel("MDistance")
 
+            # Gráficos adicionales de distancia vertical y horizontal
+            if show_distance_plots:
+                # Gráfico de distancia vertical
+                sns.lineplot(ax=axes[2, 0], x=df["episode"], y=df["vertical_distance"])
+                axes[2, 0].set_title("Vertical Distance")
+                axes[2, 0].set_xlabel("Episode")
+                axes[2, 0].set_ylabel("Vertical Distance")
+
+                # Gráfico de distancia horizontal
+                sns.lineplot(ax=axes[2, 1], x=df["episode"], y=df["horizontal_distance"])
+                axes[2, 1].set_title("Horizontal Distance")
+                axes[2, 1].set_xlabel("Episode")
+                axes[2, 1].set_ylabel("Horizontal Distance")
+
             # Ajustar layout y actualizar gráficos
             plt.tight_layout()
             plt.pause(update_interval)  # Esperar antes de la siguiente actualización
@@ -76,5 +94,10 @@ def plot_training_data_live(log_file="/home/duro/SMARTS/examples/training_log.cs
 
     plt.show()
 
+# Configurar el parser de argumentos
+parser = argparse.ArgumentParser(description="Visualización en tiempo real de datos de entrenamiento.")
+parser.add_argument("--d", "-distance", action="store_true", help="Mostrar gráficos de distancia vertical y horizontal.")
+args = parser.parse_args()
+
 # Llamar a la función para visualizar en tiempo real
-plot_training_data_live()
+plot_training_data_live(show_distance_plots=args.d)

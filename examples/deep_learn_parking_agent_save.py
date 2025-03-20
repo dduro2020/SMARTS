@@ -33,6 +33,9 @@ import torch.optim as optim
 from collections import deque
 import math
 
+import csv
+import os
+
 MAX_ALIGN_STEPS = 19
 
 AGENT_ID: Final[str] = "Agent"
@@ -87,20 +90,85 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
 
     return rotated_lidar
 
-import csv
-import os
-
 def initialize_logger(log_file="/home/duro/SMARTS/examples/training_log.csv"):
     """Inicializa el archivo de log con los encabezados, limpiando el contenido si ya existe"""
     with open(log_file, mode='w', newline='') as file:  # Modo "w" borra el contenido anterior
         writer = csv.writer(file)
-        writer.writerow(["episode", "reward", "loss", "epsilon", "distance_to_target", "steps"])
+        writer.writerow(["episode", "reward", "loss", "epsilon", "distance_to_target", "steps", "vertical_distance", "horizontal_distance"])
 
-def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps, log_file="/home/duro/SMARTS/examples/training_log.csv"):
+def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps, vert_dist, hor_dist, log_file="/home/duro/SMARTS/examples/training_log.csv"):
     """Guarda los datos de entrenamiento en un archivo CSV"""
     with open(log_file, mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([episode, reward, loss, epsilon, distance_to_target, steps])
+        writer.writerow([episode, reward, loss, epsilon, distance_to_target, steps, vert_dist, hor_dist])
+
+class Desalignment:
+    def __init__(self, env, max_align_steps):
+        self.env = env
+        self.max_align_steps = max_align_steps
+
+    def reset(self, observation, rotate=False):
+        """Reinicia los parámetros de desalineación."""
+        self.moved = False
+        self.rotate = rotate
+        self.n_steps = 0
+        self.accelerate = True
+        self.first_action = np.array([0.0, 0.0])
+        self.random_offset = np.random.choice([-2, 0, 2])
+        self.random_rotation = np.random.choice([-2, 0, 2])
+        self.target = observation["ego_vehicle_state"]["position"][0] + self.random_offset
+    
+    def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
+        """Mueve el vehículo a una posición (target)."""
+
+        distance = target_position - current_position
+        action = 0
+
+        # Determinar si avanzar o retroceder
+        if accelerate == True:
+            # TRAINED action = 10
+            action = 15 if distance > 0 else -15
+
+        # Paramos si estamos cerca o si llegamos a las maximas steps
+        if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
+            # print(f"finished, current pose: {current_position}")
+            action = -first_act
+                
+        return np.array([action, 0.0])
+
+    def run(self, observation, parking_target):
+        """Mueve el vehículo a una posición aleatoria."""
+        if not self.moved:
+            action = self.move_to_random_position(
+                observation["ego_vehicle_state"]["position"][0], self.target, self.accelerate, self.n_steps, self.first_action[0]
+            )
+            self.accelerate = False
+
+            if action[0] + self.first_action[0] == 0:
+                self.moved = True
+
+            if self.n_steps == 0:
+                self.first_action = action
+
+            observation, _, terminated, _, _ = self.env.step((action[0], action[1]), parking_target)
+            self.n_steps += 1
+            return observation, terminated
+
+        elif self.n_steps <= self.max_align_steps:
+            default_rot = 0.0
+            if self.rotate:
+                default_rot = self.random_rotation
+                self.rotate = False
+            observation, _, terminated, _, _ = self.env.step((0.0, default_rot), parking_target)
+            self.n_steps += 1
+            return observation, terminated
+
+        else:
+            return observation, False
+
+    def is_desaligned(self):
+        """Devuelve True si la desalineación está en progreso, False si ha terminado."""
+        return self.n_steps <= self.max_align_steps
 
 # Clase para almacenar y muestrear experiencias (Experience Replay)
 class ReplayBuffer:
@@ -142,6 +210,7 @@ class DQNAgent:
         self.batch_size = 64
         self.memory = ReplayBuffer(capacity=1000000)  # Usar ReplayBuffer en lugar de deque
 
+        # DEBUG
         self.reward = 0
         self.loss = 0
         self.steps = 0
@@ -369,23 +438,6 @@ class DQNAgent:
             discretized_min_distance
         )
 
-    def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
-        """Mueve el vehículo a una posición (target)."""
-
-        distance = target_position - current_position
-        action = 0
-
-        # Determinar si avanzar o retroceder
-        if accelerate == True:
-            action = 10 if distance > 0 else -10
-
-        # Paramos si estamos cerca o si llegamos a las maximas steps
-        if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
-            # print(f"finished, current pose: {current_position}")
-            action = -first_act
-                
-        return np.array([action, 0.0])
-
     def find_closest_corners(self, observation, eps=3, min_samples=10):
         """
         Encuentra las esquinas más cercanas de dos vehículos que delimitan un hueco de aparcamiento a partir de un point cloud.
@@ -484,99 +536,64 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     
     initialize_logger()
     agent.episodes = num_episodes
+    desalignment = Desalignment(env, MAX_ALIGN_STEPS)
 
     for episode in episodes(n=num_episodes):
         agent.episode += 1
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
-
-        # np.random.seed(int(time.time()))
-        # random_offset = np.random.choice([-2, -1, 0, 1, 2])
-        random_offset = np.random.choice([-2, 0, 2])
-        actual_pose = observation["ego_vehicle_state"]["position"][0]
-        target =  actual_pose + random_offset
-
-        # print(f"Moving from pose: {actual_pose} to pose: {target}")
+        # Reiniciar la desalineación
+        desalignment.reset(observation, True)
 
         terminated = False
-        
-        # Modificar posicion inicial
-        # moved = False
-        # n_steps = 0
-
-        # Empenzar siempre centrado
-        moved = False
-        n_steps = 0#MAX_ALIGN_STEPS
         
         # DEPURACION
         agent.steps = 0
         agent.reward = 0
         agent.loss = 0
         agent.med_dist = 0
-
-        accelerate = True
-        first_action = np.array([0.0, 0.0])
         
-        # parking_target = np.array([0.0, 0.0, 0.0])
         parking_target = agent.find_closest_corners(observation)
         if parking_target is None:
             terminated = True
-        # print(f"El target se encuentra en: {parking_target}")
         while not terminated:
             # Save step number
             env.step_number = agent.steps
-            # Mover a posicion aleatoria
-            if not moved:
-                # Indice 0 es el que se usa en nuestro escenario
-                action = agent.move_to_random_position(observation["ego_vehicle_state"]["position"][0], target, accelerate, n_steps, first_action[0])
-                accelerate = False
-                
-                if action[0] + first_action[0] == 0:
-                    moved = True
 
-                if n_steps == 0:                    
-                    first_action = action
-                    
-                observation, _, terminated, _, _ = env.step((action[0],action[1]), parking_target)
-                n_steps = n_steps + 1
-            
-            # Tenemos que asegurarnos que SIEMPRE gastamos MAX_ALIGN_STEPS steps, así no modificamos el entrenamiento
-            elif n_steps <= MAX_ALIGN_STEPS:
-                observation, _, terminated, _, _ = env.step((0.0,0.0), parking_target)
-                n_steps = n_steps + 1
+            # Mover a posicion aleatoria
+            if desalignment.is_desaligned():
+                observation, terminated = desalignment.run(observation, parking_target)
+                continue
 
             # Nos quedan TOTAL_STEPS-MAX_ALIGN_STEPS para el entrenamiento, SIEMPRE las mismas
-            else:
-                state = agent.get_state(observation, parking_target)
-                action = agent.act(state)
+            state = agent.get_state(observation, parking_target)
+            action = agent.act(state)
 
-                next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), agent.parking_target_pose)
-                agent.reward += reward
-                agent.med_dist += abs(state[0])
-                agent.steps += 1
-                next_state = agent.get_state(next_observation, parking_target)
+            next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), agent.parking_target_pose)
+            agent.reward += reward
+            agent.med_dist += abs(state[0])
+            agent.steps += 1
+            next_state = agent.get_state(next_observation, parking_target)
 
-                # Almacenar la experiencia en la memoria
-                agent.remember(state, action, reward, next_state, terminated)
+            # Almacenar la experiencia en la memoria
+            agent.remember(state, action, reward, next_state, terminated)
 
-                agent.train()
+            agent.train()
 
-                observation = next_observation
-                episode.record_step(observation, reward, terminated, truncated, info)
-                
-                # Guardar el mejor modelo durante el entrenamiento
-                # if reward > 50:
-                #     agent.n_achieved = agent.n_achieved + 1
-                #     agent.save_model()
+            observation = next_observation
+            episode.record_step(observation, reward, terminated, truncated, info)
 
-                # Terminar el programa si hay problemas o exito
-                if reward <= -3:
-                    terminated = True
-                    print("TERMINADO!")
-                    break
+            # Terminar el programa si hay problemas o exito
+            if reward <= -3 or reward > 25:
+                terminated = True
+                print("TERMINADO!")
+                break
         
         agent.decay_epsilon()
-        if n_ep % 200 == 0 and n_ep != 0:
+        # if n_ep % 200 == 0 and n_ep != 0:
+        #     agent.save_model()
+        # Guardar el mejor modelo durante el entrenamiento
+        if agent.reward > 400 and n_ep != 0:
             # agent.n_achieved = agent.n_achieved + 1
             agent.save_model()
         
@@ -587,16 +604,16 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         if agent.med_dist != 0:
             agent.med_dist = agent.med_dist/agent.steps
 
-        log_training_data(n_ep, agent.reward, agent.loss, agent.epsilon, agent.med_dist, agent.steps)
+        log_training_data(n_ep, agent.reward, agent.loss, agent.epsilon, agent.med_dist, agent.steps, agent.parking_target_pose[0], agent.parking_target_pose[1])
 
-        if n_ep >= 2600:
-            break
+        # if n_ep >= 2600:
+        #     break
         
         # Logrado varias veces, se termina
         # if agent.n_achieved >= 25:
         #     print("Se ha conseguido!!")
         #     break
-    agent.save_model()
+    # agent.save_model()
 
     env.close()
 
