@@ -4,7 +4,8 @@ import gymnasium as gym
 
 TARGET_HEADING = -np.pi/2
 MAX_ALIGN_STEPS = 19
-MAX_STEPS = 350
+MAX_STEPS = 500
+MAX_DIST = 8.5
 
 class CParkingAgent(gym.Wrapper):
     """Un agente adaptado para estacionamiento utilizando medidas específicas del LIDAR."""
@@ -16,6 +17,7 @@ class CParkingAgent(gym.Wrapper):
         """
         super(CParkingAgent, self).__init__(env)
         self.step_number = 0
+        self.last_orientation = 0
 
         agent_ids = list(env.agent_interfaces.keys())
         assert (
@@ -65,6 +67,67 @@ class CParkingAgent(gym.Wrapper):
         """
         obs, info = self.env.reset(seed=seed, options=options)
         return obs[self._agent_id], info[self._agent_id]
+
+    # def _compute_parking_reward(
+    #     self,
+    #     car_pose: np.ndarray,
+    #     car_orient: float,
+    #     speed: float,
+    #     target_pose: np.ndarray,
+    #     target_orient: float,
+    #     lidar_data: np.ndarray,
+    # ) -> float:
+    #     # 1. Distancia al objetivo (relativas)
+    #     dist_to_target = np.linalg.norm(target_pose)
+    #     horizontal_dist = abs(target_pose[1])
+    #     vertical_dist = abs(target_pose[0])
+
+    #     # 2. Diferencia de orientación (normalizada a [-π, π])
+    #     orient_diff = np.abs(np.arctan2(
+    #         np.sin(car_orient - target_orient),
+    #         np.cos(car_orient - target_orient)
+    #     ))
+
+    #     # 3. Detección de colisión
+    #     min_lidar_dist = np.min(np.linalg.norm(lidar_data, axis=1)) if len(lidar_data) > 0 else np.inf
+    #     collision = min_lidar_dist < 0.1
+
+    #     ### ---- Cálculo de recompensas ---- ###
+    #     reward = 0.0
+
+    #     # A) Recompensa por distancia (suave y progresiva)
+    #     distance_reward = -dist_to_target  # Linear es mejor que sigmoide en este caso
+    #     reward += distance_reward * 0.5  # Peso moderado
+
+    #     # B) Recompensa por ORIENTACIÓN (crítica cerca del objetivo)
+    #     orientation_weight = 1.0 / (1.0 + 10.0 * dist_to_target)  # Peso aumenta al acercarse
+    #     orientation_reward = -orient_diff * orientation_weight
+    #     reward += orientation_reward * 2.0  # Peso alto
+
+    #     # C) Recompensa por ALINEACIÓN HORIZONTAL (para aparcamiento lateral)
+    #     if horizontal_dist < 0.5:  # Zona donde la alineación horizontal importa
+    #         horizontal_alignment_reward = -horizontal_dist * 1.5
+    #         reward += horizontal_alignment_reward
+
+    #     # D) Penalización por velocidad (incentivar frenada suave al final)
+    #     if dist_to_target < 0.3:
+    #         speed_penalty = 0.75 - abs(speed)
+    #         print(f"ORIENT_DIFF: {orient_diff} HOR DIST: {target_pose[1]} REWARD: {reward}")
+    #         reward += speed_penalty
+
+    #     # E) Gran recompensa por éxito completo
+    #     if (dist_to_target < 0.1 and 
+    #         orient_diff < 0.1 and 
+    #         abs(speed) < 0.1):
+    #         print(f"CONSEGUIDO!!, ORIENT: {orient_diff}, HDIST: {horizontal_dist}")
+    #         reward = 25.0  # Recompensa final grande
+
+    #     # F) Penalización por colisión
+    #     if collision or dist_to_target >= MAX_DIST or target_pose[1] < -0.75:
+    #         print(f"COLISION: {collision}, DISTANCIA: {dist_to_target}, DIST H: {target_pose[1]}")
+    #         reward = -5.0
+
+    #     return reward
         
     def _compute_parking_reward(
         self,
@@ -81,30 +144,57 @@ class CParkingAgent(gym.Wrapper):
         dist_to_target = np.linalg.norm(target_pose)
         horizontal_dist = abs(target_pose[1])
         vertical_dist = abs(target_pose[0])
+        orient_diff = np.abs(np.arctan2(np.sin(car_orient - target_orient), np.cos(car_orient - target_orient)))
 
         # Escalar la distancia al objetivo a un rango manejable
         if dist_to_target <= 0.25:
             dist_to_target = 0.2
         if vertical_dist <= 0.2 and horizontal_dist <= 0.1:
-            print("MUY CERCAAA")
             dist_to_target = 0.1
         
         if horizontal_dist <= 0.1:
             horizontal_dist = 0.1
         
-        # Recompensa por distancia (escalada a [-1, 1])
-        distance_reward = 1 / (1 + np.exp(3 * (dist_to_target - 1)))
-        if dist_to_target > 7.5 or target_pose[1] < -0.75: #emula obstaculo horizontal
+        #Recompensa aproximacion
+        distance_reward = (1 / (1 + np.exp(3 * (horizontal_dist - 0.25))))
+        if orient_diff < 0.25 and horizontal_dist < 0.3:
+            distance_reward += (1 / (1 + np.exp(3 * (vertical_dist - 0.25))))/2
+            print(f"FASE FINAL: DIST REWARD: {distance_reward}")
+
+        if dist_to_target >= MAX_DIST or target_pose[1] < -0.75: #emula obstaculo horizontal
             distance_reward = -5  # Penalización máxima por distancia
             print(f"Terminado por distancia, HOR DIST: {target_pose[1]}")
 
         # 2. Recompensa por orientación (escalada a [0, 1])
-        orient_diff = np.abs(np.arctan2(np.sin(car_orient - target_orient), np.cos(car_orient - target_orient)))
-
+        
+        
         if horizontal_dist < 0.3:
-            orientation_reward = -(((5 * np.pi) / 12) * orient_diff) + (0.1/horizontal_dist)
-            orientation_reward = max(-0.5, min(orientation_reward, 1))  # Asegurar rango [-0.5, 1]
+            a = 3.5  # Ajuste de escala
+            b = 2.5  # Controla la velocidad de caída exponencial
+            c = -0.75  # Límite inferior de penalización
+
+            orientation_reward = a * np.exp(-b * orient_diff) + c
+            orientation_reward = max(-0.5, min(orientation_reward, 3))
+            # orientation_reward = ((5 * np.pi / 12) / orient_diff) - 3#(0.1/horizontal_dist)
+            # orientation_reward = max(-1, min(orientation_reward, 3))
+
+            # orientation_reward = -(((5 * np.pi) / 12) * orient_diff) + 0.4#(0.1/horizontal_dist)
+            # orientation_reward = max(-0.5, min(orientation_reward, 1))  # Asegurar rango [-0.5, 1]
             print(f"ORIENT_DIFF: {orient_diff} HOR DIST: {target_pose[1]} REWARD: {orientation_reward}")
+            #ñapa para evitar estancamiento
+            # if self.last_orientation - orient_diff > 0.05:
+            #     orientation_reward += (1-orient_diff)/2
+            #     print(f"MEJORA, REWARD: {orientation_reward}")
+            # elif orient_diff > 0.2 and abs(self.last_orientation - orient_diff) < 0.01:
+            #     orientation_reward -= 0.2
+            #     print(f"ESTANCADO, REWARD: {orientation_reward}")
+            # else:
+            #     orientation_reward += 0.1
+            #     print(f"ENDEREZANDO, REWARD: {orientation_reward}")
+            if orient_diff > 0.2 and abs(self.last_orientation - orient_diff) < 0.01:
+                orientation_reward -= 0.2
+                print(f"ESTANCADO, REWARD: {orientation_reward}, LAST: {self.last_orientation} NEW: {orient_diff}")
+
         else:
             orientation_reward = 0
 
@@ -115,15 +205,13 @@ class CParkingAgent(gym.Wrapper):
         # 3. Penalización por velocidad (escalada a [-1, 0])
         if abs(speed) > 2:
             speed_penalty = -0.5  # Penalización máxima por velocidad
-        elif abs(speed) < 0.5 and dist_to_target < 0.2:
-            speed_penalty = distance_reward/3
         else:
             speed_penalty = 0
 
         # 4. Bonificación por detenerse correctamente (escalada a [0, 1])
-        if orient_diff < 0.1 and horizontal_dist < 0.2 and vertical_dist < 0.25 and abs(speed) < 0.15:
-            stopping_bonus = (MAX_STEPS - MAX_ALIGN_STEPS - self.step_number)*2# Bonificación máxima por detenerse
-            print("CONSEGUIDO!!")
+        if orient_diff < 0.1 and horizontal_dist < 0.25 and vertical_dist < 0.25 and abs(speed) < 0.15:
+            stopping_bonus = (MAX_STEPS - MAX_ALIGN_STEPS - self.step_number)*2.5# Bonificación máxima por detenerse
+            print(f"CONSEGUIDO!!, ORIENT: {orient_diff}, HDIST: {horizontal_dist}")
         else:
             stopping_bonus = 0
 
@@ -142,8 +230,10 @@ class CParkingAgent(gym.Wrapper):
             + stopping_bonus
             + collision_penalty
         )
+        self.last_orientation = orient_diff
 
         return reward
+
     
     def filtrate_lidar(self, lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> np.ndarray:
         """

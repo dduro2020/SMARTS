@@ -34,6 +34,8 @@ from collections import deque
 import math
 
 MAX_ALIGN_STEPS = 19
+STEPS = 500
+MAX_DIST = 9
 
 AGENT_ID: Final[str] = "Agent"
 
@@ -129,7 +131,7 @@ class SuccessTracker:
 
 
 class Desalignment:
-    def __init__(self, env, max_align_steps):
+    def __init__(self, env, max_align_steps=MAX_ALIGN_STEPS):
         self.env = env
         self.max_align_steps = max_align_steps
 
@@ -139,52 +141,57 @@ class Desalignment:
         self.rotate = rotate
         self.n_steps = 0
         self.accelerate = True
-        self.first_action = np.array([0.0, 0.0])
-        self.random_offset = np.random.choice([-2, -1.75, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 1.75, 2])
+        self.random_offset = np.random.choice([-2, -1.75, -1.5, -1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.5, 1.75, 2])
         # self.random_offset = np.random.choice([-2, 0, 2])
-        self.random_rotation = np.random.choice([-2, 0, 2])
+        self.random_rotation = np.random.choice([-0.05, -0.01, 0, 0.01, 0.05])
         self.target = observation["ego_vehicle_state"]["position"][0] + self.random_offset
+        self.steering = self.random_rotation
+        self.speed = 0
     
-    def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
+    def move_to_random_position(self, current_position, target_position, accelerate, steps):
         """Mueve el vehículo a una posición (target)."""
+        throttle = 0
+        brake = 0
+        steering = 0
+        
 
         distance = target_position - current_position
-        action = 0
+        if abs(self.speed ) < 3:
+            throttle = 1 if distance > 0 else -1
+        else:
+            throttle = 0
 
-        if accelerate == True:
-            # TRAINED action = 10
-            action = 15 if distance > 0 else -15
-
-        if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
-            # print(f"finished, current pose: {current_position}")
-            action = -first_act
+        if abs(distance) < 0.1:
+            # print(f"finished, current pose: {current_position}, target pose: {target_position}")
+            self.accelerate = False
+        
+        if not self.accelerate and abs(self.speed) > 0.2:
+            brake = 1
+            steering = self.steering
+            
+            
+        if steps == self.max_align_steps:
+            self.moved = True
+            throttle = 0
+            brake = 0
+            steering = 0
                 
-        return np.array([action, 0.0])
+        return np.array([throttle, brake, steering], dtype=np.float32)
 
     def run(self, observation, parking_target):
         """Mueve el vehículo a una posición aleatoria."""
+        self.speed = observation['ego_vehicle_state']['speed']
         if not self.moved:
             action = self.move_to_random_position(
-                observation["ego_vehicle_state"]["position"][0], self.target, self.accelerate, self.n_steps, self.first_action[0]
+                observation["ego_vehicle_state"]["position"][0], self.target, self.accelerate, self.n_steps
             )
-            self.accelerate = False
-
-            if action[0] + self.first_action[0] == 0:
-                self.moved = True
-
-            if self.n_steps == 0:
-                self.first_action = action
-
-            observation, _, terminated, _, _ = self.env.step((action[0], action[1]), parking_target)
+            observation, _, terminated, _, _ = self.env.step(action, parking_target)
             self.n_steps += 1
             return observation, terminated
 
         elif self.n_steps <= self.max_align_steps:
-            default_rot = 0.0
-            if self.rotate:
-                default_rot = self.random_rotation
-                self.rotate = False
-            observation, _, terminated, _, _ = self.env.step((0.0, default_rot), parking_target)
+            steering = 0.0
+            observation, _, terminated, _, _ = self.env.step(np.array([0.0, 0.0, steering], dtype=np.float32), parking_target)
             self.n_steps += 1
             return observation, terminated
 
@@ -212,7 +219,10 @@ class DQN(nn.Module):
 
 class DQNAgent:
     def __init__(self, state_size, action_size, model_path):
-        self.actions = [(0, -0.5), (-1, 0), (0.0, 0.0), (1, 0), (0, 0.5)] 
+        # self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(0.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0)]
+        self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(0.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
+         (1.0, 0.0, 1.0), (1.0, 0.0, -1.0), (-1.0, 0.0, 1.0), (-1.0, 0.0, -1.0)]
+
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = DQN(state_size, len(self.actions)).to(self.device)
@@ -223,6 +233,7 @@ class DQNAgent:
 
         # DEBUG
         self.reward = 0
+        self.steps = 0
 
         self.action_space = self.actions
 
@@ -368,7 +379,7 @@ class DQNAgent:
 
         # Devolver estado asegurando que todos los valores sean finitos
         return (
-            self.discretize(signed_distance_to_target, step=0.2, max_value=7),
+            self.discretize(signed_distance_to_target, step=0.2, max_value=MAX_DIST),
             self.discretize(heading_error, step=0.1, max_value=np.pi),
             discretized_speed,
             # distance_difference,
@@ -440,9 +451,9 @@ class DQNAgent:
 
 def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     agent_interface = AgentInterface(
-        action=ActionSpaceType.Direct,
+        action=ActionSpaceType.Continuous,
         # max_episode_steps=max_episode_steps,
-        max_episode_steps=500,
+        max_episode_steps=STEPS,
         neighborhood_vehicle_states=True,
         # waypoint_paths=True,
         # road_waypoints=True,
@@ -464,7 +475,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     # env.fast_mode = True
 
     env = CParkingAgent(env)
-    agent = DQNAgent(4, 5, model_path)
+    agent = DQNAgent(state_size=4, action_size=10, model_path=model_path)
     n_ep = 0
 
     desalignment = Desalignment(env, MAX_ALIGN_STEPS)
@@ -483,12 +494,14 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         desalignment.reset(observation, True)
 
         terminated = False
+        agent.steps = 0
 
         parking_target = agent.find_closest_corners(observation)
         if parking_target is None:
             terminated = True
         # print(f"El target se encuentra en: {parking_target}")
         while not terminated:
+            env.step_number = agent.steps
             # Mover a posicion aleatoria
             if desalignment.is_desaligned():
                 observation, terminated = desalignment.run(observation, parking_target)
@@ -497,7 +510,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
             state = agent.get_state(observation, parking_target)
             action = agent.act(state)
 
-            next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), agent.parking_target_pose)
+            next_observation, reward, terminated, truncated, info = env.step((action[0],action[1], action[2]), agent.parking_target_pose)
 
             observation = next_observation
             episode.record_step(observation, reward, terminated, truncated, info)
@@ -506,6 +519,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
             #     break
             # Terminar el programa si hay problemas o exito
             agent.reward += reward
+            agent.steps += 1
             if reward <= -3 or reward > 25:
                 terminated = True
                 print("TERMINADO!")
@@ -513,7 +527,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         success_tracker.add_score(agent.reward)
     env.close()
 
-    success_rate = success_tracker.success_rate(400)
+    success_rate = success_tracker.success_rate(500)
     print(f"El porcentaje de exito ha sido: {success_rate}")
 
 
@@ -533,5 +547,5 @@ if __name__ == "__main__":
         scenarios=args.scenarios,
         headless=args.headless,
         num_episodes=100,
-        max_episode_steps=500,
+        max_episode_steps=STEPS,
     )

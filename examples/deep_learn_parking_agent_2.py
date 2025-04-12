@@ -97,13 +97,13 @@ def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float)
 
     return rotated_lidar
 
-def initialize_logger(log_file="/home/duro/SMARTS/examples/training_log.csv"):
+def initialize_logger(log_file="/home/duro/SMARTS/examples/training_log_2.csv"):
     """Inicializa el archivo de log con los encabezados, limpiando el contenido si ya existe"""
     with open(log_file, mode='w', newline='') as file:  # Modo "w" borra el contenido anterior
         writer = csv.writer(file)
         writer.writerow(["episode", "reward", "loss", "epsilon", "distance_to_target", "steps", "vertical_distance", "horizontal_distance"])
 
-def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps, vert_dist, hor_dist, log_file="/home/duro/SMARTS/examples/training_log.csv"):
+def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps, vert_dist, hor_dist, log_file="/home/duro/SMARTS/examples/training_log_2.csv"):
     """Guarda los datos de entrenamiento en un archivo CSV"""
     with open(log_file, mode='a', newline='') as file:
         writer = csv.writer(file)
@@ -201,13 +201,10 @@ class DQN(nn.Module):
         self.fc1 = nn.Linear(state_size, 128)
         self.fc2 = nn.Linear(128, 64)
         self.fc3 = nn.Linear(64, action_size)
-
-        self.layer_norm1 = nn.LayerNorm(128)
-        self.layer_norm2 = nn.LayerNorm(64)
-
+        
     def forward(self, x):
-        x = torch.relu(self.layer_norm1(self.fc1(x)))
-        x = torch.relu(self.layer_norm2(self.fc2(x)))
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
         return self.fc3(x)
 
 class DQNAgent:
@@ -218,7 +215,7 @@ class DQNAgent:
         self.epsilon = epsilon  # Probabilidad de exploración
         self.min_epsilon = min_epsilon
         self.decay_rate = decay_rate
-        self.batch_size = 32
+        self.batch_size = 128
         self.memory = ReplayBuffer(capacity=1000000)  # Usar ReplayBuffer en lugar de deque
 
         # DEBUG
@@ -322,7 +319,7 @@ class DQNAgent:
         #     self.decay_rate = 0.998
         self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
 
-    def save_model(self, filename="/home/duro/SMARTS/examples/dqn_model.pth"):
+    def save_model(self, filename="/home/duro/SMARTS/examples/dqn_model_2.pth"):
         torch.save(self.model.state_dict(), filename)
         print(f"Modelo guardado en {filename}")
 
@@ -558,7 +555,7 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
         # Reiniciar la desalineación
-        # desalignment.reset(observation, True)
+        desalignment.reset(observation, True)
 
         terminated = False
         
@@ -578,9 +575,9 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
             env.step_number = agent.steps
 
             # Mover a posicion aleatoria
-            # if desalignment.is_desaligned():
-            #     observation, terminated = desalignment.run(observation, parking_target)
-            #     continue
+            if desalignment.is_desaligned():
+                observation, terminated = desalignment.run(observation, parking_target)
+                continue
  
             # if desalignment.n_steps == MAX_ALIGN_STEPS+1:
             #     print(f"Actual Pos: {observation['ego_vehicle_state']['position'][0]}")

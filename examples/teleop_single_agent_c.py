@@ -128,29 +128,46 @@ class KeepLaneAgent(Agent):
         print("1: Go back")
         print("2: Turn left")
         print("3: Turn right")
+        print("4: Decelerate")
+        print("5: Accelerate and right")
+        print("6: Accelerate and left")
+        print("7: Go back and right")
+        print("8: Go back and left")
         
         choice = input("Option number: ")
         return choice
 
     def act(self, obs, **kwargs):
-        v, w = 0.0, 0.0  # Default action
+        throttle, brake, steering = 0.0, 0.0, 0.0
 
         action = self.get_user_input()
 
         if action == '0':  # Accelerate
-            v = 5
-        elif action == '1':  # Slow down
-            v = -5
+            throttle = 1
+        elif action == '1':  # Go back
+            throttle = -1
         elif action == '2':  # Turn left
-            v = 0
-            w = -0.5
+            steering = -1
         elif action == '3':  # Turn right
-            v = 0
-            w = 0.5
+            steering = 1
+        elif action == '4':  # Slow down
+            brake = 1
+        elif action == '5':
+            steering = 1
+            throttle = 1
+        elif action == '6':
+            steering = -1
+            throttle = 1
+        elif action == '7':
+            steering = 1
+            throttle = -1
+        elif action == '8':
+            steering = -1
+            throttle = -1
         else:
             print("Invalid option. Defaulting to no action.")
 
-        return v, w
+        return np.array([throttle, brake, steering], dtype=np.float32)
     
     def discretize(self, value, step=0.25, max_value=10.0):
         """Discretiza un valor continuo al múltiplo más cercano de 'step'.
@@ -417,7 +434,7 @@ class KeepLaneAgent(Agent):
 
 def main(scenarios, headless, num_episodes, max_episode_steps=None):
     agent_interface = AgentInterface(
-        action=ActionSpaceType.Direct,
+        action=ActionSpaceType.Continuous,
         max_episode_steps=max_episode_steps,
         neighborhood_vehicle_states=True,
         waypoint_paths=True,

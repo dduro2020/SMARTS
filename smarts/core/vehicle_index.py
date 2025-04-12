@@ -767,6 +767,7 @@ class VehicleIndex:
         )
 
         chassis = None
+        # print(f"Action: {action}\n ACTIONS: {sim.dynamic_action_spaces}")
         if action in sim.dynamic_action_spaces:
             if mission.vehicle_spec:
                 logger = logging.getLogger(cls.__name__)

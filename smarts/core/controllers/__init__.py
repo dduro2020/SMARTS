@@ -93,7 +93,8 @@ class Controllers:
             return
         if action_space == ActionSpaceType.Continuous:
             vehicle.control(
-                throttle=np.clip(action[0], 0.0, 1.0),
+                # throttle=np.clip(action[0], 0.0, 1.0),
+                throttle=np.clip(action[0], -1.0, 1.0),
                 brake=np.clip(action[1], 0.0, 1.0),
                 steering=np.clip(action[2], -1, 1),
             )

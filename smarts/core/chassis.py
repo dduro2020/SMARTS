@@ -549,9 +549,14 @@ class AckermannChassis(Chassis):
 
     @property
     def speed(self) -> float:
-        """Returns speed in m/s."""
+        """Returns speed in m/s (positive if moving forward, negative if moving backward)."""
         velocity, _ = np.array(self._client.getBaseVelocity(self._bullet_id))
-        return math.sqrt(velocity.dot(velocity))
+        speed_magnitude = math.sqrt(velocity.dot(velocity))
+        
+        if velocity[0] < 0:
+            return -speed_magnitude
+        else:
+            return speed_magnitude 
 
     @cached_property
     def velocity_vectors(self):
@@ -696,19 +701,20 @@ class AckermannChassis(Chassis):
         self._clear_step_cache()
 
     def control(self, throttle=0, brake=0, steering=0):
-        """Apply throttle [0, 1], brake [0, 1], and steering [-1, 1] values for this
-        time-step.
-        """
+        """Apply throttle [-1, 1] (negative = reverse), brake [0, 1], and steering [-1, 1]."""
         self._last_control = (throttle, brake, steering)
 
+        # Throttle now allows negative values (for reverse)
         if isinstance(throttle, np.ndarray):
             assert all(
-                0 <= x <= 1 for x in throttle
-            ), f"throttle ({throttle}) must be in [0, 1]"
+                -1 <= x <= 1 for x in throttle  # Rango modificado a [-1, 1]
+            ), f"throttle ({throttle}) must be in [-1, 1]"
             throttle_list = list(throttle * self._max_torque)
         else:
-            assert 0 <= throttle <= 1, f"throttle ({throttle}) must be in [0, 1]"
+            assert -1 <= throttle <= 1, f"throttle ({throttle}) must be in [-1, 1]"  # Rango modificado
             throttle_list = [throttle * self._max_torque] * 4
+
+        # Brake and steering checks remain unchanged
         assert 0 <= brake <= 1, f"brake ({brake}) must be in [0, 1]"
         assert -1 <= steering <= 1, f"steering ({steering}) must be in [-1, 1]"
 
@@ -717,7 +723,7 @@ class AckermannChassis(Chassis):
         # on brake such that, the reverse torque is only applied after
         # a threshold is passed for vehicle velocity.
         # Thus, brake is applied if: vehicle speed > 1/36 (m/s)
-        if brake > 0 and self.longitudinal_lateral_speed[0] < 1 / 36:
+        if brake > 0 and abs(self.speed) < 1 / 36:
             brake = 0
 
         self._apply_steering(steering)
@@ -777,7 +783,10 @@ class AckermannChassis(Chassis):
             forces=throttle_list,
         )
 
+    # Se necesita modificar para frenar sabiendo la velocidad actual
     def _apply_brake(self, brake):
+        if self.speed > 0:
+            brake = -brake
         self._client.setJointMotorControlArray(
             self._bullet_id,
             [
@@ -790,7 +799,7 @@ class AckermannChassis(Chassis):
                 ]
             ],
             pybullet.TORQUE_CONTROL,
-            forces=[-brake * self._max_btorque] * 4,
+            forces=[brake * self._max_btorque] * 4,
         )
 
     def _apply_steering(self, steering):

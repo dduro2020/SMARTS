@@ -50,8 +50,13 @@ def _DEFAULT_PASSTHROUGH(action):
     return action
 
 
+# _throttle_break_steering_space = gym.spaces.Box(
+#     low=np.array([0.0, 0.0, -1.0], dtype=np.float32),
+#     high=np.array([1.0, 1.0, 1.0], dtype=np.float32),
+#     dtype=np.float32,
+# )
 _throttle_break_steering_space = gym.spaces.Box(
-    low=np.array([0.0, 0.0, -1.0], dtype=np.float32),
+    low=np.array([-1.0, 0.0, -1.0], dtype=np.float32),
     high=np.array([1.0, 1.0, 1.0], dtype=np.float32),
     dtype=np.float32,
 )
