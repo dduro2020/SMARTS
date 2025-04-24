@@ -35,7 +35,7 @@ import math
 
 MAX_ALIGN_STEPS = 19
 STEPS = 500
-MAX_DIST = 9
+MAX_DIST = 710
 
 AGENT_ID: Final[str] = "Agent"
 
@@ -220,8 +220,12 @@ class DQN(nn.Module):
 class DQNAgent:
     def __init__(self, state_size, action_size, model_path):
         # self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(0.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0)]
-        self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(0.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
-         (1.0, 0.0, 1.0), (1.0, 0.0, -1.0), (-1.0, 0.0, 1.0), (-1.0, 0.0, -1.0)]
+        # self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(0.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
+        #  (1.0, 0.0, 1.0), (1.0, 0.0, -1.0), (-1.0, 0.0, 1.0), (-1.0, 0.0, -1.0)]
+        # self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
+        #  (-0.5, 0.0, 1.0), (-0.5, 0.0, -1.0)]
+        self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
+         (0.5, 0.0, 1.0), (0.5, 0.0, -1.0), (-0.5, 0.0, 1.0), (-0.5, 0.0, -1.0)]
 
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -248,18 +252,6 @@ class DQNAgent:
         
         action_index = q_values.argmax().item()  # Escoge la acción con el mayor valor Q
         return self.action_space[action_index]
-    # def act(self, state):
-    #     state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-    #     with torch.no_grad():
-    #         q_values = self.model(state_tensor)
-        
-    #     try:
-    #         tau = 0.5
-    #         probs = torch.nn.functional.softmax(q_values / tau, dim=1)  # Q - probs
-    #         action_index = torch.multinomial(probs, num_samples=1).item()
-    #         return self.actions[action_index]
-    #     except IndexError:
-    #         return random.choice(self.actions)
 
 
     def discretize(self, value, step=0.25, max_value=10.0):
@@ -322,13 +314,16 @@ class DQNAgent:
         
         # Sumar la posición relativa del vehículo con target_pose (relativo a init_pose)
         self.parking_target_pose = target_pose - car_pose_relative
+        # print(f"TARGET RELATIVE: {self.parking_target_pose}, TARGET INIT: {target_pose}, CAR_POSE: {car_position}")
         
-        # Distancia euclidiana al objetivo
-        distance_to_target = np.linalg.norm(self.parking_target_pose)
-        distance_to_target = np.clip(distance_to_target, 0, 1e6)  # Evitar valores extremos
-        
-        signed_distance_to_target = distance_to_target if self.parking_target_pose[0] > 0 else -distance_to_target
-        
+        # Extraer componentes x (horizontal) e y (vertical)
+        x_rel = self.parking_target_pose[0]
+        y_rel = self.parking_target_pose[1]
+
+        # Discretizar cada componente por separado
+        discretized_x = self.discretize(x_rel, step=0.2, max_value=MAX_DIST)
+        discretized_y = self.discretize(y_rel, step=0.2, max_value=MAX_DIST)
+
         # Diferencia de orientación ajustada a [-pi, pi]
         heading_error = np.arctan2(
             np.sin(TARGET_HEADING - car_heading), 
@@ -345,44 +340,22 @@ class DQNAgent:
         distances = np.linalg.norm(filtered_lidar, axis=1)
         distances = np.nan_to_num(distances, nan=0.0, posinf=1e6, neginf=-1e6)  # Reemplazar NaN e Inf
         
-        lidar_resolution = 360 / len(distances)
-        index_90 = int(round(90 / lidar_resolution))
-        index_270 = int(round(270 / lidar_resolution))
-        
-        if np.isfinite(distances[index_90]) and np.isfinite(distances[index_270]):
-            distance_90 = self.discretize(distances[index_90])
-            distance_270 = self.discretize(distances[index_270])
-            distance_difference = self.discretize(distance_270 - distance_90)
-        else:
-            distance_difference = 1e6   # En vez de Inf
-        
         # Discretizar velocidad para mejor aprendizaje
-        # Test: 0 quieto, -1 atras, 1 alante
-        discretized_speed = self.discretize(car_speed, step=0.1, max_value=20)
-        # discretized_speed = 0
-        # if car_speed > 0:
-        #     discretized_speed = 1
-        # elif car_speed < 0:
-        #     discretized_speed = -1
+        discretized_speed = self.discretize(car_speed, step=0.1, max_value=5)
 
         # Encontrar la distancia mínima válida en el array 'distances'
         distances[distances == 0] = 1e6
         min_index = np.argmin(distances)
         min_distance = distances[min_index]
 
-        # Determinar el ángulo de la distancia mínima
-        angle = min_index * lidar_resolution
-
-        # Asignar signo a la distancia mínima según el ángulo
-        min_distance_signed = min_distance if 0 <= angle <= 180 else -min_distance
-        discretized_min_distance = self.discretize(min_distance_signed, 0.2)
+        discretized_min_distance = self.discretize(min_distance, 0.1, 1.5)
 
         # Devolver estado asegurando que todos los valores sean finitos
         return (
-            self.discretize(signed_distance_to_target, step=0.2, max_value=MAX_DIST),
+            discretized_x,
+            discretized_y,
             self.discretize(heading_error, step=0.1, max_value=np.pi),
             discretized_speed,
-            # distance_difference,
             discretized_min_distance
         )
 
@@ -475,7 +448,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
     # env.fast_mode = True
 
     env = CParkingAgent(env)
-    agent = DQNAgent(state_size=4, action_size=10, model_path=model_path)
+    agent = DQNAgent(state_size=5, action_size=9, model_path=model_path)
     n_ep = 0
 
     desalignment = Desalignment(env, MAX_ALIGN_STEPS)
@@ -491,7 +464,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         episode.record_scenario(env.unwrapped.scenario_log)
 
         # Reiniciar la desalineación
-        desalignment.reset(observation, True)
+        # desalignment.reset(observation, True)
 
         terminated = False
         agent.steps = 0
@@ -503,9 +476,9 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         while not terminated:
             env.step_number = agent.steps
             # Mover a posicion aleatoria
-            if desalignment.is_desaligned():
-                observation, terminated = desalignment.run(observation, parking_target)
-                continue
+            # if desalignment.is_desaligned():
+            #     observation, terminated = desalignment.run(observation, parking_target)
+            #     continue
 
             state = agent.get_state(observation, parking_target)
             action = agent.act(state)
@@ -523,6 +496,9 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
             if reward <= -3 or reward > 25:
                 terminated = True
                 print("TERMINADO!")
+                break
+            if env.last_orientation < 0.1 and env.last_target_distance < 0.2:
+                print("-----[PARKING FINALIZADO]-----")
                 break
         success_tracker.add_score(agent.reward)
     env.close()

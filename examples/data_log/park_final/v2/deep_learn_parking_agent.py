@@ -37,14 +37,21 @@ import csv
 import os
 
 MAX_ALIGN_STEPS = 19
-EPISODES = 4000
+EPISODES = 3000
+# EPISODES = 2000
 STEPS = 500
+# MAX_DIST = 9
+MAX_DIST = 10
 
 AGENT_ID: Final[str] = "Agent"
 
 TARGET_HEADING = -np.pi/2
+
+VEL_DECAY = 0.063 #m/s each step
+VEL_TOP = 0.723 #m/s max vel step
 # ROAD: -pi/2
 # DEST: [28.16 96.8   0.  ]
+# np.array([throttle, brake, steering], dtype=np.float32)
 
 def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> np.ndarray:
     """
@@ -105,7 +112,7 @@ def log_training_data(episode, reward, loss, epsilon, distance_to_target, steps,
         writer.writerow([episode, reward, loss, epsilon, distance_to_target, steps, vert_dist, hor_dist])
 
 class Desalignment:
-    def __init__(self, env, max_align_steps):
+    def __init__(self, env, max_align_steps=MAX_ALIGN_STEPS):
         self.env = env
         self.max_align_steps = max_align_steps
 
@@ -115,52 +122,57 @@ class Desalignment:
         self.rotate = rotate
         self.n_steps = 0
         self.accelerate = True
-        self.first_action = np.array([0.0, 0.0])
-        self.random_offset = np.random.choice([-2, -1.75, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 1.75, 2])
+        self.random_offset = np.random.choice([-2, -1.75, -1.5, -1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.5, 1.75, 2])
         # self.random_offset = np.random.choice([-2, 0, 2])
-        self.random_rotation = np.random.choice([-2, 0, 2])
+        self.random_rotation = np.random.choice([-0.05, -0.01, 0, 0.01, 0.05])
         self.target = observation["ego_vehicle_state"]["position"][0] + self.random_offset
+        self.steering = self.random_rotation
+        self.speed = 0
     
-    def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
+    def move_to_random_position(self, current_position, target_position, accelerate, steps):
         """Mueve el vehículo a una posición (target)."""
+        throttle = 0
+        brake = 0
+        steering = 0
+        
 
         distance = target_position - current_position
-        action = 0
+        if abs(self.speed ) < 3:
+            throttle = 1 if distance > 0 else -1
+        else:
+            throttle = 0
 
-        if accelerate == True:
-            # TRAINED action = 10
-            action = 15 if distance > 0 else -15
-
-        if abs(distance) < 0.25 or steps == MAX_ALIGN_STEPS:
-            # print(f"finished, current pose: {current_position}")
-            action = -first_act
+        if abs(distance) < 0.1:
+            # print(f"finished, current pose: {current_position}, target pose: {target_position}")
+            self.accelerate = False
+        
+        if not self.accelerate and abs(self.speed) > 0.2:
+            brake = 1
+            steering = self.steering
+            
+            
+        if steps == self.max_align_steps:
+            self.moved = True
+            throttle = 0
+            brake = 0
+            steering = 0
                 
-        return np.array([action, 0.0])
+        return np.array([throttle, brake, steering], dtype=np.float32)
 
     def run(self, observation, parking_target):
         """Mueve el vehículo a una posición aleatoria."""
+        self.speed = observation['ego_vehicle_state']['speed']
         if not self.moved:
             action = self.move_to_random_position(
-                observation["ego_vehicle_state"]["position"][0], self.target, self.accelerate, self.n_steps, self.first_action[0]
+                observation["ego_vehicle_state"]["position"][0], self.target, self.accelerate, self.n_steps
             )
-            self.accelerate = False
-
-            if action[0] + self.first_action[0] == 0:
-                self.moved = True
-
-            if self.n_steps == 0:
-                self.first_action = action
-
-            observation, _, terminated, _, _ = self.env.step((action[0], action[1]), parking_target)
+            observation, _, terminated, _, _ = self.env.step(action, parking_target)
             self.n_steps += 1
             return observation, terminated
 
         elif self.n_steps <= self.max_align_steps:
-            default_rot = 0.0
-            if self.rotate:
-                default_rot = self.random_rotation
-                self.rotate = False
-            observation, _, terminated, _, _ = self.env.step((0.0, default_rot), parking_target)
+            steering = 0.0
+            observation, _, terminated, _, _ = self.env.step(np.array([0.0, 0.0, steering], dtype=np.float32), parking_target)
             self.n_steps += 1
             return observation, terminated
 
@@ -201,14 +213,14 @@ class DQN(nn.Module):
         return self.fc3(x)
 
 class DQNAgent:
-    def __init__(self, state_size, action_size, gamma=0.995, alpha=0.0001, epsilon=1.0, min_epsilon=0.001, decay_rate=0.999):
+    def __init__(self, state_size, action_size, gamma=0.999, alpha=0.0001, epsilon=1.0, min_epsilon=0.01, decay_rate=0.999):
         self.state_size = state_size
         self.action_size = action_size
         self.gamma = gamma  # Factor de descuento
         self.epsilon = epsilon  # Probabilidad de exploración
         self.min_epsilon = min_epsilon
         self.decay_rate = decay_rate
-        self.batch_size = 128
+        self.batch_size = 256
         self.memory = ReplayBuffer(capacity=1000000)  # Usar ReplayBuffer en lugar de deque
 
         # DEBUG
@@ -222,7 +234,11 @@ class DQNAgent:
 
         self.init_pose = np.array([0, 0, 0])
         self.parking_target_pose = np.array([0, 0, 0])
-        self.actions = [(0, -0.5), (-1, 0), (0.0, 0.0), (1, 0), (0, 0.5)]  # Definir acciones fijas
+        # self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(0.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0)]
+        self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
+         (0.5, 0.0, 1.0), (0.5, 0.0, -1.0), (-0.5, 0.0, 1.0), (-0.5, 0.0, -1.0)]
+        # self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
+        #  (-0.5, 0.0, 1.0), (-0.5, 0.0, -1.0)]
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -293,8 +309,10 @@ class DQNAgent:
         self.optimizer.step()
 
         # Actualizar la red objetivo periódicamente
-        if self.steps % 20 == 0:
+        if self.steps % 50 == 0:
             self.update_target_model()
+        # if self.episode % 5 == 0:
+        #     self.update_target_model()
 
     def update_target_model(self, tau=0.01):
         """Realiza un soft update del target model con un factor de mezcla tau."""
@@ -302,12 +320,12 @@ class DQNAgent:
             target_param.data.copy_(tau * model_param.data + (1.0 - tau) * target_param.data)
 
     def decay_epsilon(self):
-        if self.episode < self.episodes // 2:
-            # Primera etapa: Decaimiento lento
-            self.decay_rate = 0.9993  # Tasa de decaimiento lenta
-        else:
-            # Segunda etapa: Decaimiento rápido
-            self.decay_rate = 0.998
+        # if self.episode < self.episodes*2 / 3:
+        #     # Primera etapa: Decaimiento lento
+        #     self.decay_rate = 0.9995  # Tasa de decaimiento lenta
+        # else:
+        #     # Segunda etapa: Decaimiento rápido
+        #     self.decay_rate = 0.998
         self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
 
     def save_model(self, filename="/home/duro/SMARTS/examples/dqn_model.pth"):
@@ -375,13 +393,16 @@ class DQNAgent:
         
         # Sumar la posición relativa del vehículo con target_pose (relativo a init_pose)
         self.parking_target_pose = target_pose - car_pose_relative
+        # print(f"TARGET RELATIVE: {self.parking_target_pose}, TARGET INIT: {target_pose}, CAR_POSE: {car_position}")
         
-        # Distancia euclidiana al objetivo
-        distance_to_target = np.linalg.norm(self.parking_target_pose)
-        distance_to_target = np.clip(distance_to_target, 0, 1e6)  # Evitar valores extremos
-        
-        signed_distance_to_target = distance_to_target if self.parking_target_pose[0] > 0 else -distance_to_target
-        
+        # Extraer componentes x (horizontal) e y (vertical)
+        x_rel = self.parking_target_pose[0]
+        y_rel = self.parking_target_pose[1]
+
+        # Discretizar cada componente por separado
+        discretized_x = self.discretize(x_rel, step=0.2, max_value=MAX_DIST)
+        discretized_y = self.discretize(y_rel, step=0.2, max_value=MAX_DIST)
+
         # Diferencia de orientación ajustada a [-pi, pi]
         heading_error = np.arctan2(
             np.sin(TARGET_HEADING - car_heading), 
@@ -410,13 +431,7 @@ class DQNAgent:
             distance_difference = 1e6   # En vez de Inf
         
         # Discretizar velocidad para mejor aprendizaje
-        # Test: 0 quieto, -1 atras, 1 alante
-        discretized_speed = self.discretize(car_speed, step=0.1, max_value=20)
-        # discretized_speed = 0
-        # if car_speed > 0:
-        #     discretized_speed = 1
-        # elif car_speed < 0:
-        #     discretized_speed = -1
+        discretized_speed = self.discretize(car_speed, step=0.1, max_value=5)
 
         # Encontrar la distancia mínima válida en el array 'distances'
         distances[distances == 0] = 1e6
@@ -427,12 +442,12 @@ class DQNAgent:
         angle = min_index * lidar_resolution
 
         # Asignar signo a la distancia mínima según el ángulo
-        min_distance_signed = min_distance if 0 <= angle <= 180 else -min_distance
-        discretized_min_distance = self.discretize(min_distance_signed, 0.2)
+        discretized_min_distance = self.discretize(min_distance, 0.1, 1.5)
 
         # Devolver estado asegurando que todos los valores sean finitos
         return (
-            self.discretize(signed_distance_to_target, step=0.2, max_value=8),
+            discretized_x,
+            discretized_y,
             self.discretize(heading_error, step=0.1, max_value=np.pi),
             discretized_speed,
             # distance_difference,
@@ -504,7 +519,7 @@ class DQNAgent:
 
 def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
     agent_interface = AgentInterface(
-        action=ActionSpaceType.Direct,
+        action=ActionSpaceType.Continuous,
         # max_episode_steps=max_episode_steps,
         max_episode_steps=STEPS,
         neighborhood_vehicle_states=True,
@@ -524,11 +539,14 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
         scenarios=scenarios,
         agent_interfaces={AGENT_ID: agent_interface},
         headless=True,
+        # headless=headless,
     )
     env.fast_mode = True
 
     env = CParkingAgent(env)
-    agent = DQNAgent(4, 5)
+    # agent = DQNAgent(state_size=4, action_size=6)
+    # agent = DQNAgent(state_size=4, action_size=10)
+    agent = DQNAgent(state_size=5, action_size=9)
     n_ep = 0
 
     print(f"El modelo se ejecutará en: {agent.device}")
@@ -537,14 +555,14 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
     
     initialize_logger()
     agent.episodes = num_episodes
-    desalignment = Desalignment(env, MAX_ALIGN_STEPS)
+    desalignment = Desalignment(env)
 
     for episode in episodes(n=num_episodes):
         agent.episode += 1
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
         # Reiniciar la desalineación
-        desalignment.reset(observation, True)
+        # desalignment.reset(observation, True)
 
         terminated = False
         
@@ -557,20 +575,29 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
         parking_target = agent.find_closest_corners(observation)
         if parking_target is None:
             terminated = True
+        # print(f"Parking Pose: {parking_target}")
+        # print(f"Init Pos: {observation['ego_vehicle_state']['position']}")
         while not terminated:
             # Save step number
             env.step_number = agent.steps
 
             # Mover a posicion aleatoria
-            if desalignment.is_desaligned():
-                observation, terminated = desalignment.run(observation, parking_target)
-                continue
-
+            # if desalignment.is_desaligned():
+            #     observation, terminated = desalignment.run(observation, parking_target)
+            #     continue
+ 
+            # if desalignment.n_steps == MAX_ALIGN_STEPS+1:
+            #     print(f"Actual Pos: {observation['ego_vehicle_state']['position'][0]}")
+            #     print(f"Actual Heading: {observation['ego_vehicle_state']['heading']}")
+            #     resp = input("Printig point_cloud? (yes/no): ")
+            #     desalignment.n_steps+=1
             # Nos quedan TOTAL_STEPS-MAX_ALIGN_STEPS para el entrenamiento, SIEMPRE las mismas
             state = agent.get_state(observation, parking_target)
             action = agent.act(state)
+            # if action[0] < 0:
+            #     print("MARCHA ATRAS")
 
-            next_observation, reward, terminated, truncated, info = env.step((action[0],action[1]), agent.parking_target_pose)
+            next_observation, reward, terminated, truncated, info = env.step(np.array([action[0], action[1], action[2]], dtype=np.float32), agent.parking_target_pose)
             agent.reward += reward
             agent.med_dist += abs(state[0])
             agent.steps += 1
@@ -585,7 +612,7 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
             episode.record_step(observation, reward, terminated, truncated, info)
 
             # Terminar el programa si hay problemas o exito
-            if reward <= -3 or reward > 25:
+            if reward <= -3 or reward > 20:
                 terminated = True
                 print("TERMINADO!")
                 break
@@ -594,7 +621,7 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
         # if n_ep % 200 == 0 and n_ep != 0:
         #     agent.save_model()
         # Guardar el mejor modelo durante el entrenamiento
-        if agent.reward > 400 and n_ep != 0:
+        if (reward > 20 or agent.reward > 250) and n_ep != 0:
             # agent.n_achieved = agent.n_achieved + 1
             agent.save_model()
         

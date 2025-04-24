@@ -37,9 +37,11 @@ import csv
 import os
 
 MAX_ALIGN_STEPS = 19
-EPISODES = 4000
+EPISODES = 5000
+# EPISODES = 2000
 STEPS = 500
-MAX_DIST = 9
+# MAX_DIST = 9
+MAX_DIST = 10
 
 AGENT_ID: Final[str] = "Agent"
 
@@ -218,7 +220,7 @@ class DQNAgent:
         self.epsilon = epsilon  # Probabilidad de exploración
         self.min_epsilon = min_epsilon
         self.decay_rate = decay_rate
-        self.batch_size = 32
+        self.batch_size = 256
         self.memory = ReplayBuffer(capacity=1000000)  # Usar ReplayBuffer en lugar de deque
 
         # DEBUG
@@ -233,8 +235,10 @@ class DQNAgent:
         self.init_pose = np.array([0, 0, 0])
         self.parking_target_pose = np.array([0, 0, 0])
         # self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(0.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0)]
-        self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(0.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
+        self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
          (0.5, 0.0, 1.0), (0.5, 0.0, -1.0), (-0.5, 0.0, 1.0), (-0.5, 0.0, -1.0)]
+        # self.actions = [(0.0, 0.7, 0.0),(0.0, 0.0, -1.0),(-1.0, 0.0, 0.0),(1.0, 0.0, 0.0),(0.0, 0.0, 1.0),
+        #  (-0.5, 0.0, 1.0), (-0.5, 0.0, -1.0)]
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -305,8 +309,10 @@ class DQNAgent:
         self.optimizer.step()
 
         # Actualizar la red objetivo periódicamente
-        if self.steps % 20 == 0:
+        if self.steps % 50 == 0:
             self.update_target_model()
+        # if self.episode % 5 == 0:
+        #     self.update_target_model()
 
     def update_target_model(self, tau=0.01):
         """Realiza un soft update del target model con un factor de mezcla tau."""
@@ -314,12 +320,12 @@ class DQNAgent:
             target_param.data.copy_(tau * model_param.data + (1.0 - tau) * target_param.data)
 
     def decay_epsilon(self):
-        # if self.episode < self.episodes*2 / 3:
-        #     # Primera etapa: Decaimiento lento
-        #     self.decay_rate = 0.9995  # Tasa de decaimiento lenta
-        # else:
-        #     # Segunda etapa: Decaimiento rápido
-        #     self.decay_rate = 0.998
+        if self.episode < self.episodes / 2:
+            # Primera etapa: Decaimiento lento
+            self.decay_rate = 0.9995  # Tasa de decaimiento lenta
+        else:
+            # Segunda etapa: Decaimiento rápido
+            self.decay_rate = 0.998
         self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
 
     def save_model(self, filename="/home/duro/SMARTS/examples/dqn_model.pth"):
@@ -387,13 +393,16 @@ class DQNAgent:
         
         # Sumar la posición relativa del vehículo con target_pose (relativo a init_pose)
         self.parking_target_pose = target_pose - car_pose_relative
+        # print(f"TARGET RELATIVE: {self.parking_target_pose}, TARGET INIT: {target_pose}, CAR_POSE: {car_position}")
         
-        # Distancia euclidiana al objetivo
-        distance_to_target = np.linalg.norm(self.parking_target_pose)
-        distance_to_target = np.clip(distance_to_target, 0, 1e6)  # Evitar valores extremos
-        
-        signed_distance_to_target = distance_to_target if self.parking_target_pose[0] > 0 else -distance_to_target
-        
+        # Extraer componentes x (horizontal) e y (vertical)
+        x_rel = self.parking_target_pose[0]
+        y_rel = self.parking_target_pose[1]
+
+        # Discretizar cada componente por separado
+        discretized_x = self.discretize(x_rel, step=0.2, max_value=MAX_DIST)
+        discretized_y = self.discretize(y_rel, step=0.2, max_value=MAX_DIST)
+
         # Diferencia de orientación ajustada a [-pi, pi]
         heading_error = np.arctan2(
             np.sin(TARGET_HEADING - car_heading), 
@@ -410,44 +419,22 @@ class DQNAgent:
         distances = np.linalg.norm(filtered_lidar, axis=1)
         distances = np.nan_to_num(distances, nan=0.0, posinf=1e6, neginf=-1e6)  # Reemplazar NaN e Inf
         
-        lidar_resolution = 360 / len(distances)
-        index_90 = int(round(90 / lidar_resolution))
-        index_270 = int(round(270 / lidar_resolution))
-        
-        if np.isfinite(distances[index_90]) and np.isfinite(distances[index_270]):
-            distance_90 = self.discretize(distances[index_90])
-            distance_270 = self.discretize(distances[index_270])
-            distance_difference = self.discretize(distance_270 - distance_90)
-        else:
-            distance_difference = 1e6   # En vez de Inf
-        
         # Discretizar velocidad para mejor aprendizaje
-        # Test: 0 quieto, -1 atras, 1 alante
-        discretized_speed = self.discretize(car_speed, step=0.1, max_value=20)
-        # discretized_speed = 0
-        # if car_speed > 0:
-        #     discretized_speed = 1
-        # elif car_speed < 0:
-        #     discretized_speed = -1
+        discretized_speed = self.discretize(car_speed, step=0.1, max_value=5)
 
         # Encontrar la distancia mínima válida en el array 'distances'
         distances[distances == 0] = 1e6
         min_index = np.argmin(distances)
         min_distance = distances[min_index]
 
-        # Determinar el ángulo de la distancia mínima
-        angle = min_index * lidar_resolution
-
-        # Asignar signo a la distancia mínima según el ángulo
-        min_distance_signed = min_distance if 0 <= angle <= 180 else -min_distance
-        discretized_min_distance = self.discretize(min_distance_signed, 0.2)
+        discretized_min_distance = self.discretize(min_distance, 0.1, 1.5)
 
         # Devolver estado asegurando que todos los valores sean finitos
         return (
-            self.discretize(signed_distance_to_target, step=0.2, max_value=MAX_DIST),
+            discretized_x,
+            discretized_y,
             self.discretize(heading_error, step=0.1, max_value=np.pi),
             discretized_speed,
-            # distance_difference,
             discretized_min_distance
         )
 
@@ -542,7 +529,8 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
 
     env = CParkingAgent(env)
     # agent = DQNAgent(state_size=4, action_size=6)
-    agent = DQNAgent(state_size=4, action_size=10)
+    # agent = DQNAgent(state_size=4, action_size=10)
+    agent = DQNAgent(state_size=5, action_size=9)
     n_ep = 0
 
     print(f"El modelo se ejecutará en: {agent.device}")
@@ -558,7 +546,7 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
         observation, _ = env.reset()
         episode.record_scenario(env.unwrapped.scenario_log)
         # Reiniciar la desalineación
-        # desalignment.reset(observation, True)
+        desalignment.reset(observation, True)
 
         terminated = False
         
@@ -578,9 +566,9 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
             env.step_number = agent.steps
 
             # Mover a posicion aleatoria
-            # if desalignment.is_desaligned():
-            #     observation, terminated = desalignment.run(observation, parking_target)
-            #     continue
+            if desalignment.is_desaligned():
+                observation, terminated = desalignment.run(observation, parking_target)
+                continue
  
             # if desalignment.n_steps == MAX_ALIGN_STEPS+1:
             #     print(f"Actual Pos: {observation['ego_vehicle_state']['position'][0]}")
@@ -615,7 +603,7 @@ def main(scenarios, headless, num_episodes=EPISODES, max_episode_steps=None):
         # if n_ep % 200 == 0 and n_ep != 0:
         #     agent.save_model()
         # Guardar el mejor modelo durante el entrenamiento
-        if reward > 20 and n_ep != 0:
+        if (reward > 20 or agent.reward > 450) and n_ep != 0:
             # agent.n_achieved = agent.n_achieved + 1
             agent.save_model()
         
