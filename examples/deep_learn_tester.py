@@ -40,7 +40,7 @@ MAX_DIST = 710
 AGENT_ID: Final[str] = "Agent"
 
 TARGET_HEADING = -np.pi/2
-# dir_path = "data_log/park_v2_1/"
+# dir_path = "data_log/park_final/v4/"
 dir_path = ""
 model_path = "/home/duro/SMARTS/examples/"+ dir_path +"dqn_model.pth"
 # ROAD: -pi/2
@@ -143,7 +143,7 @@ class Desalignment:
         self.accelerate = True
         self.random_offset = np.random.choice([-2, -1.75, -1.5, -1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.5, 1.75, 2])
         # self.random_offset = np.random.choice([-2, 0, 2])
-        self.random_rotation = np.random.choice([-0.05, -0.01, 0, 0.01, 0.05])
+        self.random_rotation = np.random.choice([-0.005, -0.002, 0, 0.002, 0.005])
         self.target = observation["ego_vehicle_state"]["position"][0] + self.random_offset
         self.steering = self.random_rotation
         self.speed = 0
@@ -464,7 +464,7 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         episode.record_scenario(env.unwrapped.scenario_log)
 
         # Reiniciar la desalineación
-        # desalignment.reset(observation, True)
+        desalignment.reset(observation, True)
 
         terminated = False
         agent.steps = 0
@@ -476,9 +476,9 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
         while not terminated:
             env.step_number = agent.steps
             # Mover a posicion aleatoria
-            # if desalignment.is_desaligned():
-            #     observation, terminated = desalignment.run(observation, parking_target)
-            #     continue
+            if desalignment.is_desaligned():
+                observation, terminated = desalignment.run(observation, parking_target)
+                continue
 
             state = agent.get_state(observation, parking_target)
             action = agent.act(state)
@@ -497,13 +497,14 @@ def main(scenarios, headless, num_episodes=300, max_episode_steps=None):
                 terminated = True
                 print("TERMINADO!")
                 break
-            if env.last_orientation < 0.1 and env.last_target_distance < 0.2:
+            if env.last_orientation < 0.1 and env.last_target_distance < 0.3 and abs(agent.parking_target_pose[1] < 0.1) and agent.steps > 150 and agent.reward > 200:
                 print("-----[PARKING FINALIZADO]-----")
+                agent.reward += 500
                 break
         success_tracker.add_score(agent.reward)
     env.close()
 
-    success_rate = success_tracker.success_rate(500)
+    success_rate = success_tracker.success_rate(400)
     print(f"El porcentaje de exito ha sido: {success_rate}")
 
 

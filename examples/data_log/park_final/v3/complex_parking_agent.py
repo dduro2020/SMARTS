@@ -120,7 +120,7 @@ class CParkingAgent(gym.Wrapper):
         if speed < -0.1 and dist_to_target < self.last_target_distance - 0.05:
             orientation_reward += 0.3
 
-        elif speed > 0.1 and dist_to_target < self.last_target_distance - 0.05 and horizontal_dist > 0.5:
+        elif speed > 0.1 and dist_to_target < self.last_target_distance - 0.05:
             orientation_reward -= 0.3
 
         reward += orientation_reward

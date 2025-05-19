@@ -124,7 +124,7 @@ class Desalignment:
         self.accelerate = True
         self.random_offset = np.random.choice([-2, -1.75, -1.5, -1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.5, 1.75, 2])
         # self.random_offset = np.random.choice([-2, 0, 2])
-        self.random_rotation = np.random.choice([-0.05, -0.01, 0, 0.01, 0.05])
+        self.random_rotation = np.random.choice([-0.005, -0.002, 0, 0.002, 0.005])
         self.target = observation["ego_vehicle_state"]["position"][0] + self.random_offset
         self.steering = self.random_rotation
         self.speed = 0

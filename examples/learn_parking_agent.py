@@ -30,18 +30,18 @@ AGENT_ID: Final[str] = "Agent"
 
 def filtrate_lidar(lidar_data: np.ndarray, car_pose: np.ndarray, heading: float) -> np.ndarray:
     """
-    Transforma los puntos LIDAR para que sean relativos al vehículo, con el índice 0 a 90° a la izquierda del agente.
+    Transforma los puntos LIDAR para que sean relativos al vehiculo, con el indice 0 a 90° a la izquierda del agente.
 
     Args:
         lidar_data (np.ndarray): Datos del LIDAR en coordenadas absolutas.
-        car_pose (np.ndarray): Posición actual del vehículo en coordenadas absolutas.
-        heading (float): Ángulo de orientación del vehículo en radianes.
+        car_pose (np.ndarray): Posicion actual del vehiculo en coordenadas absolutas.
+        heading (float): angulo de orientacion del vehiculo en radianes.
 
     Returns:
         np.ndarray: Datos LIDAR transformados en coordenadas relativas.
     """
     lidar_data_copy = np.copy(lidar_data)
-    # Asignar 'inf' a los puntos inválidos (donde todo es [0, 0, 0])
+    # Asignar 'inf' a los puntos invalidos (donde todo es [0, 0, 0])
     lidar_data_copy[np.all(lidar_data_copy == [0, 0, 0], axis=1)] = float('inf')
 
     # Calcular puntos relativos
@@ -65,32 +65,32 @@ class LearningAgent:
     """Agente de Q-learning optimizado para aparcamiento, que utiliza LiDAR con velocidad angular fija."""
 
     def __init__(self, epsilon=0.99, min_epsilon=0, decay_rate=0.99, alpha=0.2, gamma=0.9):
-        self.epsilon = epsilon  # Probabilidad inicial de exploración
-        self.min_epsilon = min_epsilon  # Valor mínimo de epsilon
+        self.epsilon = epsilon  # Probabilidad inicial de exploracion
+        self.min_epsilon = min_epsilon  # Valor minimo de epsilon
         self.decay_rate = decay_rate  # Tasa de decremento para epsilon
         self.alpha = alpha  # Tasa de aprendizaje
         self.gamma = gamma  # Factor de descuento
-        self.q_table = {} # Tabla Q para almacenar los valores de estado-acción
+        self.q_table = {} # Tabla Q para almacenar los valores de estado-accion
         self.actions = [-1, 0, 1]  # Aceleraciones lineales posibles
 
     def discretize(self, value, step=0.25, max_value=10.0):
-        """Discretiza un valor continuo al múltiplo más cercano de 'step'.
+        """Discretiza un valor continuo al multiplo mas cercano de 'step'.
 
         Args:
             value (float): Valor continuo a discretizar.
-            step (float): Tamaño del intervalo de discretización.
-            max_value (float): Límite máximo (los valores mayores se limitan).
+            step (float): Tamaño del intervalo de discretizacion.
+            max_value (float): Limite maximo (los valores mayores se limitan).
 
         Returns:
-            float: Valor discretizado al múltiplo más cercano de 'step'.
+            float: Valor discretizado al multiplo mas cercano de 'step'.
         """
         # Limitar el valor a [-max_value, max_value]
         value = min(max(value, -max_value), max_value)
-        # Redondear al múltiplo más cercano de step
+        # Redondear al multiplo mas cercano de step
         return round(value / step) * step
 
     def get_state(self, observation):
-        """Extrae y discretiza el estado basado en el LiDAR y la velocidad del vehículo."""
+        """Extrae y discretiza el estado basado en el LiDAR y la velocidad del vehiculo."""
         lidar_data = observation["lidar_point_cloud"]["point_cloud"]
         filtrated_lidar = filtrate_lidar(observation["lidar_point_cloud"]["point_cloud"], np.array(observation["ego_vehicle_state"]["position"]), observation["ego_vehicle_state"]["heading"])
 
@@ -110,36 +110,36 @@ class LearningAgent:
         return (distance_difference, discretized_velocity)
 
     def choose_action(self, state):
-        """Selecciona una acción basada en la política epsilon-greedy."""
+        """Selecciona una accion basada en la politica epsilon-greedy."""
         if np.random.rand() < self.epsilon:
-            # Explorar: Elegir una acción aleatoria
+            # Explorar: Elegir una accion aleatoria
             return np.random.choice(self.actions)
 
-        # Explotar: Elegir la mejor acción conocida
+        # Explotar: Elegir la mejor accion conocida
         # print(f"Diferencia de distancias: {state}")
         if state not in self.q_table:
             # Inicializar valores Q para acciones en el estado si no existen
             self.q_table[state] = {action: 0.0 for action in self.actions}
 
-        # Devolver la acción con el valor Q más alto en este estado
+        # Devolver la accion con el valor Q mas alto en este estado
         return max(self.q_table[state], key=self.q_table[state].get)
 
     def act(self, observation):
-        """Genera una acción basada en la observación del entorno."""
+        """Genera una accion basada en la observacion del entorno."""
         state = self.get_state(observation)
         action = self.choose_action(state)
         # print(f"Accion elegida: {action}       En estado: {state}")
         return np.array([action, 0.0])
 
     def learn(self, state, action, reward, next_state):
-        """Actualiza la tabla Q según la fórmula de Q-learning."""
-        # Inicializar los estados en la tabla Q si no están presentes
+        """Actualiza la tabla Q segun la formula de Q-learning."""
+        # Inicializar los estados en la tabla Q si no estan presentes
         if state not in self.q_table:
             self.q_table[state] = {action: 0.0 for action in self.actions}
         if next_state not in self.q_table:
             self.q_table[next_state] = {action: 0.0 for action in self.actions}
 
-        # Calcular el valor Q futuro máximo
+        # Calcular el valor Q futuro maximo
         max_future_q = max(self.q_table[next_state].values())
 
         # Actualizar la tabla Q
@@ -147,7 +147,7 @@ class LearningAgent:
         self.q_table[state][action] = current_q + self.alpha * (reward + self.gamma * max_future_q - current_q)
 
     def decay_epsilon(self):
-        """Reduce epsilon según la tasa de decremento."""
+        """Reduce epsilon segun la tasa de decremento."""
         self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
     
     def print_q_table(self):
@@ -158,7 +158,7 @@ class LearningAgent:
                 print(f"  Action: {action}, Q-value: {value}")
 
     def move_to_random_position(self, current_position, target_position, accelerate, steps, first_act):
-        """Mueve el vehículo a una posición (target)."""
+        """Mueve el vehiculo a una posicion (target)."""
 
         distance = target_position - current_position
         action = 0
@@ -239,7 +239,7 @@ def main(scenarios, headless, num_episodes=200, max_episode_steps=None):
                 n_steps = n_steps + 1
                 # print(observation['ego_vehicle_state']['speed'])
             
-            # Tenemos que asegurarnos que SIEMPRE gastamos MAX_ALIGN_STEPS steps, así no modificamos el entrenamiento
+            # Tenemos que asegurarnos que SIEMPRE gastamos MAX_ALIGN_STEPS steps, asi no modificamos el entrenamiento
             elif n_steps <= MAX_ALIGN_STEPS:
                 # print(observation['ego_vehicle_state']['speed'])
                 observation, _, terminated, _, _ = env.step((0.0,0.0))
