@@ -21,6 +21,7 @@ class CParkingAgent(gym.Wrapper):
         self.last_orientation = 0
         self.min_orient = 0.7
         self.last_target_distance = 0
+        self. last_target_pose = (0,0)
 
         agent_ids = list(env.agent_interfaces.keys())
         assert (
@@ -70,6 +71,7 @@ class CParkingAgent(gym.Wrapper):
         """
         self.min_orient = 0.7
         self.last_target_distance = 0
+        self.last_target_pose = (0,0)
         obs, info = self.env.reset(seed=seed, options=options)
         return obs[self._agent_id], info[self._agent_id]
 
@@ -117,11 +119,11 @@ class CParkingAgent(gym.Wrapper):
                 # print(f"[ORIENT IMPROVED] Reward += 0.3")
         
         # Recompensa acercamiento marcha atrás o penalizacion marcha alante
-        if speed < -0.1 and dist_to_target < self.last_target_distance - 0.05:
+        if speed < -0.1 and horizontal_dist < self.last_target_pose[1] - 0.05 and self.step_number > 10:
             orientation_reward += 0.3
 
-        elif speed > 0.1 and dist_to_target < self.last_target_distance - 0.05 and horizontal_dist > 0.5:
-            orientation_reward -= 0.3
+        elif speed > 0.1 and horizontal_dist < self.last_target_pose[1] - 0.05 and horizontal_dist > 0.5 and self.step_number > 10:
+            orientation_reward -= 0.5
 
         reward += orientation_reward
 
@@ -171,6 +173,7 @@ class CParkingAgent(gym.Wrapper):
         # Guardar orientación para análisis en siguientes pasos
         self.last_orientation = orient_diff
         self.last_target_distance = dist_to_target
+        self.last_target_pose = (vertical_dist, horizontal_dist)
 
         return reward
 

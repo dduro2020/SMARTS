@@ -38,7 +38,7 @@ ax.plot_surface(H, O, Z, cmap='viridis', rstride=3, cstride=3)
 ax.set_xlabel('Distancia horizontal (Y)')
 ax.set_ylabel('Orientación (rad)')
 ax.set_zlabel('Recompensa')
-ax.set_title('Recompensa según orientación y posición lateral')
+# ax.set_title('Recompensa')
 
 plt.tight_layout()
 plt.show()

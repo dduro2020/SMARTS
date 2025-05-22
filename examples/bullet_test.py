@@ -12,12 +12,6 @@ from smarts.core.chassis import BoxChassis, AckermannChassis
 from smarts.core.coordinates import Dimensions, Heading, Pose
 from smarts.core.vehicle import VEHICLE_CONFIGS, Vehicle, VehicleState
 
-ray_from = [0, 0, 1]
-ray_to = [0, 0, 0]
-
-def use_ray():
-    return p.rayTest(ray_from, ray_to)
-
 p.connect(p.GUI)
 p.resetSimulation()
 p.setGravity(0, 0, -9.8)
@@ -25,8 +19,6 @@ origin = (0,0,1)
 lidar = Lidar(origin, BasicLidar)
 
 p.loadURDF(os.path.join(pybullet_data.getDataPath(), "plane.urdf"), 0, 0, 0)
-# cube_id = p.loadURDF(os.path.join(pybullet_data.getDataPath(),"r2d2.urdf"), [3, 1, 0.1])
-# car_id = p.loadURDF(os.path.join("smarts/assets/vehicles/dynamics_model", "generic_sedan_2.urdf"), [3, 1, 0.1])
 chassis = BoxChassis(
     pose=Pose.from_center((3, 1, 0.1), Heading(0)),
     speed=0,
@@ -50,7 +42,6 @@ try:
         p.stepSimulation()
         point_cloud, hits, rays = lidar.compute_point_cloud(bullet_client=p)
 
-        # Dibujar cada rayo en PyBullet
         if n == 0:
             time.sleep(1)
             for i, (start, end) in enumerate(rays):

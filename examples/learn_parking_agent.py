@@ -116,7 +116,6 @@ class LearningAgent:
             return np.random.choice(self.actions)
 
         # Explotar: Elegir la mejor accion conocida
-        # print(f"Diferencia de distancias: {state}")
         if state not in self.q_table:
             # Inicializar valores Q para acciones en el estado si no existen
             self.q_table[state] = {action: 0.0 for action in self.actions}
