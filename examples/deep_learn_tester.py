@@ -40,8 +40,8 @@ MAX_DIST = 710
 AGENT_ID: Final[str] = "Agent"
 
 TARGET_HEADING = -np.pi/2
-# dir_path = "data_log/park_final/v4/"
-dir_path = ""
+dir_path = "data_log/park_final/v1/"
+# dir_path = ""
 model_path = "/home/duro/SMARTS/examples/"+ dir_path +"dqn_model.pth"
 # ROAD: -pi/2
 # DEST: [28.16 96.8   0.  ]

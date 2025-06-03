@@ -89,17 +89,13 @@ class CParkingAgent(gym.Wrapper):
         orient_diff = np.abs(np.arctan2(np.sin(car_orient - target_orient), np.cos(car_orient - target_orient)))
         reward = 0
 
-        # ----------------------------
         # Recompensa por distancia
-        # ----------------------------
         distance_reward = (1 / (1 + np.exp(2.5 * (dist_to_target - 2))))
         if vertical_dist > 6:
             distance_reward -= 0.1
         reward += np.clip(distance_reward, 0, 2)
 
-        # ----------------------------
         # Recompensa por orientación (progresiva)
-        # ----------------------------
         orientation_weight = np.exp(-2 * horizontal_dist)  # Más importante cuando está cerca
         orientation_reward = orientation_weight * (3.5 * np.exp(-2.5 * orient_diff) - 0.75)
         orientation_reward = np.clip(orientation_reward, -0.5, 3)
@@ -125,18 +121,14 @@ class CParkingAgent(gym.Wrapper):
 
         reward += orientation_reward
 
-        # ----------------------------
         # Bonus progresivo por objetivo final
-        # ----------------------------
         perfect_bonus = 10 * np.exp(-10 * horizontal_dist**2) * np.exp(-10 * vertical_dist**2) * np.exp(-5 * orient_diff**2)
         if abs(speed) < 0.15:
             reward += perfect_bonus
             if perfect_bonus > 1.0:
                 print(f"[BONUS FINAL] +{perfect_bonus:.2f}")
 
-        # ----------------------------
         # Penalización por choque
-        # ----------------------------
         min_lidar_dist = np.min(np.linalg.norm(lidar_data, axis=1)) if len(lidar_data) > 0 else np.inf
         if min_lidar_dist < 0.1:
             print(f"[COLLISION] Lidar min dist: {min_lidar_dist}")
@@ -151,9 +143,7 @@ class CParkingAgent(gym.Wrapper):
             reward -= 5
             print(f"[OUT OF RANGE] Vertical: {vertical_dist:.2f}, Horizontal: {target_pose[1]:.2f}")
 
-        # ----------------------------
         # Penalización por intentar aparcar de frente (TU REGLA)
-        # ----------------------------
         if car_orient < target_orient and orient_diff > 0.3:
             print(f"[FRONTAL PARKING] Car orient: {car_orient:.2f}, Target: {target_orient:.2f}")
             reward -= 5
